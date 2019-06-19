@@ -47,10 +47,5 @@ public class SpiderPathController : MonoBehaviour {
             currentNode = 0;
             CheckNode();
         }
-
-        //GameObject can't deactivate itself, needs to be in a seperate script
-        if (Input.GetKeyDown(KeyCode.Space)) {
-            //spider.SetActive(false);
-        }
 	}
 }
