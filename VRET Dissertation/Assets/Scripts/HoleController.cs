@@ -118,12 +118,12 @@ public class HoleController : MonoBehaviour {
     public void hideObject() {
         holeOpening = true;
         renderer.enabled = true;
-        objectDirectionIsUpward = true;
+        objectDirectionIsUpward = false;
     }
 
     public void showObject() {
         holeOpening = true;
         renderer.enabled = true;
-        objectDirectionIsUpward = false;
+        objectDirectionIsUpward = true;
     }
 }

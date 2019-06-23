@@ -28,6 +28,7 @@ public class SpiderController : MonoBehaviour {
                 spider.transform.position = initialSpiderPoisition;
                 spider.transform.rotation = initialSpiderOrientation;
                 spider.SetActive(false);
+                Debug.Log("Spider controller deactivated");
             }
             else if (Input.GetKeyDown(KeyCode.Space)) {
                 spider.SetActive(!spider.activeSelf);

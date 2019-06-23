@@ -96,6 +96,7 @@ public class RoomController : MonoBehaviour {
             }
         }
         else if (Input.GetKey(KeyCode.Alpha3)) {
+            Debug.Log("3 pressed");
             //First check walls mode isn't already active
             if (currentRoomMode != RoomMode.Walls) {
                 changingMode = true;
