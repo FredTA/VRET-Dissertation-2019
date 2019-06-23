@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class SpiderPathController : MonoBehaviour {
     public GameObject nodeHolder;
-//GameObject[] pathNode;
     ArrayList pathNodes = new ArrayList();
     public float speed;
     public float rotateSpeed;

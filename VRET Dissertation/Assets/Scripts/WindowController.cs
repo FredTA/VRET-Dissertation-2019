@@ -68,7 +68,7 @@ public class WindowController : MonoBehaviour {
                     CloseWindowStep();
                 }
                 else {
-                    windowNotInPosition = true;
+                    windowNotInPosition = false; //TODO check if this should actually be true
                 }
             }
             else {
@@ -76,11 +76,19 @@ public class WindowController : MonoBehaviour {
                     OpenWindowStep();
                 }
                 else {
-                    windowNotInPosition = true;
+                    windowNotInPosition = false; //TODO See above
                 }
             }
         }
 
+    }
+
+    public bool isWindowClosed() {
+        return !windowNotInPosition && windowClosed;
+    }
+
+    public bool isWindowOpen() {
+        return !windowNotInPosition && !windowClosed;
     }
 
     private void CloseWindowStep() {

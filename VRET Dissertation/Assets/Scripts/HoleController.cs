@@ -6,7 +6,7 @@ public class HoleController : MonoBehaviour {
 
     public GameObject objectToHide;
     private MeshRenderer renderer;
-
+    private HoleControllerMaster holeControllerMaster;
 
     private const float HOLE_TRANSITION_SPEED = 0.1f;
     private const float OBJECT_ELAVATION_SPEED = 0.5f;
@@ -23,8 +23,14 @@ public class HoleController : MonoBehaviour {
     private bool objectLowering = false;
     private bool objectRaising = false;
 
+    private bool objectDirectionIsUpward = false;
+
     private void setObjectToLower() {
         objectLowering = true;
+    }
+
+    private void setObjectToRaise() {
+        objectRaising = true;
     }
 
     private void setHoleToClose() {
@@ -60,18 +66,35 @@ public class HoleController : MonoBehaviour {
             else {
                 Debug.Log("Hole opened");
                 holeOpening = false;
-                Invoke("setObjectToLower", HOLE_PAUSE_TIME);
+
+                if (objectDirectionIsUpward) {
+                    Invoke("setObjectToRaise", HOLE_PAUSE_TIME);
+                }
+                else {
+                    Invoke("setObjectToLower", HOLE_PAUSE_TIME);
+                }
+                
             }
         }
         else if (objectLowering) {
             if (objectToHide.transform.position.y > minObjectElevation) {
                 Debug.Log("Lowering object");
-                float elevationToAdd = -OBJECT_ELAVATION_SPEED * Time.deltaTime;
                 objectToHide.transform.Translate(-objectElevationStep * Time.deltaTime);
             }
             else {
                 Debug.Log("Object lowered");
                 objectLowering = false;
+                Invoke("setHoleToClose", HOLE_PAUSE_TIME);
+            }
+        }
+        else if (objectRaising) {
+            if (objectToHide.transform.position.y < maxObjectElevation) {
+                Debug.Log("Raising object");
+                objectToHide.transform.Translate(objectElevationStep * Time.deltaTime);
+            }
+            else {
+                Debug.Log("Object raised");
+                objectRaising = false;
                 Invoke("setHoleToClose", HOLE_PAUSE_TIME);
             }
         }
@@ -81,19 +104,26 @@ public class HoleController : MonoBehaviour {
                 transform.localScale += -holeTransitionStep * Time.deltaTime;
             }
             else {
-                
                 holeOpening = false;
                 renderer.enabled = false;
+                holeControllerMaster.IncrementStationaryObjects(); //This object is now stationary, so increment the master's number of hidden objects
             }
         }
 	}
 
+    public void giveReferenceToMasterController(HoleControllerMaster holeControllerMaster) {
+        this.holeControllerMaster = holeControllerMaster;
+    }
+
     public void hideObject() {
         holeOpening = true;
         renderer.enabled = true;
+        objectDirectionIsUpward = true;
     }
 
     public void showObject() {
-
+        holeOpening = true;
+        renderer.enabled = true;
+        objectDirectionIsUpward = false;
     }
 }

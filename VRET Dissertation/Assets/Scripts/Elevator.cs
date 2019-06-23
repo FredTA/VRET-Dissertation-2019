@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Elevator : MonoBehaviour
 {
+    private bool activated = false;
+    private bool deactivating = false; 
 
     private float initialHeight;
 
@@ -14,21 +16,44 @@ public class Elevator : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
-    {
-                 //If key down translate GameObject down
-        if (Input.GetKey(KeyCode.DownArrow)) {
-            transform.position = new Vector3(transform.position.x, transform.position.y - 0.002f, transform.position.z);
-            //transform.position = new Vector3(0, -10, 0);
-            //gameObject.SetActive(false);
-            Debug.Log("Moving floor down");
+    void Update() {
+        if (activated) {
+            if (deactivating) {
+                if (transform.position.y < initialHeight) {
+                    transform.position = new Vector3(transform.position.x, transform.position.y + 0.002f, transform.position.z);
+                }
+                else {
+                    deactivating = false;
+                    activated = false;
+                    //Set text 
+                }
+            }
+            //If key down translate GameObject down
+            else if (Input.GetKey(KeyCode.DownArrow)) {
+                transform.position = new Vector3(transform.position.x, transform.position.y - 0.002f, transform.position.z);
+                //transform.position = new Vector3(0, -10, 0);
+                //gameObject.SetActive(false);
+                Debug.Log("Moving floor down");
+            }
+            else if (Input.GetKey(KeyCode.UpArrow) && transform.position.y < initialHeight) {
+                transform.position = new Vector3(transform.position.x, transform.position.y + 0.002f, transform.position.z);
+                //transform.position = new Vector3(0, -10, 0);
+                //gameObject.SetActive(false);
+                Debug.Log("Moving floor up");
+            }
         }
-        if (Input.GetKey(KeyCode.UpArrow) && transform.position.y < initialHeight) {
-            transform.position = new Vector3(transform.position.x, transform.position.y + 0.002f, transform.position.z);
-            //transform.position = new Vector3(0, -10, 0);
-            //gameObject.SetActive(false);
-            Debug.Log("Moving floor down");
-        }
+    }
+
+    public bool controllerIsActive() {
+        return activated;
+    }
+
+    public void activate() {
+        activated = true;
+    }
+
+    public void deactivate() {
+        deactivating = true;
     }
 
 }
