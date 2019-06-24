@@ -7,6 +7,7 @@ public class WindowController : MonoBehaviour {
     public float closedVertical;
     public float shutterSpeed;
     public float minimumSunIntensity;
+    public float minimumCeilingSunIntensity;
     public float maximumLampIntensity;
     public float maximumLampRange;
 
@@ -28,6 +29,7 @@ public class WindowController : MonoBehaviour {
 
     //Calculated from shutter speed and transform offsets
     private float sunIntensityChangeSpeed;
+    private float ceilingSunIntensityChangeSpeed;
     private float lampIntensityChangeSpeed;
     private float lampRangeChangeSpeed;
 
@@ -35,7 +37,7 @@ public class WindowController : MonoBehaviour {
 	void Start () {
         openVertical = transform.position.y;
         maximumSunIntensity = sun.intensity;
-        maximumCeilingSunIntensity = sun.intensity;
+        maximumCeilingSunIntensity = ceilingSun.intensity;
         minimumLampIntensity = lamp.intensity;
         minimumLampRange = lamp.range;
         CalculateLightChangeSpeeds();
@@ -48,6 +50,9 @@ public class WindowController : MonoBehaviour {
 
         float sunIntensityChangeAmount = maximumSunIntensity - minimumSunIntensity;
         sunIntensityChangeSpeed = sunIntensityChangeAmount / numberOfSteps;
+
+        float ceilingSunIntensityChangeAmount = maximumCeilingSunIntensity - minimumCeilingSunIntensity;
+        ceilingSunIntensityChangeSpeed = ceilingSunIntensityChangeAmount / numberOfSteps;
 
         float lampIntensityChangeAmount = maximumLampIntensity - minimumLampIntensity;
         lampIntensityChangeSpeed = lampIntensityChangeAmount / numberOfSteps;
@@ -101,7 +106,7 @@ public class WindowController : MonoBehaviour {
     private void CloseWindowStep() {
         transform.Translate(-shutterSpeed * Time.deltaTime, 0, 0);
         sun.intensity -= sunIntensityChangeSpeed * Time.deltaTime;
-        ceilingSun.intensity -= sunIntensityChangeSpeed * Time.deltaTime;
+        ceilingSun.intensity -= ceilingSunIntensityChangeSpeed * Time.deltaTime;
         lamp.intensity += lampIntensityChangeSpeed * Time.deltaTime;
         lamp.range += lampRangeChangeSpeed * Time.deltaTime;
     }
@@ -109,7 +114,7 @@ public class WindowController : MonoBehaviour {
     private void OpenWindowStep() {
         transform.Translate(shutterSpeed * Time.deltaTime, 0, 0);
         sun.intensity += sunIntensityChangeSpeed * Time.deltaTime;
-        ceilingSun.intensity += sunIntensityChangeSpeed * Time.deltaTime;
+        ceilingSun.intensity += ceilingSunIntensityChangeSpeed * Time.deltaTime;
         lamp.intensity -= lampIntensityChangeSpeed * Time.deltaTime;
         lamp.range -= lampRangeChangeSpeed * Time.deltaTime;
     }
