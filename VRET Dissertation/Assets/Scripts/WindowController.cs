@@ -6,14 +6,14 @@ public class WindowController : MonoBehaviour {
 
     public float closedVertical;
     public float shutterSpeed;
-    public float minimumSunIntensity;
-    public float minimumCeilingSunIntensity;
-    public float maximumLampIntensity;
-    public float maximumLampRange;
+    public float maximumLampPropIntensity;
+    public float maximumLampPropRange;
 
-    public Light lamp;
+    public Light lampProp;
     public Light sun;
     public Light ceilingSun;
+    public Light lampInside;
+    public Light lampInsideCeiling;
 
     public AudioSource windowClickSound;
 
@@ -24,22 +24,40 @@ public class WindowController : MonoBehaviour {
     private float KEY_COOLDOWN_TIME = 0.3f;
     private float maximumSunIntensity;
     private float maximumCeilingSunIntensity;
+    private float maximumLampInsideIntensity;
+    private float maximumLampInsideCeilingIntensity;
     private float minimumLampIntensity;
     private float minimumLampRange;
 
     //Calculated from shutter speed and transform offsets
     private float sunIntensityChangeSpeed;
     private float ceilingSunIntensityChangeSpeed;
-    private float lampIntensityChangeSpeed;
-    private float lampRangeChangeSpeed;
+    private float lampPropIntensityChangeSpeed;
+    private float lampPropRangeChangeSpeed;
+    private float lampInsideIntensityChangeSpeed;
+    private float lampInsideCeilingIntensityChangeSpeed;
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start () {
         openVertical = transform.position.y;
+
+        //cache maximum intensities of various light sources
         maximumSunIntensity = sun.intensity;
         maximumCeilingSunIntensity = ceilingSun.intensity;
-        minimumLampIntensity = lamp.intensity;
-        minimumLampRange = lamp.range;
+        maximumLampInsideIntensity = lampInside.intensity;
+        maximumLampInsideCeilingIntensity = lampInsideCeiling.intensity;
+        minimumLampIntensity = lampProp.intensity;
+        minimumLampRange = lampProp.range;
+
+        //The two inside lamp lights should start inactive
+        lampInside.intensity = 0; ;
+        lampInsideCeiling.intensity = 0;
+
+        //The two lamps should be enabled as they are disabled in the editor (for ease of development)
+        lampInside.enabled = true;
+        lampInsideCeiling.enabled = true;
+
+        //Calculate how fast these intensities should change
         CalculateLightChangeSpeeds();
 	}
 
@@ -48,17 +66,16 @@ public class WindowController : MonoBehaviour {
         float shutterTravelDistance = openVertical - closedVertical;
         float numberOfSteps = shutterTravelDistance / shutterSpeed;
 
-        float sunIntensityChangeAmount = maximumSunIntensity - minimumSunIntensity;
-        sunIntensityChangeSpeed = sunIntensityChangeAmount / numberOfSteps;
+        sunIntensityChangeSpeed = maximumSunIntensity / numberOfSteps;
+        ceilingSunIntensityChangeSpeed = maximumCeilingSunIntensity / numberOfSteps;
+        lampInsideIntensityChangeSpeed = maximumLampInsideIntensity / numberOfSteps;
+        lampInsideCeilingIntensityChangeSpeed = maximumLampInsideCeilingIntensity / numberOfSteps;
 
-        float ceilingSunIntensityChangeAmount = maximumCeilingSunIntensity - minimumCeilingSunIntensity;
-        ceilingSunIntensityChangeSpeed = ceilingSunIntensityChangeAmount / numberOfSteps;
+        float lampIntensityChangeAmount = maximumLampPropIntensity - minimumLampIntensity;
+        lampPropIntensityChangeSpeed = lampIntensityChangeAmount / numberOfSteps;
 
-        float lampIntensityChangeAmount = maximumLampIntensity - minimumLampIntensity;
-        lampIntensityChangeSpeed = lampIntensityChangeAmount / numberOfSteps;
-
-        float lampRangeChangeAmount = maximumLampRange - minimumLampRange;
-        lampRangeChangeSpeed = lampRangeChangeAmount / numberOfSteps;
+        float lampRangeChangeAmount = maximumLampPropRange - minimumLampRange;
+        lampPropRangeChangeSpeed = lampRangeChangeAmount / numberOfSteps;
     }
 
     // Update is called once per frame
@@ -107,16 +124,20 @@ public class WindowController : MonoBehaviour {
         transform.Translate(-shutterSpeed * Time.deltaTime, 0, 0);
         sun.intensity -= sunIntensityChangeSpeed * Time.deltaTime;
         ceilingSun.intensity -= ceilingSunIntensityChangeSpeed * Time.deltaTime;
-        lamp.intensity += lampIntensityChangeSpeed * Time.deltaTime;
-        lamp.range += lampRangeChangeSpeed * Time.deltaTime;
+        lampProp.intensity += lampPropIntensityChangeSpeed * Time.deltaTime;
+        lampProp.range += lampPropRangeChangeSpeed * Time.deltaTime;
+        lampInside.intensity += lampInsideIntensityChangeSpeed * Time.deltaTime;
+        lampInsideCeiling.intensity += lampInsideCeilingIntensityChangeSpeed * Time.deltaTime;
     }
 
     private void OpenWindowStep() {
         transform.Translate(shutterSpeed * Time.deltaTime, 0, 0);
         sun.intensity += sunIntensityChangeSpeed * Time.deltaTime;
         ceilingSun.intensity += ceilingSunIntensityChangeSpeed * Time.deltaTime;
-        lamp.intensity -= lampIntensityChangeSpeed * Time.deltaTime;
-        lamp.range -= lampRangeChangeSpeed * Time.deltaTime;
+        lampProp.intensity -= lampPropIntensityChangeSpeed * Time.deltaTime;
+        lampProp.range -= lampPropRangeChangeSpeed * Time.deltaTime;
+        lampInside.intensity -= lampInsideIntensityChangeSpeed * Time.deltaTime;
+        lampInsideCeiling.intensity -= lampInsideCeilingIntensityChangeSpeed * Time.deltaTime;
     }
 
     public void ToggleWindow() {
