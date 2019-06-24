@@ -30,12 +30,12 @@ public class HoleController : MonoBehaviour {
 
     private void setObjectToLower() {
         objectLowering = true;
-        //objectMoveSound.Play();
+        objectMoveSound.Play();
     }
 
     private void setObjectToRaise() {
         objectRaising = true;
-        //objectMoveSound.Play();
+        objectMoveSound.Play();
     }
 
     private void setHoleToClose() {
@@ -93,7 +93,7 @@ public class HoleController : MonoBehaviour {
                 Debug.Log("Object lowered");
                 objectLowering = false;
                 Invoke("setHoleToClose", HOLE_PAUSE_TIME);
-                //objectMoveSound.Stop();
+                objectMoveSound.Stop();
             }
         }
         else if (objectRaising) {
@@ -105,7 +105,7 @@ public class HoleController : MonoBehaviour {
                 Debug.Log("Object raised");
                 objectRaising = false;
                 Invoke("setHoleToClose", HOLE_PAUSE_TIME);
-                //objectMoveSound.Stop();
+                objectMoveSound.Stop();
             }
         }
         else if (holeClosing) {

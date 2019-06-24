@@ -14,6 +14,8 @@ public class WindowController : MonoBehaviour {
     public Light sun;
     public Light ceilingSun;
 
+    public AudioSource windowClickSound;
+
     private bool windowClosed;
     private bool windowNotInPosition;
     private float openVertical;
@@ -71,7 +73,8 @@ public class WindowController : MonoBehaviour {
                     CloseWindowStep();
                 }
                 else {
-                    windowNotInPosition = false; //TODO check if this should actually be true
+                    windowClickSound.Play();
+                    windowNotInPosition = false; 
                 }
             }
             else {
@@ -79,7 +82,8 @@ public class WindowController : MonoBehaviour {
                     OpenWindowStep();
                 }
                 else {
-                    windowNotInPosition = false; //TODO See above
+                    windowClickSound.Play();
+                    windowNotInPosition = false; 
                 }
             }
         }
