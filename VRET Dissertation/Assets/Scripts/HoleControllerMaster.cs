@@ -49,7 +49,13 @@ public class HoleControllerMaster : MonoBehaviour {
 
     public bool CheckAllObjectsStationary() {
         //Each controller corresponds to one hole, and one object
-        return numberOfObjectsStationary == holeControllers.Count;
+        if (numberOfObjectsStationary == holeControllers.Count) {
+            numberOfObjectsStationary = 0;
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 
     private void ResetCooldown() {

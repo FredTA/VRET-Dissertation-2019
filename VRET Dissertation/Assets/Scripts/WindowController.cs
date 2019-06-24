@@ -111,11 +111,13 @@ public class WindowController : MonoBehaviour {
     }
 
     public void OpenWindow() {
-        windowClosed = false; 
+        windowClosed = false;
+        windowNotInPosition = true;
     }
 
     public void CloseWindow() {
         windowClosed = true;
+        windowNotInPosition = true;
     }
 
     private void ResetCooldown() {
