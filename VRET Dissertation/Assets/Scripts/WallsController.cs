@@ -32,6 +32,9 @@ public class WallsController : MonoBehaviour {
     private HoleControllerMaster holeController; //Attached to this gameobject
     private TextDisplayController textDisplayController;
 
+    //To be used to ensure the show objects and open window are only called once during the deactivation cycle
+    private bool wallsResetFlag = false;
+
 	// Use this for initialization
 	void Start () {
         windowController = windowControllerObject.GetComponent<WindowController>();
@@ -51,6 +54,7 @@ public class WallsController : MonoBehaviour {
                 if (windowController.isWindowOpen() && holeController.CheckAllObjectsStationary()) {
                     activated = false;
                     deactivating = false;
+                    wallsResetFlag = false;
                     Debug.Log("Walls Controller deactivated");
                 }
                 //If we haven't finished deactivating and If the walls have not returned to their original positions
@@ -58,7 +62,8 @@ public class WallsController : MonoBehaviour {
                     MoveWalls(false);
                 }
                 //Else if the walls have been reset (check if audio source is playing so this only executes once)
-                else if (wallsMoveOutSound.isPlaying) {
+                else if (!wallsResetFlag) {
+                    wallsResetFlag = true;
                     wallsMoveOutSound.Stop();
                     holeController.ShowObjects();
                     windowController.OpenWindow();

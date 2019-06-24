@@ -48,13 +48,10 @@ public class HoleController : MonoBehaviour {
         renderer = gameObject.GetComponent<MeshRenderer>();
 
         maxHoleScale = transform.localScale;
-        //transform.localScale.Set(0, maxHoleScale.y, maxHoleScale.z);
         transform.localScale = new Vector3(0, maxHoleScale.y, maxHoleScale.z);
 
         //Cache offsets for the object being hidden
         maxObjectElevation = objectToHide.transform.position.y;
-        //float objectHeight = objectToHide.transform.localScale.z;
-        //minObjectElevation = maxObjectElevation - objectHeight;
 
         MeshRenderer objectRenderer = objectToHide.GetComponent<MeshRenderer>();
         float objectHeight = objectRenderer.bounds.size.y;
@@ -66,11 +63,11 @@ public class HoleController : MonoBehaviour {
         if (holeOpening) {
             //Open the hole until it is at it's max size
             if (transform.localScale.x < maxHoleScale.x) {
-                Debug.Log("Opening hole");
+                //Debug.Log("Opening hole");
                 transform.localScale += holeTransitionStep * Time.deltaTime;
             }
             else {
-                Debug.Log("Hole opened");
+                //Debug.Log("Hole opened");
                 holeOpening = false;
 
                 if (objectDirectionIsUpward) {
@@ -86,11 +83,11 @@ public class HoleController : MonoBehaviour {
         }
         else if (objectLowering) {
             if (objectToHide.transform.position.y > minObjectElevation) {
-                Debug.Log("Lowering object");
+                //Debug.Log("Lowering object");
                 objectToHide.transform.Translate(-objectElevationStep * Time.deltaTime);
             }
             else {
-                Debug.Log("Object lowered");
+                //Debug.Log("Object lowered");
                 objectLowering = false;
                 Invoke("setHoleToClose", HOLE_PAUSE_TIME);
                 objectMoveSound.Stop();
@@ -98,11 +95,11 @@ public class HoleController : MonoBehaviour {
         }
         else if (objectRaising) {
             if (objectToHide.transform.position.y < maxObjectElevation) {
-                Debug.Log("Raising object");
+                //Debug.Log("Raising object");
                 objectToHide.transform.Translate(objectElevationStep * Time.deltaTime);
             }
             else {
-                Debug.Log("Object raised");
+                //Debug.Log("Object raised");
                 objectRaising = false;
                 Invoke("setHoleToClose", HOLE_PAUSE_TIME);
                 objectMoveSound.Stop();
@@ -116,7 +113,7 @@ public class HoleController : MonoBehaviour {
             else {
                 holeClosing = false;
                 renderer.enabled = false;
-                Debug.Log("Hole closed - incrementing counter in master controller");
+                //Debug.Log("Hole closed - incrementing counter in master controller");
                 holeControllerMaster.IncrementStationaryObjects(); //This object is now stationary, so increment the master's number of hidden objects
                 holeCloseSound.Stop();
             }
@@ -128,7 +125,7 @@ public class HoleController : MonoBehaviour {
     }
 
     public void hideObject() {
-        Debug.Log("Object set to hide");
+        //Debug.Log("Object set to hide");
         holeOpenSound.Play();
         holeOpening = true;
         renderer.enabled = true;
