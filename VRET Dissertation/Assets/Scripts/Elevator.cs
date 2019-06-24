@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class Elevator : MonoBehaviour
 {
+    public AudioSource descendingNoise;
+    public AudioSource ascendingNoise;
+
     private bool activated = false;
     private bool deactivating = false;
 
@@ -22,25 +25,59 @@ public class Elevator : MonoBehaviour
             if (deactivating) {
                 if (transform.position.y < initialHeight) {
                     transform.position = new Vector3(transform.position.x, transform.position.y + 0.002f, transform.position.z);
+                    if (!ascendingNoise.isPlaying) {
+                        ascendingNoise.Play();
+                    }
                 }
                 else {
                     deactivating = false;
                     activated = false;
-                    //Set text 
+                    if (ascendingNoise.isPlaying) {
+                        ascendingNoise.Stop();
+                    }
                 }
             }
             //If key down translate GameObject down
-            else if (Input.GetKey(KeyCode.DownArrow) && transform.position.y > minimumHeight) {
-                transform.position = new Vector3(transform.position.x, transform.position.y - 0.002f, transform.position.z);
-                //transform.position = new Vector3(0, -10, 0);
-                //gameObject.SetActive(false);
-                Debug.Log("Moving floor down");
+            else if (Input.GetKey(KeyCode.DownArrow)) {
+                //If the floor can still move down
+                if (transform.position.y > minimumHeight) {
+                    transform.position = new Vector3(transform.position.x, transform.position.y - 0.002f, transform.position.z);
+                    if (!descendingNoise.isPlaying) {
+                        descendingNoise.Play();
+                    }
+
+                    Debug.Log("Moving floor down");
+                }
+                //If the floor can't move down anymore
+                else {
+                    if (descendingNoise.isPlaying) {
+                        descendingNoise.Stop();
+                    }
+                }
             }
-            else if (Input.GetKey(KeyCode.UpArrow) && transform.position.y < initialHeight) {
-                transform.position = new Vector3(transform.position.x, transform.position.y + 0.002f, transform.position.z);
-                //transform.position = new Vector3(0, -10, 0);
-                //gameObject.SetActive(false);
-                Debug.Log("Moving floor up");
+            else if (Input.GetKey(KeyCode.UpArrow)){
+                //If the floor can still mvoe up
+                if (transform.position.y < initialHeight) {
+                    transform.position = new Vector3(transform.position.x, transform.position.y + 0.002f, transform.position.z);
+                    if (!ascendingNoise.isPlaying) {
+                        ascendingNoise.Play();
+                    }
+
+                    Debug.Log("Moving floor up");
+                }
+                //If the floor can't move up anymore
+                else {
+                    if (ascendingNoise.isPlaying) {
+                        ascendingNoise.Stop();
+                    }
+                }
+            }
+
+            if (Input.GetKeyUp(KeyCode.DownArrow)) {
+                descendingNoise.Stop();
+            }
+            if (Input.GetKeyUp(KeyCode.UpArrow)) {
+                ascendingNoise.Stop();
             }
         }
     }
