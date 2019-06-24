@@ -4,7 +4,10 @@ using UnityEngine;
 
 public class SpiderPathController : MonoBehaviour {
     public GameObject nodeHolder;
+
     ArrayList pathNodes = new ArrayList();
+
+    public float rotationMultiplier;
     public float speed;
     public float rotateSpeed;
     float timer;
@@ -35,7 +38,7 @@ public class SpiderPathController : MonoBehaviour {
         timer += Time.deltaTime * speed;
         if (transform.position != nodePosition) {
             transform.position = Vector3.Lerp(startPosition, nodePosition, timer);
-            Vector3 newRotation = Vector3.RotateTowards(transform.forward, (nodePosition - transform.position), (rotateSpeed * Time.deltaTime), 0.0f);
+            Vector3 newRotation = Vector3.RotateTowards(transform.forward, (nodePosition - transform.position), (rotateSpeed * Time.deltaTime * rotationMultiplier), 0.0f);
             transform.rotation = Quaternion.LookRotation(newRotation);
         }
         else if (currentNode < pathNodes.Count - 1) {
