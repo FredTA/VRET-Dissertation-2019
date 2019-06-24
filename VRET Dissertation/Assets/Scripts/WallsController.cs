@@ -14,20 +14,17 @@ public class WallsController : MonoBehaviour {
     public GameObject backWall;
     public GameObject ceiling;
 
+    public AudioSource wallsMoveInSound;
+    public AudioSource wallsMoveOutSound;
+
     public float frontWallSpeed;
     public float sideWallsSpeedMultiplier;
     public float backWallSpeedMultiplier;
     public float ceilingSpeedMultiplier;
 
     private float originalFrontWallPosition;
-    //private float originalLeftWallPosition;
-    //private float originalRightWallPosition;
-    //private float originalBackWallPosition;
 
     public float endFrontWallPosition;
-    //public float endlLeftWallPosition;
-    //public float endRightWallPosition;
-    //public float endBackWallPosition;
 
     public GameObject windowControllerObject;
 
@@ -42,11 +39,8 @@ public class WallsController : MonoBehaviour {
         holeController = gameObject.GetComponent<HoleControllerMaster>();
         textDisplayController = gameObject.GetComponent<TextDisplayController>();
 
-        //Cache positions of each wall so we know how far out they should move
+        //Cache positions of wall so we know how far out they should move
         originalFrontWallPosition = frontWall.transform.position.z;
-        //originalLeftWallPosition = leftWall.transform.position.x;
-        //originalRightWallPosition = rightWall.transform.position.x;
-        //originalBackWallPosition = backWall.transform.position.z;
     }
 
 	// Update is called once per frame
@@ -61,20 +55,37 @@ public class WallsController : MonoBehaviour {
             //If the objects are all hidden below and the window is closed 
             else {
                 //Moving walls in
-                if (Input.GetKey(KeyCode.DownArrow) && frontWall.transform.position.z > endFrontWallPosition) {
-                    frontWall.transform.Translate(0, 0, -frontWallSpeed * Time.deltaTime, Space.World);
-                    leftWall.transform.Translate(frontWallSpeed * sideWallsSpeedMultiplier * Time.deltaTime, 0, 0, Space.World);
-                    rightWall.transform.Translate(frontWallSpeed * -sideWallsSpeedMultiplier * Time.deltaTime, 0, 0, Space.World);
-                    backWall.transform.Translate(0, 0, frontWallSpeed * backWallSpeedMultiplier * Time.deltaTime, Space.World);
-                    ceiling.transform.Translate(0, frontWallSpeed * -ceilingSpeedMultiplier * Time.deltaTime, 0, Space.World);
+                if (Input.GetKey(KeyCode.DownArrow)) {
+                    // If wall can move in any further
+                    if (frontWall.transform.position.z > endFrontWallPosition) {
+                        //Move all walls and ceilings towards the player
+                        MoveWalls(true);
+                    }
+                    //If wall can't move any further and the sound is playing
+                    else if (wallsMoveInSound.isPlaying) {
+                        wallsMoveInSound.Stop();
+                    }
                 }
                 //Moving walls back out
-                else if (Input.GetKey(KeyCode.UpArrow) && frontWall.transform.position.z < originalFrontWallPosition) {
-                    frontWall.transform.Translate(0, 0, frontWallSpeed * Time.deltaTime, Space.World);
-                    leftWall.transform.Translate(frontWallSpeed * -sideWallsSpeedMultiplier * Time.deltaTime, 0, 0, Space.World);
-                    rightWall.transform.Translate(frontWallSpeed * sideWallsSpeedMultiplier * Time.deltaTime, 0, 0, Space.World);
-                    backWall.transform.Translate(0, 0, frontWallSpeed * -backWallSpeedMultiplier * Time.deltaTime, Space.World);
-                    ceiling.transform.Translate(0, frontWallSpeed * ceilingSpeedMultiplier * Time.deltaTime, 0, Space.World);
+                else if (Input.GetKey(KeyCode.UpArrow)) {
+                    // If wall can move out any further
+                    if (frontWall.transform.position.z < originalFrontWallPosition) {
+                        //Move all walls and ceilings away from the player
+                        MoveWalls(false);
+                    }
+                    //If wall can't move any further and the sound is playing
+                    else if (wallsMoveOutSound.isPlaying) {
+                        wallsMoveOutSound.Stop();
+                    }
+                }
+
+                if (Input.GetKeyUp(KeyCode.DownArrow)) {
+                    wallsMoveInSound.Stop();
+                    Debug.Log("Stopping move in sound");
+                }
+                if (Input.GetKeyUp(KeyCode.UpArrow)) {
+                    wallsMoveOutSound.Stop();
+                    Debug.Log("Stopping move out sound");
                 }
             }
             
@@ -85,6 +96,31 @@ public class WallsController : MonoBehaviour {
             textDisplayController.HighLightWallsText();
         }
 
+    }
+
+    //Moves all walls / ceiling towards player if true, away from player if false
+    private void MoveWalls(bool wallsMovingIn) {
+        float baseSpeed = 0;
+
+        if (wallsMovingIn) {
+            baseSpeed = frontWallSpeed * Time.deltaTime;
+            if (!wallsMoveInSound.isPlaying) {
+                wallsMoveInSound.Play();
+            }
+        }
+        else {
+            baseSpeed = -frontWallSpeed * Time.deltaTime;
+            if (!wallsMoveOutSound.isPlaying) {
+                wallsMoveOutSound.Play();
+            }
+        }
+
+        //Move gameobjects
+        frontWall.transform.Translate(0, 0, -baseSpeed, Space.World);
+        leftWall.transform.Translate(baseSpeed * sideWallsSpeedMultiplier, 0, 0, Space.World);
+        rightWall.transform.Translate(baseSpeed * -sideWallsSpeedMultiplier, 0, 0, Space.World);
+        backWall.transform.Translate(0, 0, baseSpeed * backWallSpeedMultiplier, Space.World);
+        ceiling.transform.Translate(0, baseSpeed * -ceilingSpeedMultiplier, 0, Space.World);
     }
 
     public bool controllerIsActive() {
