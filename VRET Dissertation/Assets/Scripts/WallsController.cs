@@ -46,11 +46,23 @@ public class WallsController : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         if (activated) {
-            if (deactivating && windowController.isWindowOpen() && holeController.CheckAllObjectsStationary()) {
+            if (deactivating) {
                 //If the controller is deactivating, and all objects are stationary, it must be finished deactivating
-                activated = false;
-                deactivating = false;
-                Debug.Log("Walls Controller deactivated");
+                if (windowController.isWindowOpen() && holeController.CheckAllObjectsStationary()) {
+                    activated = false;
+                    deactivating = false;
+                    Debug.Log("Walls Controller deactivated");
+                }
+                //If we haven't finished deactivating and If the walls have not returned to their original positions
+                else if (frontWall.transform.position.z < originalFrontWallPosition) {
+                    MoveWalls(false);
+                }
+                //Else if the walls have been reset (check if audio source is playing so this only executes once)
+                else if (wallsMoveOutSound.isPlaying) {
+                    wallsMoveOutSound.Stop();
+                    holeController.ShowObjects();
+                    windowController.OpenWindow();
+                }
             }
             //If the objects are all hidden below and the window is closed 
             else {
@@ -136,7 +148,5 @@ public class WallsController : MonoBehaviour {
 
     public void deactivate() {
         deactivating = true;
-        holeController.ShowObjects();
-        windowController.OpenWindow();
     }
 }
