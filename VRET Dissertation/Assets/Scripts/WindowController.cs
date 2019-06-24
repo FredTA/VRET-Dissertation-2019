@@ -12,6 +12,7 @@ public class WindowController : MonoBehaviour {
 
     public Light lamp;
     public Light sun;
+    public Light ceilingSun;
 
     private bool windowClosed;
     private bool windowNotInPosition;
@@ -19,6 +20,7 @@ public class WindowController : MonoBehaviour {
     private bool keyCoolingDown = false;
     private float KEY_COOLDOWN_TIME = 0.3f;
     private float maximumSunIntensity;
+    private float maximumCeilingSunIntensity;
     private float minimumLampIntensity;
     private float minimumLampRange;
 
@@ -31,6 +33,7 @@ public class WindowController : MonoBehaviour {
 	void Start () {
         openVertical = transform.position.y;
         maximumSunIntensity = sun.intensity;
+        maximumCeilingSunIntensity = sun.intensity;
         minimumLampIntensity = lamp.intensity;
         minimumLampRange = lamp.range;
         CalculateLightChangeSpeeds();
@@ -94,6 +97,7 @@ public class WindowController : MonoBehaviour {
     private void CloseWindowStep() {
         transform.Translate(-shutterSpeed * Time.deltaTime, 0, 0);
         sun.intensity -= sunIntensityChangeSpeed * Time.deltaTime;
+        ceilingSun.intensity -= sunIntensityChangeSpeed * Time.deltaTime;
         lamp.intensity += lampIntensityChangeSpeed * Time.deltaTime;
         lamp.range += lampRangeChangeSpeed * Time.deltaTime;
     }
@@ -101,6 +105,7 @@ public class WindowController : MonoBehaviour {
     private void OpenWindowStep() {
         transform.Translate(shutterSpeed * Time.deltaTime, 0, 0);
         sun.intensity += sunIntensityChangeSpeed * Time.deltaTime;
+        ceilingSun.intensity += sunIntensityChangeSpeed * Time.deltaTime;
         lamp.intensity -= lampIntensityChangeSpeed * Time.deltaTime;
         lamp.range -= lampRangeChangeSpeed * Time.deltaTime;
     }
