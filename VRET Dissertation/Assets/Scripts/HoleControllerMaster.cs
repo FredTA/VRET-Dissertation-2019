@@ -30,6 +30,7 @@ public class HoleControllerMaster : MonoBehaviour {
     }
 
     public void HideObjects() {
+        Debug.Log("Hiding objects");
         foreach (HoleController holeController in holeControllers) {
             holeController.hideObject();
         }

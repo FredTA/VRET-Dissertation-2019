@@ -6,17 +6,21 @@ public class WallsController : MonoBehaviour {
 
     private bool activated = false;
     private bool deactivating = false;
+    private bool activating = false;
 
     public GameObject windowControllerObject;
 
     private WindowController windowController;
-    private HoleControllerMaster holeController;
+    private HoleControllerMaster holeController; //Attached to this gameobject
+    private TextDisplayController textDisplayController;
 
 	// Use this for initialization
 	void Start () {
         windowController = windowControllerObject.GetComponent<WindowController>();
-        holeController = gameObject.GetComponent<HoleControllerMaster>(); //Attached to this gameobject
-	}
+        //Attached to this gameobject
+        holeController = gameObject.GetComponent<HoleControllerMaster>();
+        textDisplayController = gameObject.GetComponent<TextDisplayController>();
+    }
 
 	// Update is called once per frame
 	void Update () {
@@ -26,6 +30,7 @@ public class WallsController : MonoBehaviour {
                 //If the controller is deactivating, and all objects are stationary, it must be finished deactivating
                 activated = false;
                 deactivating = false;
+                Debug.Log("Walls Controller deactivated");
             }
             //If the objects are all hidden below and the window is closed 
             else if (holeController.CheckAllObjectsStationary() && windowController.isWindowClosed()) {
@@ -36,6 +41,11 @@ public class WallsController : MonoBehaviour {
             }
             
         }
+        else if (activating && holeController.CheckAllObjectsStationary()) {
+            activated = true;
+            activating = false;
+            textDisplayController.HighLightWallsText();
+        }
 
     }
 
@@ -44,15 +54,15 @@ public class WallsController : MonoBehaviour {
     }
 
     public void activate() {
+        activating = true;
+        Debug.Log("Activating walls controller");
         holeController.HideObjects();
         windowController.CloseWindow();
-        //Set text to please wait (while room reconfigures)
     }
 
     public void deactivate() {
         deactivating = true;
         holeController.ShowObjects();
         windowController.OpenWindow();
-        //Set text to please wait (while room reconfigures)
     }
 }

@@ -8,9 +8,9 @@ public class HoleController : MonoBehaviour {
     private MeshRenderer renderer;
     private HoleControllerMaster holeControllerMaster;
 
-    private const float HOLE_TRANSITION_SPEED = 0.1f;
-    private const float OBJECT_ELAVATION_SPEED = 0.5f;
-    private const float HOLE_PAUSE_TIME = 0.3f;
+    private const float HOLE_TRANSITION_SPEED = 0.08f;
+    private const float OBJECT_ELAVATION_SPEED = 0.4f;
+    private const float HOLE_PAUSE_TIME = 0.45f;
     private Vector3 holeTransitionStep = new Vector3(HOLE_TRANSITION_SPEED, 0, 0);
     private Vector3 objectElevationStep = new Vector3(0, OBJECT_ELAVATION_SPEED, 0);
     private Vector3 maxHoleScale;
@@ -104,8 +104,9 @@ public class HoleController : MonoBehaviour {
                 transform.localScale += -holeTransitionStep * Time.deltaTime;
             }
             else {
-                holeOpening = false;
+                holeClosing = false;
                 renderer.enabled = false;
+                Debug.Log("Hole closed - incrementing counter in master controller");
                 holeControllerMaster.IncrementStationaryObjects(); //This object is now stationary, so increment the master's number of hidden objects
             }
         }
@@ -116,6 +117,7 @@ public class HoleController : MonoBehaviour {
     }
 
     public void hideObject() {
+        Debug.Log("Object set to hide");
         holeOpening = true;
         renderer.enabled = true;
         objectDirectionIsUpward = false;
