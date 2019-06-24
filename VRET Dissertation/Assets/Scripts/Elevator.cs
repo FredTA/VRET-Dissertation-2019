@@ -5,8 +5,9 @@ using UnityEngine;
 public class Elevator : MonoBehaviour
 {
     private bool activated = false;
-    private bool deactivating = false; 
+    private bool deactivating = false;
 
+    public float minimumHeight;
     private float initialHeight;
 
     // Start is called before the first frame update
@@ -29,7 +30,7 @@ public class Elevator : MonoBehaviour
                 }
             }
             //If key down translate GameObject down
-            else if (Input.GetKey(KeyCode.DownArrow)) {
+            else if (Input.GetKey(KeyCode.DownArrow) && transform.position.y > minimumHeight) {
                 transform.position = new Vector3(transform.position.x, transform.position.y - 0.002f, transform.position.z);
                 //transform.position = new Vector3(0, -10, 0);
                 //gameObject.SetActive(false);
