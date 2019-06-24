@@ -7,6 +7,9 @@ public class HoleController : MonoBehaviour {
     public GameObject objectToHide;
     private MeshRenderer renderer;
     private HoleControllerMaster holeControllerMaster;
+    public AudioSource holeOpenSound;
+    public AudioSource holeCloseSound;
+    public AudioSource objectMoveSound;
 
     private const float HOLE_TRANSITION_SPEED = 0.08f;
     private const float OBJECT_ELAVATION_SPEED = 0.4f;
@@ -27,13 +30,16 @@ public class HoleController : MonoBehaviour {
 
     private void setObjectToLower() {
         objectLowering = true;
+        //objectMoveSound.Play();
     }
 
     private void setObjectToRaise() {
         objectRaising = true;
+        //objectMoveSound.Play();
     }
 
     private void setHoleToClose() {
+        holeCloseSound.Play();
         holeClosing = true;
     }
 
@@ -73,7 +79,9 @@ public class HoleController : MonoBehaviour {
                 else {
                     Invoke("setObjectToLower", HOLE_PAUSE_TIME);
                 }
-                
+
+                holeOpenSound.Stop();
+
             }
         }
         else if (objectLowering) {
@@ -85,6 +93,7 @@ public class HoleController : MonoBehaviour {
                 Debug.Log("Object lowered");
                 objectLowering = false;
                 Invoke("setHoleToClose", HOLE_PAUSE_TIME);
+                //objectMoveSound.Stop();
             }
         }
         else if (objectRaising) {
@@ -96,6 +105,7 @@ public class HoleController : MonoBehaviour {
                 Debug.Log("Object raised");
                 objectRaising = false;
                 Invoke("setHoleToClose", HOLE_PAUSE_TIME);
+                //objectMoveSound.Stop();
             }
         }
         else if (holeClosing) {
@@ -108,6 +118,7 @@ public class HoleController : MonoBehaviour {
                 renderer.enabled = false;
                 Debug.Log("Hole closed - incrementing counter in master controller");
                 holeControllerMaster.IncrementStationaryObjects(); //This object is now stationary, so increment the master's number of hidden objects
+                holeCloseSound.Stop();
             }
         }
 	}
@@ -118,12 +129,14 @@ public class HoleController : MonoBehaviour {
 
     public void hideObject() {
         Debug.Log("Object set to hide");
+        holeOpenSound.Play();
         holeOpening = true;
         renderer.enabled = true;
         objectDirectionIsUpward = false;
     }
 
     public void showObject() {
+        holeOpenSound.Play();
         holeOpening = true;
         renderer.enabled = true;
         objectDirectionIsUpward = true;
