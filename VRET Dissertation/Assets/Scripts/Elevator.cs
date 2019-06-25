@@ -6,6 +6,8 @@ public class Elevator : MonoBehaviour
 {
     public AudioSource descendingNoise;
     public AudioSource ascendingNoise;
+    public float elevationBaseSpeed;
+    public float shiftSpeedMultiplier;
 
     private bool activated = false;
     private bool deactivating = false;
@@ -24,7 +26,10 @@ public class Elevator : MonoBehaviour
         if (activated) {
             if (deactivating) {
                 if (transform.position.y < initialHeight) {
-                    transform.position = new Vector3(transform.position.x, transform.position.y + 0.002f, transform.position.z);
+                    //The floor should move up fast
+                    float newElevation = transform.position.y + (elevationBaseSpeed * shiftSpeedMultiplier);
+                    transform.position = new Vector3(transform.position.x, newElevation, transform.position.z);
+
                     if (!ascendingNoise.isPlaying) {
                         ascendingNoise.Play();
                     }
@@ -41,11 +46,20 @@ public class Elevator : MonoBehaviour
             else if (Input.GetKey(KeyCode.DownArrow)) {
                 //If the floor can still move down
                 if (transform.position.y > minimumHeight) {
-                    transform.position = new Vector3(transform.position.x, transform.position.y - 0.002f, transform.position.z);
+                    //If the player holds shift, the floor should move faster
+                    float newElevation;
+                    if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.LeftShift)) {
+                        newElevation = transform.position.y - (elevationBaseSpeed * shiftSpeedMultiplier);
+                    }
+                    else {
+                        newElevation = transform.position.y - elevationBaseSpeed;
+                    }
+
+                    transform.position = new Vector3(transform.position.x, newElevation, transform.position.z);
+
                     if (!descendingNoise.isPlaying) {
                         descendingNoise.Play();
                     }
-
                     Debug.Log("Moving floor down");
                 }
                 //If the floor can't move down anymore
@@ -58,7 +72,15 @@ public class Elevator : MonoBehaviour
             else if (Input.GetKey(KeyCode.UpArrow)){
                 //If the floor can still mvoe up
                 if (transform.position.y < initialHeight) {
-                    transform.position = new Vector3(transform.position.x, transform.position.y + 0.002f, transform.position.z);
+                    //If the player holds shift, the floor should move faster
+                    float newElevation;
+                    if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.LeftShift)) {
+                        newElevation = transform.position.y + (elevationBaseSpeed * shiftSpeedMultiplier);
+                    }
+                    else {
+                        newElevation = transform.position.y + elevationBaseSpeed;
+                    }
+                    transform.position = new Vector3(transform.position.x, newElevation, transform.position.z);
                     if (!ascendingNoise.isPlaying) {
                         ascendingNoise.Play();
                     }

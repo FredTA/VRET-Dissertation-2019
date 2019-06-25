@@ -6111,14 +6111,14 @@ RectTransform:
   m_GameObject: {fileID: 1924913343}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: -1.178}
-  m_LocalScale: {x: 0.0011066832, y: 0.001106683, z: 0.001106683}
+  m_LocalScale: {x: 0.0009711959, y: 0.0009711958, z: 0.0009711958}
   m_Children: []
   m_Father: {fileID: 1549393089}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.1240001, y: -0.038}
+  m_AnchoredPosition: {x: 0.077, y: -0.038}
   m_SizeDelta: {x: 99.77, y: 20.27}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1924913345
@@ -6153,7 +6153,8 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: "Control the floor with \nthe up and down \narrows"
+  m_Text: "Control the floor with the \nup and down arrows, hold\n shift to increase
+    speed"
 --- !u!222 &1924913346
 CanvasRenderer:
   m_ObjectHideFlags: 0
