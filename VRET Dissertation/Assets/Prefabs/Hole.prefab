@@ -112,7 +112,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 666707e7051bf2e41a317a7bb0a32012, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 0.092
+  m_Volume: 0.03
   m_Pitch: 0.52
   Loop: 1
   Mute: 0
@@ -192,7 +192,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 666707e7051bf2e41a317a7bb0a32012, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 0.092
+  m_Volume: 0.03
   m_Pitch: 0.85
   Loop: 1
   Mute: 0
@@ -328,7 +328,7 @@ AudioSource:
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
-    m_RotationOrder: 4
+    m_RotationOrder: 0
   reverbZoneMixCustomCurve:
     serializedVersion: 2
     m_Curve:

@@ -9,6 +9,7 @@ public class RoomController : MonoBehaviour {
     private RoomMode currentRoomMode;
 
     public GameObject heightsControllerObject;
+    public AudioSource backgroundMusic;
 
     private SpiderController spiderController;
     private Elevator heightsController;
@@ -37,6 +38,8 @@ public class RoomController : MonoBehaviour {
         currentRoomMode = RoomMode.Spider;
         spiderController.activate();
         textDisplayController.HighLightSpiderText();
+
+        backgroundMusic.Play();
     }
 
     // Update is called once per frame
