@@ -802,7 +802,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 282840810}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.052000016, y: 0.0701772, z: -0.2479999}
+  m_LocalPosition: {x: -0.18299998, y: 0.0701772, z: -0.2479999}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1856803261}
@@ -1433,9 +1433,9 @@ MonoBehaviour:
   shiftSpeedMultiplier: 2
   frontWallSpeed: 0.3
   sideWallsSpeedMultiplier: 0.7
-  backWallSpeedMultiplier: 0.2
+  backWallSpeedMultiplier: 0.23
   ceilingSpeedMultiplier: 0.17
-  endFrontWallPosition: -1.5
+  endFrontWallPosition: -1.9
   windowControllerObject: {fileID: 669006646}
 --- !u!114 &534412874
 MonoBehaviour:
@@ -1950,7 +1950,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 653974945}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.295, y: -0.067, z: -0.148}
+  m_LocalPosition: {x: -0.41, y: -0.067, z: -0.148}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 808859269}
@@ -5103,7 +5103,7 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4424960839273398, guid: e53670b0005af734e8bcf274ca4660de, type: 2}
       propertyPath: m_LocalPosition.x
-      value: 0.4888
+      value: 0.33
       objectReference: {fileID: 0}
     - target: {fileID: 4424960839273398, guid: e53670b0005af734e8bcf274ca4660de, type: 2}
       propertyPath: m_LocalPosition.y
@@ -5352,7 +5352,7 @@ Prefab:
     m_Modifications:
     - target: {fileID: 475434, guid: 7d5fac0efe938994aba24a88ba9c3057, type: 2}
       propertyPath: m_LocalPosition.x
-      value: -2.773
+      value: -2.688
       objectReference: {fileID: 0}
     - target: {fileID: 475434, guid: 7d5fac0efe938994aba24a88ba9c3057, type: 2}
       propertyPath: m_LocalPosition.y
