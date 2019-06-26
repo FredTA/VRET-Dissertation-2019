@@ -48,7 +48,7 @@ public class Elevator : MonoBehaviour
                 if (transform.position.y > minimumHeight) {
                     //If the player holds shift, the floor should move faster
                     float newElevation;
-                    if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.LeftShift)) {
+                    if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift)) {
                         newElevation = transform.position.y - (elevationBaseSpeed * shiftSpeedMultiplier);
                     }
                     else {
@@ -74,7 +74,7 @@ public class Elevator : MonoBehaviour
                 if (transform.position.y < initialHeight) {
                     //If the player holds shift, the floor should move faster
                     float newElevation;
-                    if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.LeftShift)) {
+                    if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift)) {
                         newElevation = transform.position.y + (elevationBaseSpeed * shiftSpeedMultiplier);
                     }
                     else {

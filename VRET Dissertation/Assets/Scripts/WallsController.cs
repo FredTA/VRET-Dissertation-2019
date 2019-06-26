@@ -17,6 +17,7 @@ public class WallsController : MonoBehaviour {
     public AudioSource wallsMoveInSound;
     public AudioSource wallsMoveOutSound;
 
+    public float shiftSpeedMultiplier;
     public float frontWallSpeed;
     public float sideWallsSpeedMultiplier;
     public float backWallSpeedMultiplier;
@@ -59,7 +60,7 @@ public class WallsController : MonoBehaviour {
                 }
                 //If we haven't finished deactivating and If the walls have not returned to their original positions
                 else if (frontWall.transform.position.z < originalFrontWallPosition) {
-                    MoveWalls(false);
+                    MoveWalls(false, true);
                 }
                 //Else if the walls have been reset (check if audio source is playing so this only executes once)
                 else if (!wallsResetFlag) {
@@ -76,7 +77,7 @@ public class WallsController : MonoBehaviour {
                     // If wall can move in any further
                     if (frontWall.transform.position.z > endFrontWallPosition) {
                         //Move all walls and ceilings towards the player
-                        MoveWalls(true);
+                        MoveWalls(true, Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift));
                     }
                     //If wall can't move any further and the sound is playing
                     else if (wallsMoveInSound.isPlaying) {
@@ -88,7 +89,7 @@ public class WallsController : MonoBehaviour {
                     // If wall can move out any further
                     if (frontWall.transform.position.z < originalFrontWallPosition) {
                         //Move all walls and ceilings away from the player
-                        MoveWalls(false);
+                        MoveWalls(false, Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift));
                     }
                     //If wall can't move any further and the sound is playing
                     else if (wallsMoveOutSound.isPlaying) {
@@ -116,7 +117,7 @@ public class WallsController : MonoBehaviour {
     }
 
     //Moves all walls / ceiling towards player if true, away from player if false
-    private void MoveWalls(bool wallsMovingIn) {
+    private void MoveWalls(bool wallsMovingIn, bool shiftBeingHeld) {
         float baseSpeed = 0;
 
         if (wallsMovingIn) {
@@ -130,6 +131,11 @@ public class WallsController : MonoBehaviour {
             if (!wallsMoveOutSound.isPlaying) {
                 wallsMoveOutSound.Play();
             }
+        }
+
+        //If the user is holding shift the walls should move twice as fast
+        if (shiftBeingHeld) {
+            baseSpeed = baseSpeed * shiftSpeedMultiplier;
         }
 
         //Move gameobjects

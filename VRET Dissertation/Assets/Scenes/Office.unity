@@ -1430,6 +1430,7 @@ MonoBehaviour:
   ceiling: {fileID: 758843927}
   wallsMoveInSound: {fileID: 534412877}
   wallsMoveOutSound: {fileID: 534412878}
+  shiftSpeedMultiplier: 2
   frontWallSpeed: 0.3
   sideWallsSpeedMultiplier: 0.7
   backWallSpeedMultiplier: 0.2
@@ -3053,14 +3054,14 @@ RectTransform:
   m_GameObject: {fileID: 1019831162}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: -1.178}
-  m_LocalScale: {x: 0.0011066832, y: 0.001106683, z: 0.001106683}
+  m_LocalScale: {x: 0.000984948, y: 0.0009849479, z: 0.0009849479}
   m_Children: []
   m_Father: {fileID: 1549393089}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.12400043, y: -0.038000166}
+  m_AnchoredPosition: {x: 0.112, y: -0.038000166}
   m_SizeDelta: {x: 99.77, y: 20.27}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1019831164
@@ -3095,7 +3096,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: "Control the walls with \nthe up and down \narrows"
+  m_Text: "Control the walls with \nthe up/down arrows, hold \nshift to increase speed\n"
 --- !u!222 &1019831165
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -6155,8 +6156,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: "Control the floor with the \nup and down arrows, hold\n shift to increase
-    speed"
+  m_Text: "Control the floor with the \nup/down arrows, hold\n shift to increase speed"
 --- !u!222 &1924913346
 CanvasRenderer:
   m_ObjectHideFlags: 0
