@@ -82,7 +82,7 @@ public class WindowController : MonoBehaviour {
     void Update() {
 
         //Make sure the key cooldown has timed out. We are working in Update, so one press can last many cycles, and trigger the bool many times
-        if (Input.GetKey(KeyCode.W) && !keyCoolingDown) {
+        if (Input.GetKey(KeyCode.W) && !Input.GetKey(KeyCode.Home) && !keyCoolingDown) {
             Debug.Log("Toggling window!");
             keyCoolingDown = true;
             Invoke("ResetCooldown", KEY_COOLDOWN_TIME);
