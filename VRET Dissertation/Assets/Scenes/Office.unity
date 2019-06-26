@@ -1447,6 +1447,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e30f12fc48356f7449ba5ffdcba0fafe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxScaleMultiplier: 3
+  scaleSpeed: 0.01
   spider: {fileID: 743632150}
 --- !u!114 &534412875
 MonoBehaviour:
@@ -2443,7 +2445,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.124, y: -0.101}
+  m_AnchoredPosition: {x: 0.068, y: -0.009}
   m_SizeDelta: {x: 99.77, y: 20.27}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &791686020
@@ -2478,7 +2480,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: "Press Space to \ntoggle spider"
+  m_Text: "Press Space to toggle\nspider, change size \nwith up/down arrows"
 --- !u!222 &791686021
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -3325,11 +3327,11 @@ Prefab:
     m_Modifications:
     - target: {fileID: 400100, guid: f5a9bd478ca094495a4520e37f57420d, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 2.063
+      value: 2.0467
       objectReference: {fileID: 0}
     - target: {fileID: 400100, guid: f5a9bd478ca094495a4520e37f57420d, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2.9359004
+      value: 2.9413
       objectReference: {fileID: 0}
     - target: {fileID: 400100, guid: f5a9bd478ca094495a4520e37f57420d, type: 3}
       propertyPath: m_LocalPosition.z
@@ -3357,15 +3359,15 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 400100, guid: f5a9bd478ca094495a4520e37f57420d, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.03539665
+      value: 0.015862329
       objectReference: {fileID: 0}
     - target: {fileID: 400100, guid: f5a9bd478ca094495a4520e37f57420d, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.03539665
+      value: 0.015862329
       objectReference: {fileID: 0}
     - target: {fileID: 400100, guid: f5a9bd478ca094495a4520e37f57420d, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.03539665
+      value: 0.015862329
       objectReference: {fileID: 0}
     - target: {fileID: 400100, guid: f5a9bd478ca094495a4520e37f57420d, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
