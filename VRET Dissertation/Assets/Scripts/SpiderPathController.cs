@@ -69,10 +69,12 @@ public class SpiderPathController : MonoBehaviour {
         startPosition = transform.position;
 
         //currentSpeed = Random.Range(baseSpeed + baseSpeed * speedVarianceMultiplier, baseSpeed - baseSpeed * speedVarianceMultiplier);
-        currentSpeed = baseSpeed;
+        currentSpeed = baseSpeed; //Need to take into account distance between vector3s TODO
 
         Debug.Log("Returning new random target position");
         targetPosition = new Vector3(x, gameObject.transform.position.y, z);
+
+        //float distance = 
     }
 	
 	// Update is called once per frame
