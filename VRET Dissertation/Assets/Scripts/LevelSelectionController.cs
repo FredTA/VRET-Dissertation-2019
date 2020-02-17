@@ -7,43 +7,55 @@ using UnityEngine.UI;
 //So that we can expose the 2d array in the editor, 
 //Meaning we don't have to assign each text object programmatically
 [System.Serializable]
-public class MultiDimensionalInt {
+public class MultiDimensionalText {
     public Text[] textArray = new Text[10];
 }
 
 public class LevelSelectionController : MonoBehaviour {
+    private Master masterScript;
 
     public GameObject[] modePanels = new GameObject[5];
     //public Text[,] levelTexts = new Text[5,10];
     private Vector2Int levelSelection;
-    private bool[,] levelsUnlocked = new bool[5, 10];
     public float selectedPanelOffsetZ;
 
-    public MultiDimensionalInt[] levelTexts = new MultiDimensionalInt[5];
+    private int[] unlockedLevels = new int[5];
+
+    public MultiDimensionalText[] levelTexts = new MultiDimensionalText[5];
 
 
     // Use this for initialization
     void Start () {
+        masterScript = GameObject.Find("ScenePersistentObject").GetComponent<Master>();
+        unlockedLevels = masterScript.getUnlockedLevels();
+
         //Set the initial selection to the first spider level
         levelSelection = new Vector2Int(2, 0);
         levelTexts[levelSelection.x].textArray[levelSelection.y].color = Color.yellow;
         movePanel(levelSelection.x, true);
 
-        //TODO Also need to read in which levels are unlocked, and change the text accordingly.
-
-        //TODO remove this...
-        for (int y = 0; y < 5; y++) {
-            for (int x = 0; x < 10; x++) {
-                //Debug.Log("bools " + x + " " + y);
-                levelsUnlocked[y, x] = true;
+        //Grey out the text for levels that aren't unlocked
+        for (int x = 0; x < 5; x++) {
+            for (int y = 0; y < 10; y++) {
+                //string debug = "LVL " + x + ", " + y + ": ";
+                if (y > unlockedLevels[x]) {
+                    levelTexts[x].textArray[y].color = Color.grey;
+                //    debug += "Locked";
+                } else {
+                //    debug += "Unlocked";
+                }
+                //Debug.Log(debug);
             }
+            Debug.Log("Mode " + x + " lvl is " + unlockedLevels[x]);
         }
     }
 
     // Update is called once per frame
     void Update() {
         if (Input.GetKeyDown(KeyCode.DownArrow)) {
-            if (levelSelection.y < 9 && levelsUnlocked[levelSelection.x, levelSelection.y + 1]) {
+            //If we're not already on the last level down, and if the current lvl is less than the max lvl unlocked
+            Debug.Log("selection is " + levelSelection.y + " # is " + unlockedLevels[levelSelection.x]);
+            if (levelSelection.y < 9 && levelSelection.y < unlockedLevels[levelSelection.x]) {
                 Debug.Log("Doing ITTT");
                 levelTexts[levelSelection.x].textArray[levelSelection.y].color = Color.black;
                 levelSelection.y++;
@@ -54,7 +66,7 @@ public class LevelSelectionController : MonoBehaviour {
             }
         }
         else if (Input.GetKeyDown(KeyCode.UpArrow)) {
-            if (levelSelection.y > 0 && levelsUnlocked[levelSelection.x, levelSelection.y - 1]) {
+            if (levelSelection.y > 0) {
                 levelTexts[levelSelection.x].textArray[levelSelection.y].color = Color.black;
                 levelSelection.y--;
                 levelTexts[levelSelection.x].textArray[levelSelection.y].color = Color.yellow;
