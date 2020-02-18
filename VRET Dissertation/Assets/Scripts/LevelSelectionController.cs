@@ -40,6 +40,7 @@ public class LevelSelectionController : MonoBehaviour {
                 //string debug = "LVL " + x + ", " + y + ": ";
                 if (y > unlockedLevels[x]) {
                     levelTexts[x].textArray[y].color = Color.grey;
+                    levelTexts[x].textArray[y].text = "Level " + y + " - Locked"; 
                 //    debug += "Locked";
                 } else {
                 //    debug += "Unlocked";
@@ -104,6 +105,7 @@ public class LevelSelectionController : MonoBehaviour {
         else if (Input.GetKeyDown(KeyCode.Return)) {
             selectLevel();
             Debug.Log("CHOOSING SELECTION " + levelSelection.x + ": " + levelSelection.y);
+            masterScript.changeMode((SystemMode)levelSelection.x);
             //Load the appropriate scene
         }
     }

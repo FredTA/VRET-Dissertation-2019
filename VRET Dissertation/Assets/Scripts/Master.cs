@@ -19,8 +19,8 @@ public class Master : MonoBehaviour {
     private const string SAVE_FILE_NAME = "savefile.save";
     public Save save;
 
-
     private SystemMode currentMode;
+    public int currentLevel;
 
 	// Use this for initialization
 	void Start () {
@@ -48,6 +48,7 @@ public class Master : MonoBehaviour {
     public void completeLevel(int levelCompleted, int score, int sudsValue) {
         save.updateData(currentMode, levelCompleted, score, sudsValue);
         saveState();
+        currentLevel++;
     }
 
     public int[] getUnlockedLevels() {
@@ -96,7 +97,9 @@ public class Master : MonoBehaviour {
 
                 break;
             case SystemMode.Spider:
-
+                if (currentMode != SystemMode.Spider) {
+                    SceneManager.LoadScene("Spider");
+                }
                 break;
             case SystemMode.Wasp:
 
@@ -105,7 +108,9 @@ public class Master : MonoBehaviour {
 
                 break;
             case SystemMode.LevelSelection:
-
+                if (currentMode != SystemMode.LevelSelection) {
+                    SceneManager.LoadScene("Level Selection");
+                }
                 break;
         }
     }
