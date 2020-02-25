@@ -53,7 +53,37 @@ public class LevelSelectionController : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
-        if (Input.GetKeyDown(KeyCode.DownArrow)) {
+        OVRInput.Update(); // Call before checking the input from Touch Controllers
+
+        if (OVRInput.Get(OVRInput.Button.DpadLeft)) {
+            Debug.Log("left button pressed");
+        }
+        if (OVRInput.Get(OVRInput.Button.DpadRight)) {
+            Debug.Log("right button pressed");
+        }
+        if (OVRInput.Get(OVRInput.Button.One)) {
+            Debug.Log("round button pressed");
+        }
+        if (OVRInput.GetDown(OVRInput.Button.PrimaryThumbstickUp)) {
+            Debug.Log("Thumb up");
+        }
+        if (OVRInput.GetDown(OVRInput.Button.PrimaryThumbstickDown)) {
+            Debug.Log("Thumb down");
+        }
+        if (OVRInput.GetDown(OVRInput.Button.PrimaryThumbstickLeft)) {
+            Debug.Log("Thumb left");
+        }
+        if (OVRInput.GetDown(OVRInput.Button.PrimaryThumbstickRight)) {
+            Debug.Log("Thumb right");
+        }
+        if (OVRInput.GetDown(OVRInput.Button.SecondaryThumbstickUp)) {
+            Debug.Log("Thumb 2 up");
+        }
+        else {
+            //Debug.Log("nada");
+        }
+
+        if (Input.GetKeyDown(KeyCode.DownArrow) || OVRInput.GetDown(OVRInput.Button.PrimaryThumbstickDown) || OVRInput.GetDown(OVRInput.Button.SecondaryThumbstickDown)) {
             //If we're not already on the last level down, and if the current lvl is less than the max lvl unlocked
             Debug.Log("selection is " + levelSelection.y + " # is " + unlockedLevels[levelSelection.x]);
             if (levelSelection.y < 9 && levelSelection.y < unlockedLevels[levelSelection.x]) {
@@ -66,7 +96,7 @@ public class LevelSelectionController : MonoBehaviour {
                 //Reject input sound
             }
         }
-        else if (Input.GetKeyDown(KeyCode.UpArrow)) {
+        else if (Input.GetKeyDown(KeyCode.UpArrow) || OVRInput.GetDown(OVRInput.Button.PrimaryThumbstickUp) || OVRInput.GetDown(OVRInput.Button.SecondaryThumbstickUp)) {
             if (levelSelection.y > 0) {
                 levelTexts[levelSelection.x].textArray[levelSelection.y].color = Color.black;
                 levelSelection.y--;
@@ -76,7 +106,7 @@ public class LevelSelectionController : MonoBehaviour {
                 //Reject input sound
             }
         }
-        else if (Input.GetKeyDown(KeyCode.RightArrow)) {
+        else if (Input.GetKeyDown(KeyCode.RightArrow) || OVRInput.GetDown(OVRInput.Button.PrimaryThumbstickRight) || OVRInput.GetDown(OVRInput.Button.SecondaryThumbstickRight)) {
             if (levelSelection.x < 4) {
                 levelTexts[levelSelection.x].textArray[levelSelection.y].color = Color.black;
                 movePanel(levelSelection.x, false);
@@ -89,7 +119,7 @@ public class LevelSelectionController : MonoBehaviour {
                 //Reject input sound
             }
         }
-        else if (Input.GetKeyDown(KeyCode.LeftArrow)) {
+        else if (Input.GetKeyDown(KeyCode.LeftArrow) || OVRInput.GetDown(OVRInput.Button.PrimaryThumbstickLeft) || OVRInput.GetDown(OVRInput.Button.SecondaryThumbstickLeft)) {
             if (levelSelection.x > 0) {
                 levelTexts[levelSelection.x].textArray[levelSelection.y].color = Color.black;
                 movePanel(levelSelection.x, false);
@@ -102,7 +132,9 @@ public class LevelSelectionController : MonoBehaviour {
                 //Reject input sound
             }
         } 
-        else if (Input.GetKeyDown(KeyCode.Return)) {
+        else if (Input.GetKeyDown(KeyCode.Return) || OVRInput.GetDown(OVRInput.Button.One) || OVRInput.GetDown(OVRInput.RawButton.X) ||
+            OVRInput.Get(OVRInput.Axis1D.PrimaryIndexTrigger, OVRInput.Controller.RTouch) > 0.5f || 
+            OVRInput.Get(OVRInput.Axis1D.PrimaryIndexTrigger, OVRInput.Controller.LTouch) > 0.5f) {
             selectLevel();
             Debug.Log("CHOOSING SELECTION " + levelSelection.x + ": " + levelSelection.y);
             masterScript.changeMode((SystemMode)levelSelection.x);

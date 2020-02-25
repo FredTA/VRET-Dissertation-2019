@@ -37,8 +37,43 @@ public class Master : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+        //OVRInput.Update(); // Call before checking the input
+
+        //if (OVRInput.Get(OVRInput.Button.DpadLeft)) {
+        //    Debug.Log("left button pressed");
+        //}
+        //if (OVRInput.Get(OVRInput.Button.DpadRight)) {
+        //    Debug.Log("right button pressed");
+        //}
+        //if (OVRInput.Get(OVRInput.Button.One)) {
+        //    Debug.Log("round button pressed");
+        //}
+        //if (OVRInput.GetDown(OVRInput.Button.PrimaryThumbstickUp)) {
+        //    Debug.Log("Thumb up");
+        //}
+        //if (OVRInput.GetDown(OVRInput.Button.PrimaryThumbstickDown)) {
+        //    Debug.Log("Thumb down");
+        //}
+        //if (OVRInput.GetDown(OVRInput.Button.PrimaryThumbstickLeft)) {
+        //    Debug.Log("Thumb left");
+        //}
+        //if (OVRInput.GetDown(OVRInput.Button.PrimaryThumbstickRight)) {
+        //    Debug.Log("Thumb right");
+        //}
+        //if (OVRInput.GetDown(OVRInput.Button.SecondaryThumbstickUp)) {
+        //    Debug.Log("Thumb 2 up");
+        //}
+        //else {
+        //    //Debug.Log("nada");
+        //}
+
+        //float rightTrigger = OVRInput.Get(OVRInput.Axis1D.PrimaryIndexTrigger, OVRInput.Controller.RTouch);
+        //float leftTrigger = OVRInput.Get(OVRInput.Axis1D.PrimaryIndexTrigger, OVRInput.Controller.LTouch);
+
+        //Debug.Log("R: " + rightTrigger + " L: " + leftTrigger);
+
         //For ease of debugging. TODO remove
-		if (Input.GetKeyDown(KeyCode.KeypadEnter)) {
+        if (Input.GetKeyDown(KeyCode.KeypadEnter)) {
             save.updateData(SystemMode.Spider, 5, 100, 5);
             saveState();
             Debug.Log("Completed spider level 5");
