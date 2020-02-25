@@ -15,7 +15,6 @@ public class LevelSelectionController : MonoBehaviour {
     private Master masterScript;
 
     public GameObject[] modePanels = new GameObject[5];
-    //public Text[,] levelTexts = new Text[5,10];
     private Vector2Int levelSelection;
     public float selectedPanelOffsetZ;
 
