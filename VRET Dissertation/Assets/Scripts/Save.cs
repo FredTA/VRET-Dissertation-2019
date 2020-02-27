@@ -89,5 +89,9 @@ public class Save{
         return achievedHighScores[(int)mode, level];
     }
 
+    public List<SUDSRecord> getSUDSRecordsForLevel(SystemMode mode, int level) {
+        return sudsRatings[(int)mode, level];
+    }
+
 
 }
