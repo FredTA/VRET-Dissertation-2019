@@ -62,6 +62,8 @@ public class UIController : MonoBehaviour {
     //TODO fix selection bugs - we're tied into the other scritps ok, but input still isn't right
     // Update is called once per frame
     void Update () {
+        currentScoreText.text = "Current Score: " + modeController.getCurrentScore();
+
         if (Time.time - timeOfLastDelay > UI_DELAY_TIME) {
             OVRInput.Update(); // Call before checking the input from Touch Controllers
 
@@ -97,7 +99,6 @@ public class UIController : MonoBehaviour {
                 //Debug.Log("nada");
             }
         }
-        
     }
 
     private void submitUISelection() {

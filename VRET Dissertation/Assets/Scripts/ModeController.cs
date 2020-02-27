@@ -65,6 +65,10 @@ public abstract class ModeController : MonoBehaviour {
         return currentLevel;
     }
 
+    public int getCurrentScore() {
+        return (int)score;
+    }
+
     public int getHighScoreForCurrentLevel() {
         return masterScript.getHighScoreForLevel(currentLevel);
     }
