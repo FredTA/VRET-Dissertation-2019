@@ -2,6 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
+public class MultiDimensionalGameObject {
+    //3 as each level with questions always has 3 questions, and a summary
+    //element #0 is question 1 etc, element #3 is the summary
+    public GameObject[] gameObjects = new GameObject[4];
+}
+
 public abstract class ModeController : MonoBehaviour {
 
     private Master masterScript;
@@ -13,12 +20,10 @@ public abstract class ModeController : MonoBehaviour {
 
     protected int score = 0;
     private int currentLevel;
-    private int previousLevel;
     protected bool multiChoiceQuestionsActive;
+    protected int questionNumber;
 
 	public virtual void Awake() {
-        Debug.Log("Hello from base.Awake");
-        //Find the two scripts in the scene and cache them for use later
         uiObject = GameObject.Find("UICanvas");
         sudsInputObject = GameObject.Find("SUDSCanvas");
 
@@ -26,31 +31,19 @@ public abstract class ModeController : MonoBehaviour {
         sudsInputController = sudsInputObject.GetComponent<SUDSInputController>();
 
         masterScript = GameObject.Find("ScenePersistentObject").GetComponent<Master>();
-        Debug.Log("Master script found on " + masterScript.gameObject.name);
 
         currentLevel = masterScript.startingLevel;
-        previousLevel = -1;
+        Debug.Log("Master script found - starting level " + currentLevel);
 
         toggleSUDSInput(false);
         activateCurrentLevel();
-
-        //updateUI(masterScript.startingLevel);
 	}
-	
-	void Update () {
-
-	}
-
-    //TODO some method for switching between UI and SUDS
 
     public void submitSUDS(int sudsRating, bool goToNextLevel) {
         if (goToNextLevel) {
             masterScript.completeLevel(currentLevel, score, sudsRating);
-            previousLevel = currentLevel;
             currentLevel++;
-
             activateCurrentLevel();
-            deactivatePreviousLevel();
         } else {
             masterScript.changeMode(SystemMode.LevelSelection);
         }
@@ -60,7 +53,6 @@ public abstract class ModeController : MonoBehaviour {
     //UI controllers don't know which flavour of ModeController they're talking to 
     //Instead just storing the reference as a ModeController (this), so declare methods here
     public abstract void activateCurrentLevel();
-    public abstract void deactivatePreviousLevel();
     public abstract void resetLevel();
     public abstract void selectMultiChoiceAnswer(int selection); //This one is used for the ABC questions
 
@@ -71,10 +63,6 @@ public abstract class ModeController : MonoBehaviour {
 
     public int getCurrentLevel() {
         return currentLevel;
-    }
-
-    public int getPreviousLevel() {
-        return previousLevel;
     }
 
     public int getHighScoreForCurrentLevel() {
@@ -88,8 +76,4 @@ public abstract class ModeController : MonoBehaviour {
     public void returnToMenu() {
         masterScript.changeMode(SystemMode.LevelSelection);
     }
-
-    //protected void updateUI(int level) {
-    //    uiController.updateLevelAndScore(level, masterScript.getHighScoreForLevel(currentLevel));
-    //}
 }

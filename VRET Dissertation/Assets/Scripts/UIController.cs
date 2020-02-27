@@ -16,6 +16,7 @@ public class UIController : MonoBehaviour {
     private Text currentScoreText;
     private Text highScoreText;
 
+    public GameObject multichoiceButtons;
     private Text optionAText;
     private Text optionBText;
     private Text optionCText;
@@ -37,6 +38,7 @@ public class UIController : MonoBehaviour {
         currentScoreText = GameObject.Find("ScoreText").GetComponent<Text>();
         highScoreText = GameObject.Find("HighScoreText").GetComponent<Text>();
 
+        multichoiceButtons = GameObject.Find("Multichoice");
         optionAText = GameObject.Find("OptionAText").GetComponent<Text>();
         optionBText = GameObject.Find("OptionBText").GetComponent<Text>();
         optionCText = GameObject.Find("OptionCText").GetComponent<Text>();
@@ -44,8 +46,6 @@ public class UIController : MonoBehaviour {
         menuText = GameObject.Find("MenuText").GetComponent<Text>();
         resetLevelText = GameObject.Find("ResetLevelText").GetComponent<Text>();
         completeLevelText = GameObject.Find("CompleteLevelText").GetComponent<Text>();
-
-        timeOfLastDelay = Time.time;
     }
 
     //Called by MonoBehaviour when the GameObject this script is attached to is enabled
@@ -53,6 +53,10 @@ public class UIController : MonoBehaviour {
         updateUISelection(new Vector2Int(0, 0));
         updateLevelAndScore();
         menuText.color = Color.yellow;
+        multichoiceButtons.SetActive(modeController.areMultiChoiceQuestionsActive());
+
+        //Set a delay so that the last button press isn't read again straight away
+        timeOfLastDelay = Time.time;
     }
 
     //TODO fix selection bugs - we're tied into the other scritps ok, but input still isn't right
@@ -85,8 +89,8 @@ public class UIController : MonoBehaviour {
                 OVRInput.Get(OVRInput.Axis1D.PrimaryIndexTrigger, OVRInput.Controller.RTouch) > 0.5f ||
                 OVRInput.Get(OVRInput.Axis1D.PrimaryIndexTrigger, OVRInput.Controller.LTouch) > 0.5f) {
 
-                Debug.Log("Triggers: " + OVRInput.Get(OVRInput.Axis1D.PrimaryIndexTrigger, OVRInput.Controller.RTouch)
-                    + ", " + OVRInput.Get(OVRInput.Axis1D.PrimaryIndexTrigger, OVRInput.Controller.LTouch));
+                //Debug.Log("Triggers: " + OVRInput.Get(OVRInput.Axis1D.PrimaryIndexTrigger, OVRInput.Controller.RTouch)
+                //    + ", " + OVRInput.Get(OVRInput.Axis1D.PrimaryIndexTrigger, OVRInput.Controller.LTouch));
                 submitUISelection();
             }
             else {
@@ -97,7 +101,7 @@ public class UIController : MonoBehaviour {
     }
 
     private void submitUISelection() {
-        Debug.Log("Submitting UI Selection " + selection.x + ", " + selection.y);
+        //Debug.Log("Submitting UI Selection " + selection.x + ", " + selection.y);
         if (selection.y == 1) {
             modeController.selectMultiChoiceAnswer(selection.y);
         }
@@ -115,12 +119,15 @@ public class UIController : MonoBehaviour {
                     break;
             }
         }
+        timeOfLastDelay = Time.time;
     }
 
     private void updateUISelection(Vector2Int newSelection) {
         //Set all text to white (saves us a lot of ifs)
         optionAText.color = optionBText.color = optionCText.color = menuText.color =
                         resetLevelText.color = completeLevelText.color = Color.white;
+
+        selection = newSelection;
 
         //Set the new selection to yellow
         if (newSelection.y == 1) {
@@ -161,6 +168,6 @@ public class UIController : MonoBehaviour {
         } else {
             highScoreText.text = "High Score: N/A";
         }
-        
     }
+
 }
