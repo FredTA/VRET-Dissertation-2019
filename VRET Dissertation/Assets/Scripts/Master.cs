@@ -31,7 +31,6 @@ public class Master : MonoBehaviour {
 
         //We'll start on the level selection screen
         currentMode = SystemMode.LevelSelection;
-
         SceneManager.LoadScene("Level Selection");
 	}
 	
@@ -128,29 +127,30 @@ public class Master : MonoBehaviour {
     }
 
     public void changeMode(SystemMode newMode) {
-        switch (newMode) {
-            case SystemMode.Claustrophobia:
+        if (newMode != currentMode) {
+            Debug.Log("Loading Scene " + newMode);
+            currentMode = newMode;
 
-                break;
-            case SystemMode.Heights:
+            switch (newMode) {
+                case SystemMode.Claustrophobia:
 
-                break;
-            case SystemMode.Spider:
-                if (currentMode != SystemMode.Spider) {
+                    break;
+                case SystemMode.Heights:
+
+                    break;
+                case SystemMode.Spider:
                     SceneManager.LoadScene("Spider");
-                }
-                break;
-            case SystemMode.Wasp:
+                    break;
+                case SystemMode.Wasp:
 
-                break;
-            case SystemMode.Airplane:
+                    break;
+                case SystemMode.Airplane:
 
-                break;
-            case SystemMode.LevelSelection:
-                if (currentMode != SystemMode.LevelSelection) {
+                    break;
+                case SystemMode.LevelSelection:
                     SceneManager.LoadScene("Level Selection");
-                }
-                break;
+                    break;
+            }
         }
     }
 

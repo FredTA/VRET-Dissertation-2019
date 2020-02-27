@@ -10,11 +10,13 @@ public class SpiderModeController : ModeController {
     public GameObject spiderBox;
     public GameObject spider;
 
-    public SpiderController spiderController;
+    private SpiderController spiderController;
 
 	// Use this for initialization
-	void Start () {
-		
+	public override void Awake () {
+        Debug.Log("Calling base.awake...");
+        base.Awake(); 
+        spiderController = spider.GetComponent<SpiderController>();
 	}
 	
 	// Update is called once per frame
@@ -22,19 +24,92 @@ public class SpiderModeController : ModeController {
 		
 	}
 
-    public override void nextLevel() {
+    //We need to store previous level so we know which elements to deactivate 
+    //Then activate the current level elements 
+    //If prev lvl == -1 don't disable anything 
 
+    public override void activateCurrentLevel() {
+        toggleSUDSInput(false);
+        score = 0;
+
+        switch (getCurrentLevel()) {
+            case 0:
+
+                break;
+            case 1:
+
+                break;
+            case 2:
+
+                break;
+            case 3:
+
+                break;
+            case 4:
+
+                break;
+            case 5:
+
+                break;
+            case 6:
+
+                break;
+            case 7:
+
+                break;
+            case 8:
+
+                break;
+            case 9:
+
+                break;
+            case 10:
+
+                break;
+        }
+    }
+
+    public override void deactivatePreviousLevel() {
+        switch (getPreviousLevel()) {
+            case 0:
+
+                break;
+            case 1:
+
+                break;
+            case 2:
+
+                break;
+            case 3:
+
+                break;
+            case 4:
+
+                break;
+            case 5:
+
+                break;
+            case 6:
+
+                break;
+            case 7:
+
+                break;
+            case 8:
+
+                break;
+            case 9:
+
+                break;
+        }
     }
 
     public override void resetLevel() {
 
     }
 
-    public override void previousLevel() {
+    public override void selectMultiChoiceAnswer(int selection) {
 
     }
 
-    public override void selectMultiChoiceAnswer() {
-
-    }
 }

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -6,9 +7,9 @@ using UnityEngine.UI;
 public class SUDSInputController : MonoBehaviour {
 
     private int sudsValue = -1;
-    public Text[] inputNumbers = new Text[10];
-    public Text nextLevel;
-    public Text backToMenu;
+    private Text[] inputNumbers = new Text[10];
+    private Text nextLevelText;
+    private Text backToMenuText;
 
     private int sudsSelection = 4;
     private int menuSelection = 0;
@@ -19,12 +20,27 @@ public class SUDSInputController : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         modeController = GameObject.FindGameObjectWithTag("ModeController").GetComponent<ModeController>();
-    }
-	
-	// Update is called once per frame
-	void Update () {
-        OVRInput.Update(); // Call before checking the input from Touch Controllers
 
+        //We could have these Text objects be public and assign them all through the editor...
+        //But this script will appear in multiple scenes, do easier to do it programmatically 
+        nextLevelText = GameObject.Find("NextLevelText").GetComponent<Text>();
+        backToMenuText = GameObject.Find("MenuText").GetComponent<Text>();
+
+        GameObject[] sudsInputObjects = GameObject.FindGameObjectsWithTag("SUDSInputNumbers");
+        Array.Sort(sudsInputObjects, CompareObNames); //So that 1 appears first and 10 last
+        
+        for (int i = 0; i < 10; i++) {
+            inputNumbers[i] = sudsInputObjects[i].GetComponent<Text>();
+        }
+    }
+
+    int CompareObNames(GameObject x, GameObject y) {
+        return x.name.CompareTo(y.name);
+    }
+
+    // Update is called once per frame
+    void Update () {
+        OVRInput.Update(); // Call before checking the input from Touch Controllers
 
         if (OVRInput.GetDown(OVRInput.Button.PrimaryThumbstickUp) ||
             OVRInput.GetDown(OVRInput.Button.SecondaryThumbstickUp) && menuSelection > 0) {
@@ -71,11 +87,11 @@ public class SUDSInputController : MonoBehaviour {
                 inputNumbers[sudsSelection].color = Color.green;
                 break;
             case 1:
-                nextLevel.color = Color.white;
+                nextLevelText.color = Color.white;
                 break;
 
             case 2:
-                backToMenu.color = Color.white;
+                backToMenuText.color = Color.white;
                 break;
         }
 
@@ -87,11 +103,11 @@ public class SUDSInputController : MonoBehaviour {
                 inputNumbers[sudsSelection].color = Color.yellow;
                 break;
             case 1:
-                nextLevel.color = Color.yellow;
+                nextLevelText.color = Color.yellow;
                 break;
 
             case 2:
-                backToMenu.color = Color.yellow;
+                backToMenuText.color = Color.yellow;
                 break;
         }
     }

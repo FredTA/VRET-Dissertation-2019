@@ -8,16 +8,33 @@ public abstract class ModeController : MonoBehaviour {
     private UIController uiController;
     private SUDSInputController sudsInputController;
 
-    protected int score;
-    protected int currentLevel;
-    public bool multiChoiceQuestionsActive;
+    private GameObject uiObject;
+    private GameObject sudsInputObject;
 
-	void Start () {
+    protected int score = 0;
+    private int currentLevel;
+    private int previousLevel;
+    protected bool multiChoiceQuestionsActive;
+
+	public virtual void Awake() {
+        Debug.Log("Hello from base.Awake");
         //Find the two scripts in the scene and cache them for use later
-        sudsInputController = GameObject.Find("SUDSInputObject").GetComponent<SUDSInputController>();
-        masterScript = GameObject.Find("ScenePersistentObject").GetComponent<Master>();
+        uiObject = GameObject.Find("UICanvas");
+        sudsInputObject = GameObject.Find("SUDSCanvas");
 
-        updateUI(masterScript.startingLevel);
+        uiController = uiObject.GetComponent<UIController>();
+        sudsInputController = sudsInputObject.GetComponent<SUDSInputController>();
+
+        masterScript = GameObject.Find("ScenePersistentObject").GetComponent<Master>();
+        Debug.Log("Master script found on " + masterScript.gameObject.name);
+
+        currentLevel = masterScript.startingLevel;
+        previousLevel = -1;
+
+        toggleSUDSInput(false);
+        activateCurrentLevel();
+
+        //updateUI(masterScript.startingLevel);
 	}
 	
 	void Update () {
@@ -29,8 +46,11 @@ public abstract class ModeController : MonoBehaviour {
     public void submitSUDS(int sudsRating, bool goToNextLevel) {
         if (goToNextLevel) {
             masterScript.completeLevel(currentLevel, score, sudsRating);
+            previousLevel = currentLevel;
             currentLevel++;
-            score = 0;
+
+            activateCurrentLevel();
+            deactivatePreviousLevel();
         } else {
             masterScript.changeMode(SystemMode.LevelSelection);
         }
@@ -39,12 +59,37 @@ public abstract class ModeController : MonoBehaviour {
     //Implementation found in SpiderModeController, WaspModeController, etc. 
     //UI controllers don't know which flavour of ModeController they're talking to 
     //Instead just storing the reference as a ModeController (this), so declare methods here
-    public abstract void nextLevel();
+    public abstract void activateCurrentLevel();
+    public abstract void deactivatePreviousLevel();
     public abstract void resetLevel();
-    public abstract void previousLevel();
-    public abstract void selectMultiChoiceAnswer(); //This one is used for the ABC questions
+    public abstract void selectMultiChoiceAnswer(int selection); //This one is used for the ABC questions
 
-    protected void updateUI(int level) {
-        uiController.updateLevelAndScore(level, masterScript.getHighScoreForLevel(currentLevel));
+    public void toggleSUDSInput(bool sudsInputOn) {
+        uiObject.SetActive(!sudsInputOn);
+        sudsInputObject.SetActive(sudsInputOn);
     }
+
+    public int getCurrentLevel() {
+        return currentLevel;
+    }
+
+    public int getPreviousLevel() {
+        return previousLevel;
+    }
+
+    public int getHighScoreForCurrentLevel() {
+        return masterScript.getHighScoreForLevel(currentLevel);
+    }
+
+    public bool areMultiChoiceQuestionsActive() {
+        return multiChoiceQuestionsActive;
+    }
+
+    public void returnToMenu() {
+        masterScript.changeMode(SystemMode.LevelSelection);
+    }
+
+    //protected void updateUI(int level) {
+    //    uiController.updateLevelAndScore(level, masterScript.getHighScoreForLevel(currentLevel));
+    //}
 }

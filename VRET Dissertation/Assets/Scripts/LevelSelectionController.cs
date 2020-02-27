@@ -46,7 +46,6 @@ public class LevelSelectionController : MonoBehaviour {
                 }
                 //Debug.Log(debug);
             }
-            Debug.Log("Mode " + x + " lvl is " + unlockedLevels[x]);
         }
     }
 
@@ -84,9 +83,7 @@ public class LevelSelectionController : MonoBehaviour {
 
         if (Input.GetKeyDown(KeyCode.DownArrow) || OVRInput.GetDown(OVRInput.Button.PrimaryThumbstickDown) || OVRInput.GetDown(OVRInput.Button.SecondaryThumbstickDown)) {
             //If we're not already on the last level down, and if the current lvl is less than the max lvl unlocked
-            Debug.Log("selection is " + levelSelection.y + " # is " + unlockedLevels[levelSelection.x]);
             if (levelSelection.y < 9 && levelSelection.y < unlockedLevels[levelSelection.x]) {
-                Debug.Log("Doing ITTT");
                 levelTexts[levelSelection.x].textArray[levelSelection.y].color = Color.black;
                 levelSelection.y++;
                 levelTexts[levelSelection.x].textArray[levelSelection.y].color = Color.yellow;
@@ -134,6 +131,9 @@ public class LevelSelectionController : MonoBehaviour {
         else if (Input.GetKeyDown(KeyCode.Return) || OVRInput.GetDown(OVRInput.Button.One) || OVRInput.GetDown(OVRInput.RawButton.X) ||
             OVRInput.Get(OVRInput.Axis1D.PrimaryIndexTrigger, OVRInput.Controller.RTouch) > 0.5f || 
             OVRInput.Get(OVRInput.Axis1D.PrimaryIndexTrigger, OVRInput.Controller.LTouch) > 0.5f) {
+
+            Debug.Log("Triggers LS: " + OVRInput.Get(OVRInput.Axis1D.PrimaryIndexTrigger, OVRInput.Controller.RTouch)
+                    + ", " + OVRInput.Get(OVRInput.Axis1D.PrimaryIndexTrigger, OVRInput.Controller.LTouch));
 
             Debug.Log("CHOOSING SELECTION " + levelSelection.x + ": " + levelSelection.y);
             masterScript.startingLevel = levelSelection.y;
