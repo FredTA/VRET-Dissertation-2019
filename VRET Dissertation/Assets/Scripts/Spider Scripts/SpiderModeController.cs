@@ -155,41 +155,21 @@ public class SpiderModeController : ModeController {
     //TODO correct or incorrect sounds 
     //Possibly have a delay to show write or wrong (green/red)
     private void answerMultiChoiceQuestion(int questionRound, int selection) {
-        switch (questionNumber) {
-            case 0:
-                if (selection == correctAnswers[questionRound, 0]) {
-                    score += 33;
-                } else {
-                    
-                }
+        Debug.Log("Answered Level " + getCurrentLevel() + " (question round " + questionRound + ") Q" + questionNumber + " with " + selection);
 
-                multiChoiceQuestions[questionRound].gameObjects[0].SetActive(false);
-                multiChoiceQuestions[questionRound].gameObjects[1].SetActive(true);
-                break;
-            case 1:
-                if (selection == correctAnswers[questionRound, 1]) {
-                    score += 34;
-                }
-                else {
-
-                }
-
-                multiChoiceQuestions[questionRound].gameObjects[1].SetActive(false);
-                multiChoiceQuestions[questionRound].gameObjects[2].SetActive(true);
-                break;
-            case 2:
-                if (selection == correctAnswers[questionRound, 2]) {
-                    score += 33;
-                }
-                else {
-
-                }
-                multiChoiceQuestions[questionRound].gameObjects[2].SetActive(false);
-                multiChoiceQuestions[questionRound].gameObjects[3].SetActive(true);
-                setQuestionSummary(questionRound);
-                break;
+        if (selection == correctAnswers[questionRound, questionNumber]) {
+            score += 33.3f;
+        } else {
+            //Todo maybe play a sound?
         }
+
+        multiChoiceQuestions[questionRound].gameObjects[questionNumber].SetActive(false);
+        multiChoiceQuestions[questionRound].gameObjects[questionNumber + 1].SetActive(true);
+
         questionNumber++;
+        if (questionNumber == 3) {
+            setQuestionSummary(questionRound);
+        }
     }
 
     private void setQuestionSummary(int questionRound) {
@@ -198,12 +178,12 @@ public class SpiderModeController : ModeController {
         if (score == 0) {
             summary += "0/3";
         }
-        else if (score == 33) {
+        else if (score < 35) {
             summary += "1/3";
         
-        } else if (score == 67) {
+        } else if (score < 70) {
             summary += "2/3";
-        } else if (score == 100) {
+        } else {
             summary += "3/3";
         }
 

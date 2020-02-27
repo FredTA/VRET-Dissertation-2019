@@ -18,7 +18,7 @@ public abstract class ModeController : MonoBehaviour {
     private GameObject uiObject;
     private GameObject sudsInputObject;
 
-    protected int score = 0;
+    protected float score = 0;
     private int currentLevel;
     protected bool multiChoiceQuestionsActive;
     protected int questionNumber;
@@ -41,7 +41,7 @@ public abstract class ModeController : MonoBehaviour {
 
     public void submitSUDS(int sudsRating, bool goToNextLevel) {
         if (goToNextLevel) {
-            masterScript.completeLevel(currentLevel, score, sudsRating);
+            masterScript.completeLevel(currentLevel, (int)score, sudsRating);
             currentLevel++;
             activateCurrentLevel();
         } else {

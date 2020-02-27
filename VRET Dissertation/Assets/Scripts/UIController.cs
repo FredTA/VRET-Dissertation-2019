@@ -103,7 +103,7 @@ public class UIController : MonoBehaviour {
     private void submitUISelection() {
         //Debug.Log("Submitting UI Selection " + selection.x + ", " + selection.y);
         if (selection.y == 1) {
-            modeController.selectMultiChoiceAnswer(selection.y);
+            modeController.selectMultiChoiceAnswer(selection.x);
         }
         else {
             switch (selection.x) {
