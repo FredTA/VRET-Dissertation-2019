@@ -20,7 +20,7 @@ public class Master : MonoBehaviour {
     public Save save;
 
     private SystemMode currentMode;
-    public int currentLevel;
+    public int startingLevel = -1;
 
 	// Use this for initialization
 	void Start () {
@@ -83,7 +83,7 @@ public class Master : MonoBehaviour {
     public void completeLevel(int levelCompleted, int score, int sudsValue) {
         save.updateData(currentMode, levelCompleted, score, sudsValue);
         saveState();
-        currentLevel++;
+        //currentLevel++;
     }
 
     public int[] getUnlockedLevels() {
@@ -93,6 +93,10 @@ public class Master : MonoBehaviour {
         }
 
         return unlockedLevels;
+    }
+
+    public int getHighScoreForLevel(int level) {
+        return save.getHighScoreForLevel(currentMode, level);
     }
 
     private Save loadSave() {

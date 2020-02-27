@@ -85,5 +85,9 @@ public class Save{
         return unlockedLevels[(int)mode];
     }
 
+    public int getHighScoreForLevel(SystemMode mode, int level) {
+        return achievedHighScores[(int)mode, level];
+    }
+
 
 }

@@ -54,33 +54,33 @@ public class LevelSelectionController : MonoBehaviour {
     void Update() {
         OVRInput.Update(); // Call before checking the input from Touch Controllers
 
-        if (OVRInput.Get(OVRInput.Button.DpadLeft)) {
-            Debug.Log("left button pressed");
-        }
-        if (OVRInput.Get(OVRInput.Button.DpadRight)) {
-            Debug.Log("right button pressed");
-        }
-        if (OVRInput.Get(OVRInput.Button.One)) {
-            Debug.Log("round button pressed");
-        }
-        if (OVRInput.GetDown(OVRInput.Button.PrimaryThumbstickUp)) {
-            Debug.Log("Thumb up");
-        }
-        if (OVRInput.GetDown(OVRInput.Button.PrimaryThumbstickDown)) {
-            Debug.Log("Thumb down");
-        }
-        if (OVRInput.GetDown(OVRInput.Button.PrimaryThumbstickLeft)) {
-            Debug.Log("Thumb left");
-        }
-        if (OVRInput.GetDown(OVRInput.Button.PrimaryThumbstickRight)) {
-            Debug.Log("Thumb right");
-        }
-        if (OVRInput.GetDown(OVRInput.Button.SecondaryThumbstickUp)) {
-            Debug.Log("Thumb 2 up");
-        }
-        else {
-            //Debug.Log("nada");
-        }
+        //if (OVRInput.Get(OVRInput.Button.DpadLeft)) {
+        //    Debug.Log("left button pressed");
+        //}
+        //if (OVRInput.Get(OVRInput.Button.DpadRight)) {
+        //    Debug.Log("right button pressed");
+        //}
+        //if (OVRInput.Get(OVRInput.Button.One)) {
+        //    Debug.Log("round button pressed");
+        //}
+        //if (OVRInput.GetDown(OVRInput.Button.PrimaryThumbstickUp)) {
+        //    Debug.Log("Thumb up");
+        //}
+        //if (OVRInput.GetDown(OVRInput.Button.PrimaryThumbstickDown)) {
+        //    Debug.Log("Thumb down");
+        //}
+        //if (OVRInput.GetDown(OVRInput.Button.PrimaryThumbstickLeft)) {
+        //    Debug.Log("Thumb left");
+        //}
+        //if (OVRInput.GetDown(OVRInput.Button.PrimaryThumbstickRight)) {
+        //    Debug.Log("Thumb right");
+        //}
+        //if (OVRInput.GetDown(OVRInput.Button.SecondaryThumbstickUp)) {
+        //    Debug.Log("Thumb 2 up");
+        //}
+        //else {
+        //    //Debug.Log("nada");
+        //}
 
         if (Input.GetKeyDown(KeyCode.DownArrow) || OVRInput.GetDown(OVRInput.Button.PrimaryThumbstickDown) || OVRInput.GetDown(OVRInput.Button.SecondaryThumbstickDown)) {
             //If we're not already on the last level down, and if the current lvl is less than the max lvl unlocked
@@ -134,8 +134,9 @@ public class LevelSelectionController : MonoBehaviour {
         else if (Input.GetKeyDown(KeyCode.Return) || OVRInput.GetDown(OVRInput.Button.One) || OVRInput.GetDown(OVRInput.RawButton.X) ||
             OVRInput.Get(OVRInput.Axis1D.PrimaryIndexTrigger, OVRInput.Controller.RTouch) > 0.5f || 
             OVRInput.Get(OVRInput.Axis1D.PrimaryIndexTrigger, OVRInput.Controller.LTouch) > 0.5f) {
-            selectLevel();
+
             Debug.Log("CHOOSING SELECTION " + levelSelection.x + ": " + levelSelection.y);
+            masterScript.startingLevel = levelSelection.y;
             masterScript.changeMode((SystemMode)levelSelection.x);
             //Load the appropriate scene
         }
@@ -154,23 +155,4 @@ public class LevelSelectionController : MonoBehaviour {
         modePanels[panelToMove].transform.Translate(panelOffset);
     }
 
-    private void selectLevel() {
-        switch (levelSelection.x) {
-            case 0:
-
-                break;
-            case 1:
-
-                break;
-            case 2:
-
-                break;
-            case 3:
-
-                break;
-            case 4:
-
-                break;
-        }
-    }
 }

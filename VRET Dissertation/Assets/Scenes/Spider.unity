@@ -7763,6 +7763,7 @@ GameObject:
   - component: {fileID: 1432394897}
   - component: {fileID: 1432394896}
   - component: {fileID: 1432394895}
+  - component: {fileID: 1432394898}
   m_Layer: 5
   m_Name: Canvas TV
   m_TagString: Untagged
@@ -7847,6 +7848,30 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
+--- !u!114 &1432394898
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1432394893}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21d63d9a2b1188040a555e6c601a93d5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inputNumbers:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  nextLevel: {fileID: 0}
+  backToMenu: {fileID: 0}
 --- !u!1 &1437090260
 GameObject:
   m_ObjectHideFlags: 0

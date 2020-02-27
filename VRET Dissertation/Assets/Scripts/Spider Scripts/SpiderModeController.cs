@@ -4,10 +4,13 @@ using UnityEngine;
 
 public class SpiderModeController : ModeController {
 
+    public GameObject laptop;
     public GameObject cartoonImage;
     public GameObject realisticImage;
-    public GameObject spider; 
-    //public GameObject 
+    public GameObject spiderBox;
+    public GameObject spider;
+
+    public SpiderController spiderController;
 
 	// Use this for initialization
 	void Start () {
@@ -18,4 +21,20 @@ public class SpiderModeController : ModeController {
 	void Update () {
 		
 	}
+
+    public override void nextLevel() {
+
+    }
+
+    public override void resetLevel() {
+
+    }
+
+    public override void previousLevel() {
+
+    }
+
+    public override void selectMultiChoiceAnswer() {
+
+    }
 }
