@@ -75,6 +75,7 @@ public class SpiderModeController : ModeController {
         multiChoiceQuestionsActive = false;
         questionNumber = 0;
 
+        //TODO ensure everything is activated in every case
         int level = getCurrentLevel();
         switch (level) {
             case 0:

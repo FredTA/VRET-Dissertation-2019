@@ -183,7 +183,10 @@ public class UIController : MonoBehaviour {
     }
 
     public void deactivateQuestionSummary() {
-        questionSummary.SetActive(false);
+        //If it's null it's not active right now anyway
+        if (null != questionSummary) {
+            questionSummary.SetActive(false);
+        }
     }
 
 }
