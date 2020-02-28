@@ -7,6 +7,7 @@ TagManager:
   - Hole
   - ModeController
   - SUDSInputNumbers
+  - QuestionRound
   layers:
   - Default
   - TransparentFX

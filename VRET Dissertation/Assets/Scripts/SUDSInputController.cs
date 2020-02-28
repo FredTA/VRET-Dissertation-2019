@@ -27,7 +27,7 @@ public class SUDSInputController : MonoBehaviour {
         backToMenuText = GameObject.Find("MenuText").GetComponent<Text>();
 
         GameObject[] sudsInputObjects = GameObject.FindGameObjectsWithTag("SUDSInputNumbers");
-        Array.Sort(sudsInputObjects, CompareObjNames); //So that 1 appears first and 10 last
+        Array.Sort(sudsInputObjects, modeController.compareObjNames); //So that 1 appears first and 10 last
 
         for (int i = 0; i < 10; i++) {
             inputNumbers[i] = sudsInputObjects[i].GetComponent<Text>();
@@ -45,11 +45,6 @@ public class SUDSInputController : MonoBehaviour {
         backToMenuText.color = Color.white;
 
         inputNumbers[sudsSelection].color = Color.yellow;
-    }
-
-
-    int CompareObjNames(GameObject x, GameObject y) {
-        return x.name.CompareTo(y.name);
     }
 
     // Update is called once per frame

@@ -1,18 +1,23 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public class MultiDimensionalGameObject {
+public class QuestionRoundObject {
     //3 as each level with questions always has 3 questions, and a summary
-    //element #0 is question 1 etc, element #3 is the summary
-    public GameObject[] gameObjects = new GameObject[4];
+    public GameObject[] questions;
+
+    public QuestionRoundObject(int numberOfQuestions) {
+        questions = new GameObject[numberOfQuestions];
+    }
+
 }
 
 public abstract class ModeController : MonoBehaviour {
 
     private Master masterScript;
-    private UIController uiController;
+    protected UIController uiController;
     private SUDSInputController sudsInputController;
 
     private GameObject uiObject;
@@ -23,7 +28,14 @@ public abstract class ModeController : MonoBehaviour {
     protected bool multiChoiceQuestionsActive;
     protected int questionNumber;
 
-	public virtual void Awake() {
+    protected const int NUMBER_OF_QUESTIONS_PER_ROUND = 3;
+    protected QuestionRoundObject[] multiChoiceQuestions;
+    protected int[,] correctAnswers;
+
+
+    public virtual void Awake(int numberOfQuestionRounds) {
+        loadMultiChoiceQuestions(numberOfQuestionRounds);
+
         uiObject = GameObject.Find("UICanvas");
         sudsInputObject = GameObject.Find("SUDSCanvas");
 
@@ -38,6 +50,47 @@ public abstract class ModeController : MonoBehaviour {
         toggleSUDSInput(false);
         activateCurrentLevel();
 	}
+
+    //Each mode has multichoice question objects to find, The  only difference is the number of rounds
+    private void loadMultiChoiceQuestions(int numberOfQuestionRounds) {
+        multiChoiceQuestions = new QuestionRoundObject[numberOfQuestionRounds]; 
+
+
+        for (int questionRound = 0; questionRound < numberOfQuestionRounds; questionRound++) {
+            multiChoiceQuestions[questionRound] = new QuestionRoundObject(NUMBER_OF_QUESTIONS_PER_ROUND);
+
+            //Find all the question round objects and sort the array
+            GameObject[] questionRounds = GameObject.FindGameObjectsWithTag("QuestionRound");
+            Array.Sort(questionRounds, compareObjNames); //So that 1 appears first and 10 last
+
+            for (int questionNumber = 0; questionNumber < NUMBER_OF_QUESTIONS_PER_ROUND; questionNumber++) {
+
+                //We might not have finished building the scene yet, try block so we can test without having added all GameObjects
+                try {
+                    String questionObjectName = getGameObjectPath(questionRounds[questionRound]) + "/Question " + (questionNumber + 1);
+                    GameObject question = transform.Find(questionObjectName).gameObject;
+                    multiChoiceQuestions[questionRound].questions[questionNumber] = question;
+                } catch (Exception e) {
+                    Debug.Log("Couldn't find Question " + (questionRound + 1) + ":" + (questionNumber + 1) + " - " + e);
+                }
+                
+            }
+        }
+    }
+
+    public int compareObjNames(GameObject x, GameObject y) {
+        return x.name.CompareTo(y.name);
+    }
+
+    //Takes a GameObject and returns its path within the scene
+    private string getGameObjectPath(GameObject obj) {
+        string path = "/" + obj.name;
+        while (obj.transform.parent != null) {
+            obj = obj.transform.parent.gameObject;
+            path = "/" + obj.name + path;
+        }
+        return path;
+    }
 
     public void submitSUDS(int sudsRating, bool goToNextLevel) {
         if (goToNextLevel) {
@@ -54,7 +107,31 @@ public abstract class ModeController : MonoBehaviour {
     //Instead just storing the reference as a ModeController (this), so declare methods here
     public abstract void activateCurrentLevel();
     public abstract void resetLevel();
-    public abstract void selectMultiChoiceAnswer(int selection); //This one is used for the ABC questions
+    public abstract int getCurrentQuestionRound();
+
+    public void selectMultiChoiceAnswer(int selection) {
+        int questionRound = getCurrentQuestionRound();
+
+        Debug.Log("Answered Level " + getCurrentLevel() + " (question round " + questionRound + ") Q" + questionNumber + " with " + selection);
+
+        if (selection == correctAnswers[questionRound, questionNumber]) {
+            score += 100 / NUMBER_OF_QUESTIONS_PER_ROUND;
+        }
+        else {
+            //Todo maybe play a sound?
+        }
+
+        multiChoiceQuestions[questionRound].questions[questionNumber].SetActive(false);
+
+        //If we're not at the last question
+        if (questionNumber < NUMBER_OF_QUESTIONS_PER_ROUND - 1) {
+            questionNumber++;
+            multiChoiceQuestions[questionRound].questions[questionNumber].SetActive(true);
+        }
+        else {
+            uiController.setQuestionSummary(score, NUMBER_OF_QUESTIONS_PER_ROUND);
+        }
+    }
 
     public void toggleSUDSInput(bool sudsInputOn) {
         uiObject.SetActive(!sudsInputOn);

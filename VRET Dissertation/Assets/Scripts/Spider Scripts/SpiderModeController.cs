@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -14,23 +15,21 @@ public class SpiderModeController : ModeController {
 
     public GameObject level0Instructions;
 
-    //4 as we have 4 levels with multi choice answers
-    public MultiDimensionalGameObject[] multiChoiceQuestions = new MultiDimensionalGameObject[4];
-
-    private static int[,] correctAnswers = new int[,] { { 0, 0, 0 }, //lvl 1
-                                                        { 0, 0, 0 }, //lvl 2
-                                                        { 0, 0, 0 }, //lvl 5
-                                                        { 0, 0, 0 }, }; //lvl 6
-
 	// Use this for initialization
-	public override void Awake () {
-        base.Awake(); 
+	public void Awake () {
+        base.Awake(4); //4 questions rounds for this mode
+        correctAnswers = new int[,] { { 2, 2, 1 }, //lvl 1
+                                      { 1, 2, 0 }, //lvl 2
+                                      { 0, 0, 0 }, //lvl 5
+                                      { 0, 0, 0 }, }; //lvl 6
+
         spiderController = spider.GetComponent<SpiderController>();
-	}
-	
-	// Update is called once per frame
+    }
+
+
+    // Update is called once per frame
     //Handle scoring depending on what level we're on and what the user is doing
-	void Update () {
+    void Update () {
         switch (getCurrentLevel()) {
             case 0:
 
@@ -82,19 +81,19 @@ public class SpiderModeController : ModeController {
                 break;
             case 1:
                 level0Instructions.SetActive(false);
-                multiChoiceQuestions[0].gameObjects[0].SetActive(true);
+                multiChoiceQuestions[0].questions[0].SetActive(true);
                 laptop.SetActive(true);
                 multiChoiceQuestionsActive = true;
                 break;
             case 2:
-                multiChoiceQuestions[0].gameObjects[3].SetActive(false);
-                multiChoiceQuestions[1].gameObjects[0].SetActive(true);
+                //questions.SetActive(false);
+                multiChoiceQuestions[1].questions[0].SetActive(true);
                 cartoonImage.SetActive(false);
                 realisticImage.SetActive(true);
                 multiChoiceQuestionsActive = true;
                 break;
             case 3:
-                multiChoiceQuestions[1].gameObjects[3].SetActive(false);
+                //multiChoiceQuestions[1].gameObjects[3].SetActive(false);
                 laptop.SetActive(false);
                 spiderBox.SetActive(true);
                 break;
@@ -126,70 +125,46 @@ public class SpiderModeController : ModeController {
         toggleSUDSInput(false);
     }
 
+    //TODO this can maybe go in super
     public override void resetLevel() {
+        score = 0;
+        //TODO play instructions
 
+        if (multiChoiceQuestionsActive) {
+            questionNumber = 0;
+            int questionRound = getCurrentQuestionRound();
+
+            //Activate first question
+            multiChoiceQuestions[questionRound].questions[questionNumber].SetActive(true);
+
+            //Deactivate others
+            for (int i = 1; i < NUMBER_OF_QUESTIONS_PER_ROUND; i++) {
+                multiChoiceQuestions[questionRound].questions[i].SetActive(false);
+            }
+            uiController.deactivateQuestionSummary();
+
+        }
     }
 
-    public override void selectMultiChoiceAnswer(int selection) {
-        int level = getCurrentLevel();
-        switch (level) {
+    public override int getCurrentQuestionRound() {
+        switch (getCurrentLevel()) {
             case 1:
-                answerMultiChoiceQuestion(0, selection);
+                return 0;
                 break;
             case 2:
-                answerMultiChoiceQuestion(1, selection);
+                return 1;
                 break;
             case 5:
-                answerMultiChoiceQuestion(2, selection);
+                return 2;
                 break;
             case 6:
-                answerMultiChoiceQuestion(3, selection);
+                return 3;
                 break;
             default:
-                Debug.Log("Error with question numbers, SpiderModeController.selectMultiChoiceAnswer");
+                Debug.Log("Trying to get question round, but this level has no questions");
+                return -1;
                 break;
         }
-    }
-
-    //Take in int for which level, that links to element of array
-    //TODO correct or incorrect sounds 
-    //Possibly have a delay to show write or wrong (green/red)
-    private void answerMultiChoiceQuestion(int questionRound, int selection) {
-        Debug.Log("Answered Level " + getCurrentLevel() + " (question round " + questionRound + ") Q" + questionNumber + " with " + selection);
-
-        if (selection == correctAnswers[questionRound, questionNumber]) {
-            score += 33.3f;
-        } else {
-            //Todo maybe play a sound?
-        }
-
-        multiChoiceQuestions[questionRound].gameObjects[questionNumber].SetActive(false);
-        multiChoiceQuestions[questionRound].gameObjects[questionNumber + 1].SetActive(true);
-
-        questionNumber++;
-        if (questionNumber == 3) {
-            setQuestionSummary(questionRound);
-        }
-    }
-
-    private void setQuestionSummary(int questionRound) {
-        string summary = "You answered "; 
-
-        if (score == 0) {
-            summary += "0/3";
-        }
-        else if (score < 35) {
-            summary += "1/3";
-        
-        } else if (score < 70) {
-            summary += "2/3";
-        } else {
-            summary += "3/3";
-        }
-
-        summary += " correctly";
-
-        multiChoiceQuestions[questionRound].gameObjects[3].GetComponent<Text>().text = summary;
     }
 
 }

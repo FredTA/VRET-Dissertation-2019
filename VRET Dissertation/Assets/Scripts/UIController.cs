@@ -16,10 +16,11 @@ public class UIController : MonoBehaviour {
     private Text currentScoreText;
     private Text highScoreText;
 
-    public GameObject multichoiceButtons;
+    private GameObject multichoiceButtons;
     private Text optionAText;
     private Text optionBText;
     private Text optionCText;
+    private GameObject questionSummary;
 
     private Text menuText;
     private Text resetLevelText;
@@ -42,6 +43,7 @@ public class UIController : MonoBehaviour {
         optionAText = GameObject.Find("OptionAText").GetComponent<Text>();
         optionBText = GameObject.Find("OptionBText").GetComponent<Text>();
         optionCText = GameObject.Find("OptionCText").GetComponent<Text>();
+        questionSummary = GameObject.Find("QuestionSummary");
 
         menuText = GameObject.Find("MenuText").GetComponent<Text>();
         resetLevelText = GameObject.Find("ResetLevelText").GetComponent<Text>();
@@ -51,9 +53,10 @@ public class UIController : MonoBehaviour {
     //Called by MonoBehaviour when the GameObject this script is attached to is enabled
     private void OnEnable() {
         updateUISelection(new Vector2Int(0, 0));
-        updateLevelAndScore();
+        updateLevelAndHighScore();
         menuText.color = Color.yellow;
         multichoiceButtons.SetActive(modeController.areMultiChoiceQuestionsActive());
+        questionSummary.SetActive(false);
 
         //Set a delay so that the last button press isn't read again straight away
         timeOfLastDelay = Time.time;
@@ -159,7 +162,7 @@ public class UIController : MonoBehaviour {
         }
     }
 
-    public void updateLevelAndScore() {
+    public void updateLevelAndHighScore() {
         int level = modeController.getCurrentLevel();
         int score = modeController.getHighScoreForCurrentLevel();
 
@@ -169,6 +172,18 @@ public class UIController : MonoBehaviour {
         } else {
             highScoreText.text = "High Score: N/A";
         }
+    }
+
+    public void setQuestionSummary(float score, int numberOfQuestions) {
+        string summary = "You answered " + (score / (100 / numberOfQuestions)) + 
+                         "/" + numberOfQuestions + " correctly";
+
+        questionSummary.GetComponent<Text>().text = summary;
+        questionSummary.SetActive(true);
+    }
+
+    public void deactivateQuestionSummary() {
+        questionSummary.SetActive(false);
     }
 
 }
