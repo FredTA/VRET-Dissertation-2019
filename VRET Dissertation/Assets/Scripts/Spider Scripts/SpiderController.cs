@@ -17,10 +17,11 @@ public class SpiderController : MonoBehaviour {
     private Vector3 maximumScale;
     public float scaleSpeed;
 
-    private const float ROTATION_MULTIPLIER = 0.5f;
+    //TODO fine tune these
+    private const float ROTATION_SPEED = 0.8f;
+    private const float ROTATION_MULTIPLIER = 1f;
     private const float BASE_SPEED = 0.5f;
     private float currentSpeed;
-    private const float ROTATION_SPEED = 0.1f;
 
     float timer;
     int currentNode;
@@ -64,6 +65,9 @@ public class SpiderController : MonoBehaviour {
         }
 
         setBeviour(SpiderBehaviour.Stationary);
+
+        setTargetPositionToNode();
+        currentNode = 0;
     }
 
     // Update is called once per frame
@@ -73,22 +77,22 @@ public class SpiderController : MonoBehaviour {
 
                 break;
             case SpiderBehaviour.SlowWalk:
-                timer += Time.deltaTime * currentSpeed;
+                timer += Time.deltaTime * BASE_SPEED;
 
                 if (transform.position != targetPosition) {
                     transform.position = Vector3.Lerp(startPosition, targetPosition, timer);
                     Vector3 newRotation = Vector3.RotateTowards(transform.forward, (targetPosition - transform.position), (ROTATION_SPEED * Time.deltaTime * ROTATION_MULTIPLIER), 0.0f);
                     transform.rotation = Quaternion.LookRotation(newRotation);
-                }
-
-                //If we're not at the last node
-                if (currentNode < 13 - 1) {
-                    currentNode++;
-                    setTargetPositionToNode();
-                }
-                else {
-                    currentNode = 0;
-                    setTargetPositionToNode();
+                } else {
+                    //If we're not at the last node
+                    if (currentNode < 13 - 1) {
+                        currentNode++;
+                        setTargetPositionToNode();
+                    }
+                    else {
+                        currentNode = 0;
+                        setTargetPositionToNode();
+                    }
                 }
 
                 break;
@@ -148,6 +152,7 @@ public class SpiderController : MonoBehaviour {
         } else {
             animator.enabled = true;
         }
+        currentBehaviour = behaviour;
     }
 
 }

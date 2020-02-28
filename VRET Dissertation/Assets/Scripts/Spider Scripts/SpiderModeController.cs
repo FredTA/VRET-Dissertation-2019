@@ -19,16 +19,13 @@ public class SpiderModeController : ModeController {
 
 	// Use this for initialization
 	public override void Awake () {
-        Debug.Log("Spider awake");
         loadMultiChoiceQuestions(NUMBER_OF_QUESTION_ROUNDS);
         correctAnswers = new int[,] { { 2, 2, 1 }, //lvl 1
                                       { 1, 2, 0 }, //lvl 2
                                       { 0, 0, 0 }, //lvl 5
                                       { 0, 0, 0 }, }; //lvl 6
-
-        Debug.Log("AWAKE Spider object is called " + spider.name);
+        
         spiderController = spider.GetComponent<SpiderController>();
-        Debug.Log("AWAKE Controller object is " + spiderController.gameObject.name);
 
         base.Awake(); //4 questions rounds for this mode
     }
@@ -121,7 +118,9 @@ public class SpiderModeController : ModeController {
                 spiderController.setBeviour(SpiderBehaviour.SlowWalk);
                 break;
             case 6:
-
+                activateQuestionForLevel(level);
+                spider.SetActive(true);
+                spiderController.setBeviour(SpiderBehaviour.SlowWalk);
                 break;
             case 7:
 

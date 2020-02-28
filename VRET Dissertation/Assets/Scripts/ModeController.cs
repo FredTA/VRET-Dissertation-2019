@@ -34,8 +34,6 @@ public abstract class ModeController : MonoBehaviour {
 
 
     public virtual void Awake() {
-        Debug.Log("Base awake");
-
         uiObject = GameObject.Find("UICanvas");
         sudsInputObject = GameObject.Find("SUDSCanvas");
 
