@@ -92,26 +92,22 @@ public class SpiderModeController : ModeController {
             case 1:
                 level0Instructions.SetActive(false);
 
-                multiChoiceQuestions[0].questions[0].SetActive(true);
-                multiChoiceQuestionsActive = true;
+                activateQuestionForLevel(level);
                 laptop.SetActive(true);
                 break;
             case 2:
-                deactivateQuestion(getQuestionRoundForLevel(level - 1));
+                deactivateQuestionForLevel(level - 1);
                 cartoonImage.SetActive(false);
 
-                multiChoiceQuestionsActive = true;
-                multiChoiceQuestions[1].questions[0].SetActive(true);
+                activateQuestionForLevel(level);
                 realisticImage.SetActive(true);
                 laptop.SetActive(true);
                 break;
             case 3:
-                deactivateQuestion(getQuestionRoundForLevel(level - 1));
+                deactivateQuestionForLevel(level - 1);
                 laptop.SetActive(false);
 
                 spider.SetActive(true);
-                Debug.Log("Spider object is called " + spider.name);
-                Debug.Log("Controller object is " + spiderController.gameObject.name);
                 spiderBox.SetActive(true);
                 break;
             case 4:
@@ -120,6 +116,7 @@ public class SpiderModeController : ModeController {
                 spider.SetActive(true);
                 break;
             case 5:
+                activateQuestionForLevel(level);
                 spider.SetActive(true);
                 spiderController.setBeviour(SpiderBehaviour.SlowWalk);
                 break;

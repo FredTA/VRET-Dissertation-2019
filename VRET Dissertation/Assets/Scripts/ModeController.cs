@@ -157,7 +157,15 @@ public abstract class ModeController : MonoBehaviour {
         }
     }
 
-    protected void deactivateQuestion(int questionRound) {
+    protected void activateQuestionForLevel(int level) {
+        int questionRound = getQuestionRoundForLevel(level);
+        multiChoiceQuestions[questionRound].questions[0].SetActive(true);
+        multiChoiceQuestionsActive = true;
+    }
+
+    protected void deactivateQuestionForLevel(int level) {
+        int questionRound = getQuestionRoundForLevel(level);
+
         //Can't just deactivate the parent object because this prevents later activation of children
         multiChoiceQuestions[questionRound].questions[0].SetActive(false);
         multiChoiceQuestions[questionRound].questions[1].SetActive(false);
