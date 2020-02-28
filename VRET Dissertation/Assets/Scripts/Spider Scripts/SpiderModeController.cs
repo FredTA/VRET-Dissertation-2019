@@ -13,17 +13,24 @@ public class SpiderModeController : ModeController {
     public GameObject spider;
     private SpiderController spiderController;
 
+    private const int NUMBER_OF_QUESTION_ROUNDS = 4;
+
     public GameObject level0Instructions;
 
 	// Use this for initialization
-	public void Awake () {
-        base.Awake(4); //4 questions rounds for this mode
+	public override void Awake () {
+        Debug.Log("Spider awake");
+        loadMultiChoiceQuestions(NUMBER_OF_QUESTION_ROUNDS);
         correctAnswers = new int[,] { { 2, 2, 1 }, //lvl 1
                                       { 1, 2, 0 }, //lvl 2
                                       { 0, 0, 0 }, //lvl 5
                                       { 0, 0, 0 }, }; //lvl 6
 
+        Debug.Log("AWAKE Spider object is called " + spider.name);
         spiderController = spider.GetComponent<SpiderController>();
+        Debug.Log("AWAKE Controller object is " + spiderController.gameObject.name);
+
+        base.Awake(); //4 questions rounds for this mode
     }
 
 
@@ -96,19 +103,25 @@ public class SpiderModeController : ModeController {
                 multiChoiceQuestionsActive = true;
                 multiChoiceQuestions[1].questions[0].SetActive(true);
                 realisticImage.SetActive(true);
+                laptop.SetActive(true);
                 break;
             case 3:
                 deactivateQuestion(getQuestionRoundForLevel(level - 1));
                 laptop.SetActive(false);
-                
+
+                spider.SetActive(true);
+                Debug.Log("Spider object is called " + spider.name);
+                Debug.Log("Controller object is " + spiderController.gameObject.name);
                 spiderBox.SetActive(true);
                 break;
             case 4:
                 spiderBox.SetActive(false);
+
                 spider.SetActive(true);
                 break;
             case 5:
-
+                spider.SetActive(true);
+                spiderController.setBeviour(SpiderBehaviour.SlowWalk);
                 break;
             case 6:
 
@@ -134,6 +147,16 @@ public class SpiderModeController : ModeController {
     public override void resetLevel() {
         base.resetLevel();
         //TODO There'll be some spider specific bits in here, like changing the spider path, etc
+    }
+
+    public override void selectMultiChoiceAnswer(int selection) {
+        base.selectMultiChoiceAnswer(selection); 
+
+        //On these two levels, the spider switches it's walking path
+        if (getCurrentLevel() == 5 || getCurrentLevel() == 6) {
+            spiderController.changeWalkingMode();
+        }
+        
     }
 
     public override int getQuestionRoundForLevel(int level) {

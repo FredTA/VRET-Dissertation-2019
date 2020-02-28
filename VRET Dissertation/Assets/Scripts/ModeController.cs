@@ -33,8 +33,8 @@ public abstract class ModeController : MonoBehaviour {
     protected int[,] correctAnswers;
 
 
-    public virtual void Awake(int numberOfQuestionRounds) {
-        loadMultiChoiceQuestions(numberOfQuestionRounds);
+    public virtual void Awake() {
+        Debug.Log("Base awake");
 
         uiObject = GameObject.Find("UICanvas");
         sudsInputObject = GameObject.Find("SUDSCanvas");
@@ -52,7 +52,7 @@ public abstract class ModeController : MonoBehaviour {
 	}
 
     //Each mode has multichoice question objects to find, The  only difference is the number of rounds
-    private void loadMultiChoiceQuestions(int numberOfQuestionRounds) {
+    protected void loadMultiChoiceQuestions(int numberOfQuestionRounds) {
         multiChoiceQuestions = new QuestionRoundObject[numberOfQuestionRounds]; 
 
 
@@ -133,7 +133,7 @@ public abstract class ModeController : MonoBehaviour {
         //SoundController.playInstructions(currentMode, currentLevel);
     }
 
-    public void selectMultiChoiceAnswer(int selection) {
+    public virtual void selectMultiChoiceAnswer(int selection) {
         int questionRound = getQuestionRoundForLevel(currentLevel);
 
         Debug.Log("Answered Q " + questionRound + ":" + questionNumber + " with " + selection);
