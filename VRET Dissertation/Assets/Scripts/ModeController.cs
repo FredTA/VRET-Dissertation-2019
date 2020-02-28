@@ -108,16 +108,17 @@ public abstract class ModeController : MonoBehaviour {
     public abstract void activateCurrentLevel();
     //Each scene may have a different number of question rounds
     //level 6 may be QR 4 on one scene, but QR 2 on another
-    public abstract int getCurrentQuestionRound(); 
+    public abstract int getQuestionRoundForLevel(int level); 
 
     //Resets the level, much of this functionality is common across modes 
     //However, we also override this from the derived class (for some extra, mode specific bits), and call it via super
     public virtual void resetLevel() {
+        //TODO bug with lvl0
         score = 0;
 
         if (multiChoiceQuestionsActive) {
             questionNumber = 0;
-            int questionRound = getCurrentQuestionRound();
+            int questionRound = getQuestionRoundForLevel(currentLevel);
 
             //Activate first question
             multiChoiceQuestions[questionRound].questions[questionNumber].SetActive(true);
@@ -134,16 +135,15 @@ public abstract class ModeController : MonoBehaviour {
     }
 
     public void selectMultiChoiceAnswer(int selection) {
-        int questionRound = getCurrentQuestionRound();
+        int questionRound = getQuestionRoundForLevel(currentLevel);
 
-        Debug.Log("Answered Level " + getCurrentLevel() + " (question round " + questionRound + 
-                  ") Q" + questionNumber + " with " + selection);
+        Debug.Log("Answered Q " + questionRound + ":" + questionNumber + " with " + selection);
 
         if (selection == correctAnswers[questionRound, questionNumber]) {
             score += 100 / NUMBER_OF_QUESTIONS_PER_ROUND;
         }
         else {
-            //Todo maybe play a sound?
+            //TODO maybe play a sound?
         }
 
         multiChoiceQuestions[questionRound].questions[questionNumber].SetActive(false);
@@ -156,6 +156,14 @@ public abstract class ModeController : MonoBehaviour {
         else {
             uiController.setQuestionSummary(score, NUMBER_OF_QUESTIONS_PER_ROUND);
         }
+    }
+
+    protected void deactivateQuestion(int questionRound) {
+        //Can't just deactivate the parent object because this prevents later activation of children
+        multiChoiceQuestions[questionRound].questions[0].SetActive(false);
+        multiChoiceQuestions[questionRound].questions[1].SetActive(false);
+        multiChoiceQuestions[questionRound].questions[2].SetActive(false);
+        uiController.deactivateQuestionSummary();
     }
 
     public void toggleSUDSInput(bool sudsInputOn) {

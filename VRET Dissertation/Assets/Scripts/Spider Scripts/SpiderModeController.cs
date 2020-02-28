@@ -72,29 +72,34 @@ public class SpiderModeController : ModeController {
     public override void activateCurrentLevel() {
         Debug.Log("Activating level " + getCurrentLevel());
         score = 0;
+        multiChoiceQuestionsActive = false;
+        questionNumber = 0;
 
-        switch (getCurrentLevel()) {
+        int level = getCurrentLevel();
+        switch (level) {
             case 0:
                 score = 100;
                 level0Instructions.SetActive(true);
-                multiChoiceQuestionsActive = false;
                 break;
             case 1:
                 level0Instructions.SetActive(false);
+
                 multiChoiceQuestions[0].questions[0].SetActive(true);
-                laptop.SetActive(true);
                 multiChoiceQuestionsActive = true;
+                laptop.SetActive(true);
                 break;
             case 2:
-                //questions.SetActive(false);
-                multiChoiceQuestions[1].questions[0].SetActive(true);
+                deactivateQuestion(getQuestionRoundForLevel(level - 1));
                 cartoonImage.SetActive(false);
-                realisticImage.SetActive(true);
+
                 multiChoiceQuestionsActive = true;
+                multiChoiceQuestions[1].questions[0].SetActive(true);
+                realisticImage.SetActive(true);
                 break;
             case 3:
-                //multiChoiceQuestions[1].gameObjects[3].SetActive(false);
+                deactivateQuestion(getQuestionRoundForLevel(level - 1));
                 laptop.SetActive(false);
+                
                 spiderBox.SetActive(true);
                 break;
             case 4:
@@ -130,8 +135,8 @@ public class SpiderModeController : ModeController {
         //TODO There'll be some spider specific bits in here, like changing the spider path, etc
     }
 
-    public override int getCurrentQuestionRound() {
-        switch (getCurrentLevel()) {
+    public override int getQuestionRoundForLevel(int level) {
+        switch (level) {
             case 1:
                 return 0;
                 break;
