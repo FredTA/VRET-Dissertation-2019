@@ -106,13 +106,38 @@ public abstract class ModeController : MonoBehaviour {
     //UI controllers don't know which flavour of ModeController they're talking to 
     //Instead just storing the reference as a ModeController (this), so declare methods here
     public abstract void activateCurrentLevel();
-    public abstract void resetLevel();
-    public abstract int getCurrentQuestionRound();
+    //Each scene may have a different number of question rounds
+    //level 6 may be QR 4 on one scene, but QR 2 on another
+    public abstract int getCurrentQuestionRound(); 
+
+    //Resets the level, much of this functionality is common across modes 
+    //However, we also override this from the derived class (for some extra, mode specific bits), and call it via super
+    public virtual void resetLevel() {
+        score = 0;
+
+        if (multiChoiceQuestionsActive) {
+            questionNumber = 0;
+            int questionRound = getCurrentQuestionRound();
+
+            //Activate first question
+            multiChoiceQuestions[questionRound].questions[questionNumber].SetActive(true);
+
+            //Deactivate others
+            for (int i = 1; i < NUMBER_OF_QUESTIONS_PER_ROUND; i++) {
+                multiChoiceQuestions[questionRound].questions[i].SetActive(false);
+            }
+            uiController.deactivateQuestionSummary();
+        }
+
+        //TODO play instructions for level, something like...
+        //SoundController.playInstructions(currentMode, currentLevel);
+    }
 
     public void selectMultiChoiceAnswer(int selection) {
         int questionRound = getCurrentQuestionRound();
 
-        Debug.Log("Answered Level " + getCurrentLevel() + " (question round " + questionRound + ") Q" + questionNumber + " with " + selection);
+        Debug.Log("Answered Level " + getCurrentLevel() + " (question round " + questionRound + 
+                  ") Q" + questionNumber + " with " + selection);
 
         if (selection == correctAnswers[questionRound, questionNumber]) {
             score += 100 / NUMBER_OF_QUESTIONS_PER_ROUND;

@@ -125,25 +125,9 @@ public class SpiderModeController : ModeController {
         toggleSUDSInput(false);
     }
 
-    //TODO this can maybe go in super
     public override void resetLevel() {
-        score = 0;
-        //TODO play instructions
-
-        if (multiChoiceQuestionsActive) {
-            questionNumber = 0;
-            int questionRound = getCurrentQuestionRound();
-
-            //Activate first question
-            multiChoiceQuestions[questionRound].questions[questionNumber].SetActive(true);
-
-            //Deactivate others
-            for (int i = 1; i < NUMBER_OF_QUESTIONS_PER_ROUND; i++) {
-                multiChoiceQuestions[questionRound].questions[i].SetActive(false);
-            }
-            uiController.deactivateQuestionSummary();
-
-        }
+        base.resetLevel();
+        //TODO There'll be some spider specific bits in here, like changing the spider path, etc
     }
 
     public override int getCurrentQuestionRound() {
