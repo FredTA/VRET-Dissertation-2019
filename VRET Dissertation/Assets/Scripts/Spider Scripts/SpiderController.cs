@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -22,6 +23,8 @@ public class SpiderController : MonoBehaviour {
     private const float ROTATION_MULTIPLIER = 1f;
     private const float BASE_SPEED = 0.5f;
     private float currentSpeed;
+
+    private const float minimumNodeDistance = 0.005f;
 
     float timer;
     int currentNode;
@@ -66,8 +69,8 @@ public class SpiderController : MonoBehaviour {
 
         setBeviour(SpiderBehaviour.Stationary);
 
-        setTargetPositionToNode();
         currentNode = 0;
+        setTargetPositionToNode();
     }
 
     // Update is called once per frame
@@ -79,13 +82,15 @@ public class SpiderController : MonoBehaviour {
             case SpiderBehaviour.SlowWalk:
                 timer += Time.deltaTime * BASE_SPEED;
 
-                if (transform.position != targetPosition) {
-                    transform.position = Vector3.Lerp(startPosition, targetPosition, timer);
-                    Vector3 newRotation = Vector3.RotateTowards(transform.forward, (targetPosition - transform.position), (ROTATION_SPEED * Time.deltaTime * ROTATION_MULTIPLIER), 0.0f);
+                //Debug.Log("TARGET POS " + targetPosition.x + "," + targetPosition.z + " - MY POS " + transform.position.x + "," + transform.position.z);
+                if (Math.Abs(transform.position.x - targetPosition.x) > minimumNodeDistance && Math.Abs(transform.position.z - targetPosition.z) > minimumNodeDistance) {
+                    //transform.position = Vector3.Lerp(startPosition, targetPosition, timer);
+                    Vector3 newRotation = Vector3.RotateTowards(transform.forward, (targetPosition - transform.position) / 2, (ROTATION_SPEED * Time.deltaTime * ROTATION_MULTIPLIER), 0.0f);
+                    transform.position += transform.forward * BASE_SPEED * Time.deltaTime * 0.2f;
                     transform.rotation = Quaternion.LookRotation(newRotation);
                 } else {
                     //If we're not at the last node
-                    if (currentNode < 13 - 1) {
+                    if (currentNode < 12 - 1) {
                         currentNode++;
                         setTargetPositionToNode();
                     }
@@ -126,6 +131,7 @@ public class SpiderController : MonoBehaviour {
                 targetPosition = ((GameObject)triangleNodes[currentNode]).transform.position;
                 break;
         }
+        //Debug.Log("TARGET POS " + targetPosition.x + "," + targetPosition.z);
         startPosition = transform.position;
     }
 
