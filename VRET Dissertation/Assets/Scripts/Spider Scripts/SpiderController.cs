@@ -2,11 +2,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public enum SpiderBehaviour {
     Stationary, 
     SlowWalk, 
-    FastWalk, 
+    RandomWalk, 
     GroupWalk, 
     Descend
 }
@@ -19,17 +20,23 @@ public class SpiderController : MonoBehaviour {
     public float scaleSpeed;
 
     //TODO fine tune these
-    private const float ROTATION_SPEED = 0.8f;
-    private const float ROTATION_MULTIPLIER = 1f;
+    private const float ROTATION_SPEED = 1.35f;
     private const float BASE_SPEED = 0.5f;
-    private float currentSpeed;
+    private const float MAXIMUM_SPEED_VARIANCE_MULTIPLIER = 1.9f;
+    private const float RANDOM_WALK_SPEED_MULTIPLIER = 1.6f;
+    private const float MINIM_WAIT_TIME = 0.3f;
+    private const float MAXIMUM_WAIT_TIME = 1.2f;
+    private float randomWalkSpeed;
+    private float randomRotateSpeed;
+    private float timeOfLastArrival = -1;
+    private float waitTime;
 
-    private const float minimumNodeDistance = 0.005f;
+    private const float minimumNodeDistance = 0.001f;
 
-    float timer;
+    //float timer;
     int currentNode;
-    Vector3 startPosition;
-    Vector3 targetPosition;
+    private Vector3 startPosition;
+    private Vector3 targetPosition;
 
     private Vector3 initialSpiderPoisition;
     private Quaternion initialSpiderOrientation;
@@ -43,6 +50,16 @@ public class SpiderController : MonoBehaviour {
     private ArrayList squareNodes = new ArrayList();
     private ArrayList circleNodes = new ArrayList();
     private ArrayList triangleNodes = new ArrayList();
+
+    public GameObject tableRightBorderGO;
+    public GameObject tableLeftBorderGO;
+    public GameObject tableUpBorderGO;
+    public GameObject tableDownBorderGO;
+
+    private float tableRightBorderX;
+    private float tableLeftBorderX;
+    private float tableUpBorderZ;
+    private float tableDownBorderZ;
 
     private int spiderPathType = 0;
     private Animator animator;
@@ -67,6 +84,11 @@ public class SpiderController : MonoBehaviour {
             triangleNodes.Add(child.gameObject);
         }
 
+        tableRightBorderX = tableRightBorderGO.transform.position.x;
+        tableLeftBorderX = tableLeftBorderGO.transform.position.x;
+        tableUpBorderZ = tableUpBorderGO.transform.position.z;
+        tableDownBorderZ = tableDownBorderGO.transform.position.z;
+
         setBeviour(SpiderBehaviour.Stationary);
 
         currentNode = 0;
@@ -80,14 +102,8 @@ public class SpiderController : MonoBehaviour {
 
                 break;
             case SpiderBehaviour.SlowWalk:
-                timer += Time.deltaTime * BASE_SPEED;
-
-                //Debug.Log("TARGET POS " + targetPosition.x + "," + targetPosition.z + " - MY POS " + transform.position.x + "," + transform.position.z);
                 if (Math.Abs(transform.position.x - targetPosition.x) > minimumNodeDistance && Math.Abs(transform.position.z - targetPosition.z) > minimumNodeDistance) {
-                    //transform.position = Vector3.Lerp(startPosition, targetPosition, timer);
-                    Vector3 newRotation = Vector3.RotateTowards(transform.forward, (targetPosition - transform.position) / 2, (ROTATION_SPEED * Time.deltaTime * ROTATION_MULTIPLIER), 0.0f);
-                    transform.position += transform.forward * BASE_SPEED * Time.deltaTime * 0.2f;
-                    transform.rotation = Quaternion.LookRotation(newRotation);
+                    walk(BASE_SPEED, ROTATION_SPEED);
                 } else {
                     //If we're not at the last node
                     if (currentNode < 12 - 1) {
@@ -99,10 +115,21 @@ public class SpiderController : MonoBehaviour {
                         setTargetPositionToNode();
                     }
                 }
-
                 break;
-            case SpiderBehaviour.FastWalk:
-
+            case SpiderBehaviour.RandomWalk:
+                if (Math.Abs(transform.position.x - targetPosition.x) > minimumNodeDistance && Math.Abs(transform.position.z - targetPosition.z) > minimumNodeDistance) {
+                    walk(randomWalkSpeed, randomRotateSpeed);
+                } else {
+                    if (timeOfLastArrival == -1) {
+                        timeOfLastArrival = Time.time;
+                        waitTime = Random.Range(MINIM_WAIT_TIME, MAXIMUM_WAIT_TIME);
+                        animator.enabled = false;
+                    } else if (Time.time - timeOfLastArrival > waitTime) {
+                        timeOfLastArrival = -1;
+                        setRandomPosition();
+                    }
+                    
+                }
                 break;
             case SpiderBehaviour.GroupWalk:
 
@@ -114,9 +141,15 @@ public class SpiderController : MonoBehaviour {
         }
     }
 
+    private void walk(float speed, float rotateSpeed) {
+        Vector3 newRotation = Vector3.RotateTowards(transform.forward, (targetPosition - transform.position) / 2, (rotateSpeed * Time.deltaTime), 0.0f);
+        transform.position += transform.forward * speed * Time.deltaTime * 0.2f;
+        transform.rotation = Quaternion.LookRotation(newRotation);
+    }
+
     //Gets the next node's position and saves it
     private void setTargetPositionToNode() {
-        timer = 0;
+        //timer = 0;
         Debug.Log("Current node " + currentNode);
         switch (spiderPathType) {
             case 0:
@@ -133,6 +166,24 @@ public class SpiderController : MonoBehaviour {
         }
         //Debug.Log("TARGET POS " + targetPosition.x + "," + targetPosition.z);
         startPosition = transform.position;
+    }
+
+    void setRandomPosition() {
+        float x = Random.Range(tableLeftBorderX, tableRightBorderX);
+        float z = Random.Range(tableUpBorderZ, tableDownBorderZ);
+
+        startPosition = transform.position;
+        targetPosition = new Vector3(x, gameObject.transform.position.y, z);
+        float minimumSpeed = BASE_SPEED * RANDOM_WALK_SPEED_MULTIPLIER;
+        float multiplier = Random.Range(1, MAXIMUM_SPEED_VARIANCE_MULTIPLIER);
+        randomWalkSpeed = minimumSpeed * multiplier;
+        randomRotateSpeed = ROTATION_SPEED * multiplier;
+
+        animator.enabled = true;
+        animator.speed = multiplier;
+
+        //currentSpeed = Random.Range(baseSpeed + baseSpeed * speedVarianceMultiplier, baseSpeed - baseSpeed * speedVarianceMultiplier);
+        //currentSpeed = baseSpeed; //Need to take into account distance between vector3s TODO
     }
 
     private void scaleSpider(bool scaleUp) {
@@ -157,6 +208,11 @@ public class SpiderController : MonoBehaviour {
             animator.enabled = false;
         } else {
             animator.enabled = true;
+            if (behaviour == SpiderBehaviour.RandomWalk) {
+                setRandomPosition();
+            } else {
+                animator.speed = 1;
+            }
         }
         currentBehaviour = behaviour;
     }
