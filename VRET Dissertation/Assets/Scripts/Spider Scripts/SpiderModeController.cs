@@ -27,14 +27,12 @@ public class SpiderModeController : ModeController {
         loadMultiChoiceQuestions(NUMBER_OF_QUESTION_ROUNDS);
         correctAnswers = new int[,] { { 2, 2, 1 }, //lvl 1
                                       { 1, 2, 0 }, //lvl 2
-                                      { 0, 0, 0 }, //lvl 5
-                                      { 0, 0, 0 }, }; //lvl 6
+                                      { 2, 2, 2 }}; //lvl 5
         
         spiderController = spider.GetComponent<SpiderController>();
 
         base.Awake(); //4 questions rounds for this mode
     }
-
 
     // Update is called once per frame
     //Handle scoring depending on what level we're on and what the user is doing
