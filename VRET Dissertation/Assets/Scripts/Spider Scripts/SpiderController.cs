@@ -21,17 +21,17 @@ public class SpiderController : MonoBehaviour {
     private const float RANDOM_WALK_SPEED_MULTIPLIER = 1.6f;
     private const float MINIM_WAIT_TIME = 0.3f;
     private const float MAXIMUM_WAIT_TIME = 1.2f;
-    private const float MINIMUM_RANDOM_DISTANCE = 0.35f;
+    private const float MINIMUM_RANDOM_DISTANCE = 0.4f;
 
     private float randomWalkSpeed;
     private float randomRotateSpeed;
     private float timeOfLastArrival = -1;
     private float waitTime;
 
-    private const float MINIMUM_NODE_DISTANCE = 0.001f;
+    private const float MINIMUM_DISTANCE_TO_TARGET = 0.002f;
 
     //float timer;
-    int currentNode;
+    private int currentNode;
     private Vector3 startPosition;
     private Vector3 targetPosition;
 
@@ -97,7 +97,7 @@ public class SpiderController : MonoBehaviour {
 
                 break;
             case SpiderBehaviour.SlowWalk:
-                if (Math.Abs(transform.position.x - targetPosition.x) > MINIMUM_NODE_DISTANCE && Math.Abs(transform.position.z - targetPosition.z) > MINIMUM_NODE_DISTANCE) {
+                if (Vector3.Distance(transform.position, targetPosition) > MINIMUM_DISTANCE_TO_TARGET) {
                     walk(BASE_SPEED, ROTATION_SPEED);
                 } else {
                     //If we're not at the last node
@@ -112,7 +112,7 @@ public class SpiderController : MonoBehaviour {
                 }
                 break;
             case SpiderBehaviour.RandomWalk:
-                if (Math.Abs(transform.position.x - targetPosition.x) > MINIMUM_NODE_DISTANCE && Math.Abs(transform.position.z - targetPosition.z) > MINIMUM_NODE_DISTANCE) {
+                if (Vector3.Distance(transform.position, targetPosition) > MINIMUM_DISTANCE_TO_TARGET) {
                     walk(randomWalkSpeed, randomRotateSpeed);
                 } else {
                     if (timeOfLastArrival == -1) {
@@ -170,7 +170,9 @@ public class SpiderController : MonoBehaviour {
             startPosition = transform.position;
             targetPosition = new Vector3(x, gameObject.transform.position.y, z);
 
+            Debug.Log("Dis: " + (Vector3.Distance(startPosition, targetPosition)));
             if ((Vector3.Distance(startPosition, targetPosition) < MINIMUM_RANDOM_DISTANCE)) {
+                Debug.Log("TOO CLOSE!");
             }
         } while (Vector3.Distance(startPosition, targetPosition) < MINIMUM_RANDOM_DISTANCE);
 
@@ -206,21 +208,4 @@ public class SpiderController : MonoBehaviour {
     }
 
 }
-
-//Some old code for changing spider size, might want this later?
-//else if (Input.GetKey(KeyCode.UpArrow) && spider.activeSelf) {
-//    if (spider.transform.localScale.magnitude<maximumScale.magnitude) {
-//        scaleSpider(true);
-//    }
-//}
-//else if (Input.GetKey(KeyCode.DownArrow) && spider.activeSelf) {
-//    if (spider.transform.localScale.magnitude > minimumScale.magnitude) {
-//        scaleSpider(false);
-//    }
-//}
-
-//Reset spider position and scale
-//spider.transform.position = initialSpiderPoisition;
-//spider.transform.rotation = initialSpiderOrientation;
-//spider.transform.localScale = minimumScale;
 
