@@ -14,11 +14,6 @@ public enum SpiderBehaviour {
 
 public class SpiderController : MonoBehaviour {
 
-    private Vector3 minimumScale;
-    public float maxScaleMultiplier;
-    private Vector3 maximumScale;
-    public float scaleSpeed;
-
     //TODO fine tune these
     private const float ROTATION_SPEED = 1.35f;
     private const float BASE_SPEED = 0.5f;
@@ -27,6 +22,7 @@ public class SpiderController : MonoBehaviour {
     private const float MINIM_WAIT_TIME = 0.3f;
     private const float MAXIMUM_WAIT_TIME = 1.2f;
     private const float MINIMUM_RANDOM_DISTANCE = 0.35f;
+
     private float randomWalkSpeed;
     private float randomRotateSpeed;
     private float timeOfLastArrival = -1;
@@ -69,8 +65,6 @@ public class SpiderController : MonoBehaviour {
     void Awake() {
         initialSpiderPoisition = gameObject.transform.position;
         initialSpiderOrientation = gameObject.transform.rotation;
-        minimumScale = gameObject.transform.localScale;
-        maximumScale = minimumScale * maxScaleMultiplier;
 
         animator = gameObject.GetComponent<Animator>();
 
@@ -173,13 +167,10 @@ public class SpiderController : MonoBehaviour {
         do {
             float x = Random.Range(tableLeftBorderX, tableRightBorderX);
             float z = Random.Range(tableUpBorderZ, tableDownBorderZ);
-
             startPosition = transform.position;
             targetPosition = new Vector3(x, gameObject.transform.position.y, z);
 
-            Debug.Log("Distance = " + Vector3.Distance(startPosition, targetPosition));
             if ((Vector3.Distance(startPosition, targetPosition) < MINIMUM_RANDOM_DISTANCE)) {
-                Debug.Log("Too close!");
             }
         } while (Vector3.Distance(startPosition, targetPosition) < MINIMUM_RANDOM_DISTANCE);
 
@@ -194,19 +185,6 @@ public class SpiderController : MonoBehaviour {
 
         //currentSpeed = Random.Range(baseSpeed + baseSpeed * speedVarianceMultiplier, baseSpeed - baseSpeed * speedVarianceMultiplier);
         //currentSpeed = baseSpeed; //Need to take into account distance between vector3s TODO
-    }
-
-    private void scaleSpider(bool scaleUp) {
-        float scaleToAdd;
-        if (scaleUp) {
-            scaleToAdd = scaleSpeed * Time.deltaTime;
-        }
-        else {
-            scaleToAdd = -scaleSpeed * Time.deltaTime;
-        }
-
-        Vector3 newScale = new Vector3(gameObject.transform.localScale.x + scaleToAdd, gameObject.transform.localScale.y + scaleToAdd, gameObject.transform.localScale.z + scaleToAdd);
-        gameObject.transform.localScale = newScale;
     }
 
     public void changeWalkingMode() {

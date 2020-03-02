@@ -19,17 +19,26 @@ public class SpiderModeController : ModeController {
     public GameObject level3Instructions;
     public GameObject level4Instructions;
     public GameObject level6Instructions;
+    public GameObject level7Instructions;
 
     public GameObject lookMarker;
 
-	// Use this for initialization
-	public override void Awake () {
+    private Vector3 minimumSpiderScale;
+    private Vector3 maximumSpiderScale;
+    private const float MAXUMUM_SPIDER_SCALE_MULTIPLIER = 2.5f;
+    private const float SPIDER_SCALE_SPEED = 0.0075f;
+
+    // Use this for initialization
+    public override void Awake () {
         loadMultiChoiceQuestions(NUMBER_OF_QUESTION_ROUNDS);
         correctAnswers = new int[,] { { 2, 2, 1 }, //lvl 1
                                       { 1, 2, 0 }, //lvl 2
                                       { 2, 2, 2 }}; //lvl 5
         
         spiderController = spider.GetComponent<SpiderController>();
+
+        minimumSpiderScale = spider.transform.localScale;
+        maximumSpiderScale = minimumSpiderScale * MAXUMUM_SPIDER_SCALE_MULTIPLIER;
 
         base.Awake(); //4 questions rounds for this mode
     }
@@ -60,7 +69,17 @@ public class SpiderModeController : ModeController {
 
                 break;
             case 7:
-
+                OVRInput.Update(); // Call before checking the input from Touch Controllers
+                if (OVRInput.Get(OVRInput.Axis1D.SecondaryHandTrigger, OVRInput.Controller.Touch) > 0.2f) { 
+                    if (spider.transform.localScale.magnitude < maximumSpiderScale.magnitude) {
+                        scaleSpider(true);
+                    }
+                }
+                else if (OVRInput.Get(OVRInput.Axis1D.PrimaryHandTrigger, OVRInput.Controller.Touch) > 0.2f) {
+                    if (spider.transform.localScale.magnitude > minimumSpiderScale.magnitude) {
+                        scaleSpider(false);
+                    }
+                }
                 break;
             case 8:
 
@@ -83,6 +102,7 @@ public class SpiderModeController : ModeController {
         questionNumber = 0;
 
         //TODO ensure everything is activated in every case
+        //We have to activate anything we need in each case, as we can jump in at any level
         int level = getCurrentLevel();
         switch (level) {
             case 0: //Intro level
@@ -136,8 +156,13 @@ public class SpiderModeController : ModeController {
             case 7: //Spider becomes larger
                 level6Instructions.SetActive(false);
                 lookMarker.SetActive(false);
+
+                level7Instructions.SetActive(true);
+                spider.SetActive(true);
+                spiderController.setBeviour(SpiderBehaviour.RandomWalk);
                 break;
             case 8: //A group of spiders
+                level7Instructions.SetActive(true);
 
                 break;
             case 9: //A spider descending from the ceiling
@@ -188,4 +213,16 @@ public class SpiderModeController : ModeController {
         }
     }
 
+    private void scaleSpider(bool scaleUp) {
+        float scaleToAdd;
+        if (scaleUp) {
+            scaleToAdd = SPIDER_SCALE_SPEED * Time.deltaTime;
+        }
+        else {
+            scaleToAdd = - SPIDER_SCALE_SPEED * Time.deltaTime;
+        }
+
+        Vector3 newScale = new Vector3(spider.transform.localScale.x + scaleToAdd, spider.transform.localScale.y + scaleToAdd, spider.transform.localScale.z + scaleToAdd);
+        spider.transform.localScale = newScale;
+    }
 }

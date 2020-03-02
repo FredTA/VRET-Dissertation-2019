@@ -53,7 +53,6 @@ public abstract class ModeController : MonoBehaviour {
     protected void loadMultiChoiceQuestions(int numberOfQuestionRounds) {
         multiChoiceQuestions = new QuestionRoundObject[numberOfQuestionRounds]; 
 
-
         for (int questionRound = 0; questionRound < numberOfQuestionRounds; questionRound++) {
             multiChoiceQuestions[questionRound] = new QuestionRoundObject(NUMBER_OF_QUESTIONS_PER_ROUND);
 
