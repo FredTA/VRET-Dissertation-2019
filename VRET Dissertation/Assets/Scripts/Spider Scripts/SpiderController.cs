@@ -26,12 +26,13 @@ public class SpiderController : MonoBehaviour {
     private const float RANDOM_WALK_SPEED_MULTIPLIER = 1.6f;
     private const float MINIM_WAIT_TIME = 0.3f;
     private const float MAXIMUM_WAIT_TIME = 1.2f;
+    private const float MINIMUM_RANDOM_DISTANCE = 0.35f;
     private float randomWalkSpeed;
     private float randomRotateSpeed;
     private float timeOfLastArrival = -1;
     private float waitTime;
 
-    private const float minimumNodeDistance = 0.001f;
+    private const float MINIMUM_NODE_DISTANCE = 0.001f;
 
     //float timer;
     int currentNode;
@@ -102,7 +103,7 @@ public class SpiderController : MonoBehaviour {
 
                 break;
             case SpiderBehaviour.SlowWalk:
-                if (Math.Abs(transform.position.x - targetPosition.x) > minimumNodeDistance && Math.Abs(transform.position.z - targetPosition.z) > minimumNodeDistance) {
+                if (Math.Abs(transform.position.x - targetPosition.x) > MINIMUM_NODE_DISTANCE && Math.Abs(transform.position.z - targetPosition.z) > MINIMUM_NODE_DISTANCE) {
                     walk(BASE_SPEED, ROTATION_SPEED);
                 } else {
                     //If we're not at the last node
@@ -117,7 +118,7 @@ public class SpiderController : MonoBehaviour {
                 }
                 break;
             case SpiderBehaviour.RandomWalk:
-                if (Math.Abs(transform.position.x - targetPosition.x) > minimumNodeDistance && Math.Abs(transform.position.z - targetPosition.z) > minimumNodeDistance) {
+                if (Math.Abs(transform.position.x - targetPosition.x) > MINIMUM_NODE_DISTANCE && Math.Abs(transform.position.z - targetPosition.z) > MINIMUM_NODE_DISTANCE) {
                     walk(randomWalkSpeed, randomRotateSpeed);
                 } else {
                     if (timeOfLastArrival == -1) {
@@ -169,11 +170,20 @@ public class SpiderController : MonoBehaviour {
     }
 
     void setRandomPosition() {
-        float x = Random.Range(tableLeftBorderX, tableRightBorderX);
-        float z = Random.Range(tableUpBorderZ, tableDownBorderZ);
+        do {
+            float x = Random.Range(tableLeftBorderX, tableRightBorderX);
+            float z = Random.Range(tableUpBorderZ, tableDownBorderZ);
 
-        startPosition = transform.position;
-        targetPosition = new Vector3(x, gameObject.transform.position.y, z);
+            startPosition = transform.position;
+            targetPosition = new Vector3(x, gameObject.transform.position.y, z);
+
+            Debug.Log("Distance = " + Vector3.Distance(startPosition, targetPosition));
+            if ((Vector3.Distance(startPosition, targetPosition) < MINIMUM_RANDOM_DISTANCE)) {
+                Debug.Log("Too close!");
+            }
+        } while (Vector3.Distance(startPosition, targetPosition) < MINIMUM_RANDOM_DISTANCE);
+
+
         float minimumSpeed = BASE_SPEED * RANDOM_WALK_SPEED_MULTIPLIER;
         float multiplier = Random.Range(1, MAXIMUM_SPEED_VARIANCE_MULTIPLIER);
         randomWalkSpeed = minimumSpeed * multiplier;
