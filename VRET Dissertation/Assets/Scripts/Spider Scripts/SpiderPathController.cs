@@ -26,14 +26,14 @@ public class SpiderPathController : MonoBehaviour {
     private Vector3 startPosition;
     private Vector3 targetPosition = new Vector3(-1,-1,-1);
 
-    private Vector3 initialSpiderPoisition;
+    private Vector3 initialSpiderPosition;
     private Quaternion initialSpiderOrientation;
 
     private Animator animator;
 
     // Use this for initialization
     void Awake() {
-        initialSpiderPoisition = gameObject.transform.position;
+        initialSpiderPosition = gameObject.transform.position;
         initialSpiderOrientation = gameObject.transform.rotation;
 
         spiderController = GameObject.Find("Controller").GetComponent<SpiderController>();
@@ -110,8 +110,10 @@ public class SpiderPathController : MonoBehaviour {
 
     private void walk(float speed, float rotateSpeed) {
         Vector3 newRotation = Vector3.RotateTowards(transform.forward, (targetPosition - transform.position) / 2, (rotateSpeed * Time.deltaTime), 0.0f);
-        transform.position += transform.forward * speed * Time.deltaTime * 0.2f;
+        newRotation.y = 0;
         transform.rotation = Quaternion.LookRotation(newRotation);
+        transform.position += transform.forward * speed * Time.deltaTime * 0.2f;
+
     }
 
     //Gets the next node's position and saves it
@@ -124,8 +126,8 @@ public class SpiderPathController : MonoBehaviour {
     }
 
     private void setRandomTargetPosition() {
-        Debug.Log("Setting random position");
         targetPosition = spiderController.getRandomPositon(transform.position);
+        targetPosition.y = initialSpiderPosition.y; //Make sure we don't change elevation
 
         float minimumSpeed = BASE_SPEED * RANDOM_WALK_SPEED_MULTIPLIER;
         float multiplier = Random.Range(1, MAXIMUM_SPEED_VARIANCE_MULTIPLIER);
