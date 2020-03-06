@@ -32,21 +32,23 @@ public abstract class ModeController : MonoBehaviour {
     protected QuestionRoundObject[] multiChoiceQuestions;
     protected int[,] correctAnswers;
 
-
     public virtual void Awake() {
+        masterScript = GameObject.Find("ScenePersistentObject").GetComponent<Master>();
         uiObject = GameObject.Find("UICanvas");
         sudsInputObject = GameObject.Find("SUDSCanvas");
 
         uiController = uiObject.GetComponent<UIController>();
         sudsInputController = sudsInputObject.GetComponent<SUDSInputController>();
 
-        masterScript = GameObject.Find("ScenePersistentObject").GetComponent<Master>();
+        toggleSUDSInput(false);
 
         currentLevel = masterScript.startingLevel;
         Debug.Log("Master script found - starting level " + currentLevel);
+        activateCurrentLevel(); //This needs to be before UI does its thing
+    }
 
-        toggleSUDSInput(false);
-        activateCurrentLevel();
+    public void Start() {
+
 	}
 
     //Each mode has multichoice question objects to find, The  only difference is the number of rounds

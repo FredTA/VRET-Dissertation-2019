@@ -10,8 +10,7 @@ public class SpiderModeController : ModeController {
     public GameObject cartoonImage;
     public GameObject realisticImage;
     public GameObject spiderBox;
-    public GameObject spider;
-    private SpiderController spiderController;
+    public SpiderController spiderController;
 
     private const int NUMBER_OF_QUESTION_ROUNDS = 3;
 
@@ -23,24 +22,12 @@ public class SpiderModeController : ModeController {
 
     public GameObject lookMarker;
 
-    private Vector3 minimumSpiderScale;
-    private Vector3 maximumSpiderScale;
-    private const float MAXUMUM_SPIDER_SCALE_MULTIPLIER = 2.5f;
-    private const float SPIDER_SCALE_SPEED = 0.0075f;
-
-    // Use this for initialization
-    public override void Awake () {
+    public override void Awake() {
         loadMultiChoiceQuestions(NUMBER_OF_QUESTION_ROUNDS);
         correctAnswers = new int[,] { { 2, 2, 1 }, //lvl 1
                                       { 1, 2, 0 }, //lvl 2
                                       { 2, 2, 2 }}; //lvl 5
-        
-        spiderController = spider.GetComponent<SpiderController>();
-
-        minimumSpiderScale = spider.transform.localScale;
-        maximumSpiderScale = minimumSpiderScale * MAXUMUM_SPIDER_SCALE_MULTIPLIER;
-
-        base.Awake(); //4 questions rounds for this mode
+        base.Awake();
     }
 
     // Update is called once per frame
@@ -69,17 +56,7 @@ public class SpiderModeController : ModeController {
 
                 break;
             case 7:
-                OVRInput.Update(); // Call before checking the input from Touch Controllers
-                if (OVRInput.Get(OVRInput.Axis1D.SecondaryHandTrigger, OVRInput.Controller.Touch) > 0.2f) { 
-                    if (spider.transform.localScale.magnitude < maximumSpiderScale.magnitude) {
-                        scaleSpider(true);
-                    }
-                }
-                else if (OVRInput.Get(OVRInput.Axis1D.PrimaryHandTrigger, OVRInput.Controller.Touch) > 0.2f) {
-                    if (spider.transform.localScale.magnitude > minimumSpiderScale.magnitude) {
-                        scaleSpider(false);
-                    }
-                }
+                spiderController.handleSpiderScale();
                 break;
             case 8:
 
@@ -128,7 +105,7 @@ public class SpiderModeController : ModeController {
                 laptop.SetActive(false);
 
                 level3Instructions.SetActive(true);
-                spider.SetActive(true);
+                spiderController.setBeviour(SpiderBehaviour.Stationary);
                 spiderBox.SetActive(true);
                 break;
             case 4: //Spider out of box
@@ -136,13 +113,12 @@ public class SpiderModeController : ModeController {
                 level3Instructions.SetActive(false);
 
                 level4Instructions.SetActive(true);
-                spider.SetActive(true);
+                spiderController.setBeviour(SpiderBehaviour.Stationary);
                 break;
             case 5: //Spider walks in a pattern
                 level4Instructions.SetActive(false);
 
                 activateQuestionForLevel(level);
-                spider.SetActive(true);
                 spiderController.setBeviour(SpiderBehaviour.SlowWalk);
                 break;
             case 6: //Spider walks randomly
@@ -150,7 +126,6 @@ public class SpiderModeController : ModeController {
 
                 level6Instructions.SetActive(true);
                 lookMarker.SetActive(true);
-                spider.SetActive(true);
                 spiderController.setBeviour(SpiderBehaviour.RandomWalk);
                 break;
             case 7: //Spider becomes larger
@@ -158,12 +133,13 @@ public class SpiderModeController : ModeController {
                 lookMarker.SetActive(false);
 
                 level7Instructions.SetActive(true);
-                spider.SetActive(true);
                 spiderController.setBeviour(SpiderBehaviour.RandomWalk);
                 break;
             case 8: //A group of spiders
                 level7Instructions.SetActive(true);
 
+                //level8Instructions.SetActive(true);
+                spiderController.setBeviour(SpiderBehaviour.GroupWalk);
                 break;
             case 9: //A spider descending from the ceiling
 
@@ -211,18 +187,5 @@ public class SpiderModeController : ModeController {
                 return -1;
                 break;
         }
-    }
-
-    private void scaleSpider(bool scaleUp) {
-        float scaleToAdd;
-        if (scaleUp) {
-            scaleToAdd = SPIDER_SCALE_SPEED * Time.deltaTime;
-        }
-        else {
-            scaleToAdd = - SPIDER_SCALE_SPEED * Time.deltaTime;
-        }
-
-        Vector3 newScale = new Vector3(spider.transform.localScale.x + scaleToAdd, spider.transform.localScale.y + scaleToAdd, spider.transform.localScale.z + scaleToAdd);
-        spider.transform.localScale = newScale;
     }
 }

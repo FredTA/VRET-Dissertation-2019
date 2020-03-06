@@ -88,6 +88,7 @@ public class UIController : MonoBehaviour {
             }
             else if (OVRInput.GetDown(OVRInput.Button.PrimaryThumbstickRight) ||
                 OVRInput.GetDown(OVRInput.Button.SecondaryThumbstickRight) && selection.x != 2) {
+                Debug.Log("Thumb right");
                 updateUISelection(new Vector2Int(selection.x + 1, selection.y));
             }
             else if (OVRInput.GetDown(OVRInput.Button.One) || OVRInput.GetDown(OVRInput.RawButton.X) ||
