@@ -22,7 +22,14 @@ public class SpiderModeController : ModeController {
     public GameObject level8Instructions;
     public GameObject level9Instructions;
 
+    public GameObject camera;
     public GameObject lookMarker;
+
+    //Scoring consts
+    private const float MIN_CAMERA_DISTANCE_TO_BOX = 0.9f;
+    private const float MAX_CAMERA_DISTANCE_TO_BOX = 1.45f;
+    private const float MIN_CAMERA_DISTANCE_TO_SPIDER = 2.5f;
+    private const float MAX_CAMERA_DISTANCE_TO_SPIDER = 2.5f;
 
     public override void Awake() {
         loadMultiChoiceQuestions(NUMBER_OF_QUESTION_ROUNDS);
@@ -37,7 +44,19 @@ public class SpiderModeController : ModeController {
     void Update () {
         switch (getCurrentLevel()) {
             case 3: //Scored for getting close to box
+                float distance = Vector3.Distance(spiderBox.transform.position, camera.transform.position);
+                Debug.Log("DISTANCE " + distance);
 
+                if (distance < MIN_CAMERA_DISTANCE_TO_BOX) {
+                    score = 100;
+                } else {
+                    float newScore = 100 - ((100 * (distance - MIN_CAMERA_DISTANCE_TO_BOX) / (MAX_CAMERA_DISTANCE_TO_BOX - MIN_CAMERA_DISTANCE_TO_BOX))); 
+                    if (score < newScore) {
+                        score = newScore;
+                    }
+                }
+                //dis = 1.25, min = 1, max = 1.5
+                
                 break;
             case 4: //scored for getting close to spider
 
