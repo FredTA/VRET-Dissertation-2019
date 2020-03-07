@@ -41,7 +41,7 @@ public class SpiderController : MonoBehaviour {
     private Vector3 minimumSpiderScale;
     private Vector3 maximumSpiderScale;
     private const float MAXUMUM_SPIDER_SCALE_MULTIPLIER = 2.5f;
-    private const float SPIDER_SCALE_SPEED = 0.0075f;
+    private const float SPIDER_SCALE_SPEED = 0.004f;
 
     private bool controllersAssigned = false;
 
