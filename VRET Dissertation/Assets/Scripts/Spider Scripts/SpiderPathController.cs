@@ -7,7 +7,7 @@ public class SpiderPathController : MonoBehaviour {
     private SpiderController spiderController;
 
     //TODO fine tune these
-    private const float ROTATION_SPEED = 1.35f;
+    private const float ROTATION_SPEED = 1.85f;
     private const float BASE_SPEED = 0.5f;
     private const float MAXIMUM_SPEED_VARIANCE_MULTIPLIER = 1.9f;
     private const float RANDOM_WALK_SPEED_MULTIPLIER = 1.6f;
