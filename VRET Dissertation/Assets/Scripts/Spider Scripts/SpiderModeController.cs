@@ -29,6 +29,9 @@ public class SpiderModeController : ModeController {
     private const float MIN_CAMERA_DISTANCE_TO_BOX = 0.9f;
     private const float MAX_CAMERA_DISTANCE_TO_TARGET = 1.45f;
     private const float MIN_CAMERA_DISTANCE_TO_SPIDER = 0.75f;
+    private const float LEVEL_8_WAIT_TIME = 200;
+
+    private float timer;
 
     public override void Awake() {
         loadMultiChoiceQuestions(NUMBER_OF_QUESTION_ROUNDS);
@@ -57,7 +60,11 @@ public class SpiderModeController : ModeController {
                 spiderController.handleSpiderScale();
                 break;
             case 8: //Scored for sitting for 2 mins
-                //Just a simple timer
+                if (Time.time - timer > LEVEL_8_WAIT_TIME) {
+                    score = 100;
+                } else {
+                    score = (100 * (Time.time - timer) / LEVEL_8_WAIT_TIME);
+                }
                 break;
             case 9: //Scored for lowering spider from ceiling
 
@@ -150,6 +157,7 @@ public class SpiderModeController : ModeController {
             case 8: //A group of spiders
                 level7Instructions.SetActive(false);
 
+                timer = Time.time;
                 level8Instructions.SetActive(true);
                 spiderController.setBeviour(SpiderBehaviour.GroupWalk);
                 break;
@@ -167,7 +175,18 @@ public class SpiderModeController : ModeController {
 
     public override void resetLevel() {
         base.resetLevel();
-        //TODO There'll be some spider specific bits in here, like changing the spider path, etc
+
+        switch (getCurrentLevel()) {
+            case 7: 
+                //TODO reset spider scale
+                break;
+            case 8: 
+                timer = Time.time;
+                break;
+            case 9: 
+
+                break;
+        }
     }
 
     public override void selectMultiChoiceAnswer(int selection) {
