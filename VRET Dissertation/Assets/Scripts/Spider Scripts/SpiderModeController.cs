@@ -27,9 +27,8 @@ public class SpiderModeController : ModeController {
 
     //Scoring consts
     private const float MIN_CAMERA_DISTANCE_TO_BOX = 0.9f;
-    private const float MAX_CAMERA_DISTANCE_TO_BOX = 1.45f;
-    private const float MIN_CAMERA_DISTANCE_TO_SPIDER = 2.5f;
-    private const float MAX_CAMERA_DISTANCE_TO_SPIDER = 2.5f;
+    private const float MAX_CAMERA_DISTANCE_TO_TARGET = 1.45f;
+    private const float MIN_CAMERA_DISTANCE_TO_SPIDER = 0.75f;
 
     public override void Awake() {
         loadMultiChoiceQuestions(NUMBER_OF_QUESTION_ROUNDS);
@@ -44,35 +43,39 @@ public class SpiderModeController : ModeController {
     void Update () {
         switch (getCurrentLevel()) {
             case 3: //Scored for getting close to box
-                float distance = Vector3.Distance(spiderBox.transform.position, camera.transform.position);
-                Debug.Log("DISTANCE " + distance);
-
-                if (distance < MIN_CAMERA_DISTANCE_TO_BOX) {
-                    score = 100;
-                } else {
-                    float newScore = 100 - ((100 * (distance - MIN_CAMERA_DISTANCE_TO_BOX) / (MAX_CAMERA_DISTANCE_TO_BOX - MIN_CAMERA_DISTANCE_TO_BOX))); 
-                    if (score < newScore) {
-                        score = newScore;
-                    }
-                }
-                //dis = 1.25, min = 1, max = 1.5
-                
+                handleCameraDistanceScoring(MIN_CAMERA_DISTANCE_TO_BOX);
                 break;
             case 4: //scored for getting close to spider
-
+                handleCameraDistanceScoring(MIN_CAMERA_DISTANCE_TO_SPIDER);
                 break;
             case 6: //Scored for looking up at the marker
-
+                //Perhaps some ray tracing from the camera, colliding with the target object?
+                //Or maybe there's a check for if a GO is within the camera frustum
                 break;
             case 7: //Scored for making the spider larger
+                //similar to the maths in the cam distance, a percentage of scale between max and min
                 spiderController.handleSpiderScale();
                 break;
             case 8: //Scored for sitting for 2 mins
-
+                //Just a simple timer
                 break;
             case 9: //Scored for lowering spider from ceiling
 
                 break;
+        }
+    }
+
+    //Assign a score based on how close the camera is to the spider or box
+    private void handleCameraDistanceScoring(float minDistance) {
+        float distance = Vector3.Distance(spiderBox.transform.position, camera.transform.position);
+
+        if (distance < MIN_CAMERA_DISTANCE_TO_BOX) {
+            score = 100;
+        } else {
+            float newScore = 100 - ((100 * (distance - minDistance) / (MAX_CAMERA_DISTANCE_TO_TARGET - minDistance)));
+            if (score < newScore) {
+                score = newScore;
+            }
         }
     }
 
