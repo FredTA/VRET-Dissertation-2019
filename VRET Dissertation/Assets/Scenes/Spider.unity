@@ -12813,8 +12813,6 @@ GameObject:
   - component: {fileID: 1056007744}
   - component: {fileID: 1056007749}
   - component: {fileID: 1056007748}
-  - component: {fileID: 1056007746}
-  - component: {fileID: 1056007747}
   m_Layer: 0
   m_Name: spider (3)
   m_TagString: Untagged
@@ -12822,37 +12820,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 0
---- !u!114 &1056007746
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1056007745}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b887dc10ae9478e40aaa283b8cc34410, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1056007747
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1056007745}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e30f12fc48356f7449ba5ffdcba0fafe, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  spiders:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  squareNodeHolder: {fileID: 1439701516}
-  circleNodeHolder: {fileID: 409220138}
-  triangleNodeHolder: {fileID: 1889613158}
 --- !u!114 &1056007748
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15942,8 +15909,6 @@ GameObject:
   - component: {fileID: 1363845530}
   - component: {fileID: 1363845535}
   - component: {fileID: 1363845534}
-  - component: {fileID: 1363845532}
-  - component: {fileID: 1363845533}
   m_Layer: 0
   m_Name: spider (4)
   m_TagString: Untagged
@@ -15951,37 +15916,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 0
---- !u!114 &1363845532
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1363845531}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b887dc10ae9478e40aaa283b8cc34410, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1363845533
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1363845531}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e30f12fc48356f7449ba5ffdcba0fafe, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  spiders:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  squareNodeHolder: {fileID: 1439701516}
-  circleNodeHolder: {fileID: 409220138}
-  triangleNodeHolder: {fileID: 1889613158}
 --- !u!114 &1363845534
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19714,8 +19648,6 @@ GameObject:
   - component: {fileID: 1674268825}
   - component: {fileID: 1674268830}
   - component: {fileID: 1674268829}
-  - component: {fileID: 1674268827}
-  - component: {fileID: 1674268828}
   m_Layer: 0
   m_Name: spider (2)
   m_TagString: Untagged
@@ -19723,37 +19655,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 0
---- !u!114 &1674268827
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1674268826}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b887dc10ae9478e40aaa283b8cc34410, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1674268828
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1674268826}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e30f12fc48356f7449ba5ffdcba0fafe, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  spiders:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  squareNodeHolder: {fileID: 1439701516}
-  circleNodeHolder: {fileID: 409220138}
-  triangleNodeHolder: {fileID: 1889613158}
 --- !u!114 &1674268829
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24391,8 +24292,6 @@ GameObject:
   - component: {fileID: 2079285075}
   - component: {fileID: 2079285080}
   - component: {fileID: 2079285079}
-  - component: {fileID: 2079285077}
-  - component: {fileID: 2079285078}
   m_Layer: 0
   m_Name: spider (1)
   m_TagString: Untagged
@@ -24400,37 +24299,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 0
---- !u!114 &2079285077
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 2079285076}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b887dc10ae9478e40aaa283b8cc34410, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &2079285078
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 2079285076}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e30f12fc48356f7449ba5ffdcba0fafe, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  spiders:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  squareNodeHolder: {fileID: 1439701516}
-  circleNodeHolder: {fileID: 409220138}
-  triangleNodeHolder: {fileID: 1889613158}
 --- !u!114 &2079285079
 MonoBehaviour:
   m_ObjectHideFlags: 0

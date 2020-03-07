@@ -19,7 +19,7 @@ public class SpiderPathController : MonoBehaviour {
     private float timeOfLastArrival = -1;
     private float waitTime;
 
-    private const float MINIMUM_DISTANCE_TO_TARGET = 0.002f;
+    private const float MINIMUM_DISTANCE_TO_TARGET = 0.005f;
 
     //float timer;
     private int currentNode;
@@ -40,7 +40,16 @@ public class SpiderPathController : MonoBehaviour {
         animator = gameObject.GetComponent<Animator>();
 
         currentNode = 0;
-        setTargetPositionToNode();
+    }
+
+    void OnEnable() {
+        Debug.Log("SPIDER ENABLED " + spiderController.getCurrentBehaviour());
+        if (spiderController.getCurrentBehaviour() == SpiderBehaviour.GroupWalk || spiderController.getCurrentBehaviour() == SpiderBehaviour.RandomWalk) {
+            setRandomTargetPosition();
+        }
+        else if (spiderController.getCurrentBehaviour() == SpiderBehaviour.SlowWalk) {
+            setTargetPositionToNode();
+        }
     }
 
     // Update is called once per frame
@@ -136,6 +145,8 @@ public class SpiderPathController : MonoBehaviour {
 
         animator.enabled = true;
         animator.speed = multiplier;
+
+        Debug.Log("RANDOM POSITON " + targetPosition.x + ", " + targetPosition.z);
 
         //currentSpeed = Random.Range(baseSpeed + baseSpeed * speedVarianceMultiplier, baseSpeed - baseSpeed * speedVarianceMultiplier);
         //currentSpeed = baseSpeed; //Need to take into account distance between vector3s TODO

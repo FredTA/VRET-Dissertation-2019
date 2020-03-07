@@ -83,13 +83,14 @@ public class SpiderController : MonoBehaviour {
 
     private void assignControllers() {
         for (int i = 0; i < NUMBER_OF_SPIDERS; i++) {
-            Debug.Log("Getting spider patj cont " + i);
             pathControllers[i] = spiders[i].GetComponent<SpiderPathController>();
         }
         controllersAssigned = true;
     }
 
     public void setBeviour(SpiderBehaviour behaviour) {
+        currentBehaviour = behaviour; //Must do this first so that spiders can get current behaviour when awake
+
         if (!controllersAssigned) {
             Awake();
         }
@@ -106,8 +107,6 @@ public class SpiderController : MonoBehaviour {
                 
             }
         }
-
-        currentBehaviour = behaviour;
     }
 
     public void handleSpiderScale() {
