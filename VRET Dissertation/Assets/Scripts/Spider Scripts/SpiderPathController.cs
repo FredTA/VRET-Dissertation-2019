@@ -126,7 +126,7 @@ public class SpiderPathController : MonoBehaviour {
     }
 
     //Gets the next node's position and saves it
-    private void setTargetPositionToNode() {
+    public void setTargetPositionToNode() {
         //timer = 0;
         Debug.Log("Current node " + currentNode);
         targetPosition = spiderController.getPathNodePosition(currentNode);
@@ -134,7 +134,7 @@ public class SpiderPathController : MonoBehaviour {
         startPosition = transform.position;
     }
 
-    private void setRandomTargetPosition() {
+    public void setRandomTargetPosition() {
         targetPosition = spiderController.getRandomPositon(transform.position);
         targetPosition.y = initialSpiderPosition.y; //Make sure we don't change elevation
 

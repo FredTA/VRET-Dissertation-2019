@@ -99,10 +99,14 @@ public class SpiderController : MonoBehaviour {
             spiders[0].SetActive(true);
             pathControllers[0].toggleAnimator(behaviour != SpiderBehaviour.Stationary);
 
-            if (behaviour == SpiderBehaviour.GroupWalk) {
+            if (behaviour == SpiderBehaviour.SlowWalk) {
+                pathControllers[0].setTargetPositionToNode();
+            }
+            else if (behaviour == SpiderBehaviour.GroupWalk) {
                 for (int i = 1; i < NUMBER_OF_SPIDERS; i++) {
-                    spiders[i].SetActive(true);
+                    spiders[i].SetActive(true); //Awake method on spiders is triggered
                     pathControllers[i].toggleAnimator(true);
+                    pathControllers[0].setRandomTargetPosition();
                 }
                 
             }
@@ -110,7 +114,7 @@ public class SpiderController : MonoBehaviour {
     }
 
     public void handleSpiderScale() {
-        //OVRInput.Update(); // Call before checking the input from Touch Controllers
+        //Don't want to call OVR update here, the UI is already handling that for us
         if (OVRInput.Get(OVRInput.Axis1D.SecondaryHandTrigger, OVRInput.Controller.Touch) > 0.2f) {
             if (spiders[0].transform.localScale.magnitude < maximumSpiderScale.magnitude) {
                 scaleSpider(true);
@@ -160,11 +164,6 @@ public class SpiderController : MonoBehaviour {
             float x = Random.Range(tableLeftBorderX, tableRightBorderX);
             float z = Random.Range(tableUpBorderZ, tableDownBorderZ);
             targetPosition = new Vector3(x, startPosition.y, z);
-
-            Debug.Log("Dis: " + (Vector3.Distance(startPosition, targetPosition)));
-            if ((Vector3.Distance(startPosition, targetPosition) < MINIMUM_RANDOM_DISTANCE)) {
-                Debug.Log("TOO CLOSE!");
-            }
         } while (Vector3.Distance(startPosition, targetPosition) < MINIMUM_RANDOM_DISTANCE);
         return targetPosition;
     }
