@@ -19,6 +19,8 @@ public class SpiderModeController : ModeController {
     public GameObject level4Instructions;
     public GameObject level6Instructions;
     public GameObject level7Instructions;
+    public GameObject level8Instructions;
+    public GameObject level9Instructions;
 
     public GameObject lookMarker;
 
@@ -34,34 +36,22 @@ public class SpiderModeController : ModeController {
     //Handle scoring depending on what level we're on and what the user is doing
     void Update () {
         switch (getCurrentLevel()) {
-            case 0:
+            case 3: //Scored for getting close to box
 
                 break;
-            case 1:
+            case 4: //scored for getting close to spider
 
                 break;
-            case 2:
+            case 6: //Scored for looking up at the marker
 
                 break;
-            case 3:
-
-                break;
-            case 4:
-
-                break;
-            case 5:
-
-                break;
-            case 6:
-
-                break;
-            case 7:
+            case 7: //Scored for making the spider larger
                 spiderController.handleSpiderScale();
                 break;
-            case 8:
+            case 8: //Scored for sitting for 2 mins
 
                 break;
-            case 9:
+            case 9: //Scored for lowering spider from ceiling
 
                 break;
         }
@@ -136,16 +126,16 @@ public class SpiderModeController : ModeController {
                 spiderController.setBeviour(SpiderBehaviour.RandomWalk);
                 break;
             case 8: //A group of spiders
-                level7Instructions.SetActive(true);
+                level7Instructions.SetActive(false);
 
-                //level8Instructions.SetActive(true);
+                level8Instructions.SetActive(true);
                 spiderController.setBeviour(SpiderBehaviour.GroupWalk);
                 break;
-            case 9: //A spider descending from the ceiling
+            case 9: //A spider descending from the ceiling?
+                level8Instructions.SetActive(false);
 
-                break;
-            case 10: //Not sure about this yet, 
-
+                level9Instructions.SetActive(true);
+                spiderController.setBeviour(SpiderBehaviour.Descend);
                 break;
         }
 
