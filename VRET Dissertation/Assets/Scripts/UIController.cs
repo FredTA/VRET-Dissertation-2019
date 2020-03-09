@@ -176,7 +176,7 @@ public class UIController : MonoBehaviour {
     }
 
     public void setQuestionSummary(float score, int numberOfQuestions) {
-        string summary = "You answered " + (score / (100 / numberOfQuestions)) + 
+        string summary = "You answered " + ((int)score / (100 / numberOfQuestions)) + 
                          "/" + numberOfQuestions + " correctly";
 
         questionSummary.GetComponent<Text>().text = summary;

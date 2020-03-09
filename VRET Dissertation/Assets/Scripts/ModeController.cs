@@ -93,7 +93,7 @@ public abstract class ModeController : MonoBehaviour {
 
     public void submitSUDS(int sudsRating, bool goToNextLevel) {
         if (goToNextLevel) {
-            masterScript.completeLevel(currentLevel, (int)score, sudsRating);
+            masterScript.completeLevel(currentLevel, (int)Math.Round(score, 0), sudsRating);
             currentLevel++;
             activateCurrentLevel();
         } else {
@@ -139,7 +139,7 @@ public abstract class ModeController : MonoBehaviour {
         Debug.Log("Answered Q " + questionRound + ":" + questionNumber + " with " + selection);
 
         if (selection == correctAnswers[questionRound, questionNumber]) {
-            score += 100 / NUMBER_OF_QUESTIONS_PER_ROUND;
+            score += 100f / (float)NUMBER_OF_QUESTIONS_PER_ROUND;
         }
         else {
             //TODO maybe play a sound?
@@ -183,7 +183,7 @@ public abstract class ModeController : MonoBehaviour {
     }
 
     public int getCurrentScore() {
-        return (int)score;
+        return (int)Math.Round(score, 0);
     }
 
     public int getHighScoreForCurrentLevel() {
