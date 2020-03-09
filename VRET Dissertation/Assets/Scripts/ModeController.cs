@@ -126,6 +126,7 @@ public abstract class ModeController : MonoBehaviour {
             for (int i = 1; i < NUMBER_OF_QUESTIONS_PER_ROUND; i++) {
                 multiChoiceQuestions[questionRound].questions[i].SetActive(false);
             }
+            uiController.deactivateQuestionSummary();
         }
 
         //TODO play instructions for level, something like...
