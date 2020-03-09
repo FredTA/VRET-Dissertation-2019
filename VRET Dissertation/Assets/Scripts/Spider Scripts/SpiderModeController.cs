@@ -32,11 +32,12 @@ public class SpiderModeController : ModeController {
     private const float MAX_CAMERA_DISTANCE_TO_TARGET = 1.45f;
     private const float MIN_CAMERA_DISTANCE_TO_SPIDER = 0.75f;
     private const float LEVEL_8_WAIT_TIME = 120;
+    private const float LEVEL_9_WAIT_TIME = 45;
     private const float LOOK_MARKER_TIME = 30;
 
     private float maximumSpiderElevation;
     private float MINIMUM_SPIDER_ELEVATION = 1f;
-    private const float spiderDescentSpeed = 0.001f;
+    private const float spiderDescentSpeed = 0.0006f;
 
     private float timer;
 
@@ -79,6 +80,12 @@ public class SpiderModeController : ModeController {
             case 9: //Scored for lowering spider from ceiling
                 if (descendingSpider.transform.position.y > MINIMUM_SPIDER_ELEVATION) {
                     descendingSpider.transform.position -= transform.up * spiderDescentSpeed;
+                }
+
+                if (Time.time - timer > LEVEL_9_WAIT_TIME) {
+                    score = 100;
+                } else {
+                    score = (100 * (Time.time - timer) / LEVEL_9_WAIT_TIME);
                 }
                 break;
         }
@@ -176,6 +183,7 @@ public class SpiderModeController : ModeController {
             case 9: //A spider descending from the ceiling?
                 level8Instructions.SetActive(false);
 
+                timer = Time.time;
                 descendingSpider.SetActive(true);
                 level9Instructions.SetActive(true);
                 spiderController.setBeviour(SpiderBehaviour.Inactive);

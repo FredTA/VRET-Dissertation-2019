@@ -6198,7 +6198,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.06, y: 0.13}
+  m_AnchoredPosition: {x: -0.06, y: 0.33}
   m_SizeDelta: {x: 4321.0645, y: 235.9108}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &445741533
@@ -6233,7 +6233,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: Try and sit for 2 minutes
+  m_Text: "Let the spiders go about their \nbusiness - Sit for 2 minutes"
 --- !u!222 &445741534
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -8939,7 +8939,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.06, y: 0.13}
+  m_AnchoredPosition: {x: -0.06, y: 0.35}
   m_SizeDelta: {x: 4321.0645, y: 235.9108}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &677120252
@@ -8974,7 +8974,9 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: Let the spider descend
+  m_Text: 'Let the spider descend
+
+    Sit for 45 seconds'
 --- !u!222 &677120253
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -19038,7 +19040,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1560693109}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -0.019998351}
+  m_LocalPosition: {x: 0, y: 0, z: -0.02}
   m_LocalScale: {x: 0.0013523786, y: 0.0013555592, z: 0.0013627424}
   m_Children: []
   m_Father: {fileID: 2139904340}
@@ -19046,7 +19048,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.06060031, y: 0.17000051}
+  m_AnchoredPosition: {x: -0.06, y: 0.35}
   m_SizeDelta: {x: 4321.0645, y: 235.9108}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1560693111
@@ -19081,7 +19083,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: Look up at the marker
+  m_Text: "Look up at the marker \nfor 30 seconds"
 --- !u!222 &1560693112
 CanvasRenderer:
   m_ObjectHideFlags: 0
