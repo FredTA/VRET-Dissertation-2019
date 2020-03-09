@@ -119,6 +119,7 @@ public class SpiderModeController : ModeController {
         score = 0;
         multiChoiceQuestionsActive = false;
         questionNumber = 0;
+        base.activateCurrentLevel(); //Plays the voiceover
 
         //TODO ensure everything is activated in every case
         //We have to activate anything we need in each case, as we can jump in at any level

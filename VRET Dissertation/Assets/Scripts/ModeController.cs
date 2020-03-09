@@ -19,9 +19,11 @@ public abstract class ModeController : MonoBehaviour {
     private Master masterScript;
     protected UIController uiController;
     private SUDSInputController sudsInputController;
+    private SoundController soundController;
 
     private GameObject uiObject;
     private GameObject sudsInputObject;
+    private GameObject soundControllerObject;
 
     protected float score = 0;
     private int currentLevel;
@@ -36,9 +38,11 @@ public abstract class ModeController : MonoBehaviour {
         masterScript = GameObject.Find("ScenePersistentObject").GetComponent<Master>();
         uiObject = GameObject.Find("UICanvas");
         sudsInputObject = GameObject.Find("SUDSCanvas");
+        soundControllerObject = GameObject.Find("Controller");
 
         uiController = uiObject.GetComponent<UIController>();
         sudsInputController = sudsInputObject.GetComponent<SUDSInputController>();
+        soundController = soundControllerObject.GetComponent<SoundController>();
 
         toggleSUDSInput(false);
 
@@ -46,10 +50,6 @@ public abstract class ModeController : MonoBehaviour {
         Debug.Log("Master script found - starting level " + currentLevel);
         activateCurrentLevel(); //This needs to be before UI does its thing
     }
-
-    public void Start() {
-
-	}
 
     //Each mode has multichoice question objects to find, The  only difference is the number of rounds
     protected void loadMultiChoiceQuestions(int numberOfQuestionRounds) {
@@ -104,7 +104,9 @@ public abstract class ModeController : MonoBehaviour {
     //Implementation found in SpiderModeController, WaspModeController, etc. 
     //UI controllers don't know which flavour of ModeController they're talking to 
     //Instead just storing the reference as a ModeController (this), so declare methods here
-    public abstract void activateCurrentLevel();
+    public virtual void activateCurrentLevel() {
+        soundController.playVoiceover(currentLevel);
+    }
     //Each scene may have a different number of question rounds
     //level 6 may be QR 4 on one scene, but QR 2 on another
     public abstract int getQuestionRoundForLevel(int level); 
@@ -129,8 +131,7 @@ public abstract class ModeController : MonoBehaviour {
             uiController.deactivateQuestionSummary();
         }
 
-        //TODO play instructions for level, something like...
-        //SoundController.playInstructions(currentMode, currentLevel);
+        soundController.playVoiceover(currentLevel);
     }
 
     public virtual void selectMultiChoiceAnswer(int selection) {
