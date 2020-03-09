@@ -3654,6 +3654,93 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 219312362}
   m_Mesh: {fileID: 4300044, guid: fc269be520304424a9b802f80736f5ca, type: 3}
+--- !u!1 &220407122
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 220407123}
+  - component: {fileID: 220407126}
+  - component: {fileID: 220407125}
+  - component: {fileID: 220407124}
+  m_Layer: 8
+  m_Name: Look marker
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &220407123
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 220407122}
+  m_LocalRotation: {x: 1, y: 0.0000001872535, z: -5.398424e-16, w: 6.966718e-16}
+  m_LocalPosition: {x: 1.989, y: -0.006, z: 1.243}
+  m_LocalScale: {x: 0.01018178, y: 0.005898626, z: 0.011429348}
+  m_Children:
+  - {fileID: 934020153}
+  m_Father: {fileID: 758843931}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 90, y: 0, z: -0.000015258789}
+--- !u!23 &220407124
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 220407122}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_Materials:
+  - {fileID: 2100000, guid: 885f5531b808dfb4896f312d61436ead, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_PreserveUVs: 1
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+--- !u!64 &220407125
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 220407122}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Convex: 0
+  m_CookingOptions: 14
+  m_SkinWidth: 0.01
+  m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!33 &220407126
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 220407122}
+  m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &221227435
 GameObject:
   m_ObjectHideFlags: 0
@@ -11556,17 +11643,17 @@ RectTransform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 934020152}
-  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0, z: 1.489}
-  m_LocalScale: {x: 0.000774466, y: 0.001451622, z: 0.0007933808}
+  m_LocalRotation: {x: -0.7071068, y: -0.00000013240823, z: 0.00000013240823, w: 0.7071068}
+  m_LocalPosition: {x: 0, y: 0, z: 0.57153845}
+  m_LocalScale: {x: 0.076063916, y: 0.12700835, z: 0.13450271}
   m_Children:
   - {fileID: 1640795258}
-  m_Father: {fileID: 758843931}
+  m_Father: {fileID: 220407123}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 1.989, y: 0.027}
+  m_AnchoredPosition: {x: 0, y: -5.5146127}
   m_SizeDelta: {x: 972, y: 535}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &934020154
@@ -14056,7 +14143,7 @@ MonoBehaviour:
   level8Instructions: {fileID: 445741531}
   level9Instructions: {fileID: 677120250}
   camera: {fileID: 282840810}
-  lookMarker: {fileID: 1640795257}
+  lookMarker: {fileID: 220407122}
 --- !u!4 &1138474697
 Transform:
   m_ObjectHideFlags: 0
@@ -19582,12 +19669,12 @@ GameObject:
   - component: {fileID: 1640795260}
   - component: {fileID: 1640795259}
   m_Layer: 5
-  m_Name: Look marker
+  m_Name: Look marker X
   m_TagString: SUDSInputNumbers
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1640795258
 RectTransform:
   m_ObjectHideFlags: 0

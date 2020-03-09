@@ -24,12 +24,14 @@ public class SpiderModeController : ModeController {
 
     public GameObject camera;
     public GameObject lookMarker;
+    private Renderer lookMarkerRenderer;
 
     //Scoring consts
     private const float MIN_CAMERA_DISTANCE_TO_BOX = 0.9f;
     private const float MAX_CAMERA_DISTANCE_TO_TARGET = 1.45f;
     private const float MIN_CAMERA_DISTANCE_TO_SPIDER = 0.75f;
-    private const float LEVEL_8_WAIT_TIME = 200;
+    private const float LEVEL_8_WAIT_TIME = 120;
+    private const float LOOK_MARKER_TIME = 30;
 
     private float timer;
 
@@ -38,6 +40,8 @@ public class SpiderModeController : ModeController {
         correctAnswers = new int[,] { { 2, 2, 1 }, //lvl 1
                                       { 1, 2, 0 }, //lvl 2
                                       { 2, 2, 2 }}; //lvl 5
+
+        lookMarkerRenderer = lookMarker.GetComponent<Renderer>();
         base.Awake();
     }
 
@@ -52,8 +56,9 @@ public class SpiderModeController : ModeController {
                 handleCameraDistanceScoring(MIN_CAMERA_DISTANCE_TO_SPIDER);
                 break;
             case 6: //Scored for looking up at the marker
-                //Perhaps some ray tracing from the camera, colliding with the target object?
-                //Or maybe there's a check for if a GO is within the camera frustum
+                if (lookMarkerRenderer.isVisible && score < 100) {
+                    score += ((100 / LOOK_MARKER_TIME) * Time.deltaTime); 
+                }
                 break;
             case 7: //Scored for making the spider larger
                 //similar to the maths in the cam distance, a percentage of scale between max and min
