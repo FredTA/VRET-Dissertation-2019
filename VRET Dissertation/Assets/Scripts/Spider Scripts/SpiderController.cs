@@ -124,7 +124,7 @@ public class SpiderController : MonoBehaviour {
         }
     }
 
-    public void handleSpiderScale() {
+    public void handleSpiderScale(out float scalePercentage) {
         //Don't want to call OVR update here, the UI is already handling that for us
         if (OVRInput.Get(OVRInput.Axis1D.SecondaryHandTrigger, OVRInput.Controller.Touch) > 0.2f) {
             if (spiders[0].transform.localScale.magnitude < maximumSpiderScale.magnitude) {
@@ -136,6 +136,8 @@ public class SpiderController : MonoBehaviour {
                 scaleSpider(false);
             }
         }
+
+        scalePercentage = 100 * ((spiders[0].transform.localScale.magnitude - minimumSpiderScale.magnitude) / (maximumSpiderScale.magnitude - minimumSpiderScale.magnitude));
     }
 
     private void scaleSpider(bool scaleUp) {

@@ -68,7 +68,11 @@ public class SpiderModeController : ModeController {
                 break;
             case 7: //Scored for making the spider larger
                 //similar to the maths in the cam distance, a percentage of scale between max and min
-                spiderController.handleSpiderScale();
+                float scalePercentage;
+                spiderController.handleSpiderScale(out scalePercentage);
+                if (scalePercentage > score) {
+                    score = scalePercentage;
+                }
                 break;
             case 8: //Scored for sitting for 2 mins
                 if (Time.time - timer > LEVEL_8_WAIT_TIME) {
