@@ -106,14 +106,14 @@ public class SpiderController : MonoBehaviour {
             pathControllers[0].toggleAnimator(behaviour != SpiderBehaviour.Stationary);
 
             if (behaviour == SpiderBehaviour.SlowWalk) {
-                Debug.Log("Setting slowwalk");
                 pathControllers[0].setTargetPositionToNode();
-            }
-            else if (behaviour == SpiderBehaviour.GroupWalk) {
-                for (int i = 1; i < NUMBER_OF_SPIDERS; i++) {
+            } else if (behaviour == SpiderBehaviour.RandomWalk) {
+                pathControllers[0].setRandomTargetPosition();
+            } else if (behaviour == SpiderBehaviour.GroupWalk) {
+                for (int i = 0; i < NUMBER_OF_SPIDERS; i++) {
                     spiders[i].SetActive(true); //Awake method on spiders is triggered
                     pathControllers[i].toggleAnimator(true);
-                    pathControllers[0].setRandomTargetPosition();
+                    pathControllers[i].setRandomTargetPosition();
                 }
                 
             }
