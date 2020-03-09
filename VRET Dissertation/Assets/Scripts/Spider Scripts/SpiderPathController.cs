@@ -60,19 +60,16 @@ public class SpiderPathController : MonoBehaviour {
                 break;
             case SpiderBehaviour.SlowWalk:
                 if (Vector3.Distance(transform.position, targetPosition) > MINIMUM_DISTANCE_TO_TARGET) {
-                    Debug.Log("DIST: " + MINIMUM_DISTANCE_TO_TARGET + ": " + Vector3.Distance(transform.position, targetPosition));
                     walk(BASE_SPEED, ROTATION_SPEED);
                 }
                 else {
                     //If we're not at the last node
                     if (currentNode < 12 - 1) {
-                        Debug.Log("incrementing node");
                         currentNode++;
                         setTargetPositionToNode();
                     }
                     else {
                         currentNode = 0;
-                        Debug.Log("Setting node to zero");
                         setTargetPositionToNode();
                     }
                 }

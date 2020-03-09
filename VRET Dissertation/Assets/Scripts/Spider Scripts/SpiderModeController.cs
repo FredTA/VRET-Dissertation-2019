@@ -177,6 +177,9 @@ public class SpiderModeController : ModeController {
         base.resetLevel();
 
         switch (getCurrentLevel()) {
+            case 5:
+                spiderController.resetWalkingMode();
+                break;
             case 7: 
                 //TODO reset spider scale
                 break;
@@ -192,8 +195,8 @@ public class SpiderModeController : ModeController {
     public override void selectMultiChoiceAnswer(int selection) {
         base.selectMultiChoiceAnswer(selection); 
 
-        //On these two levels, the spider switches it's walking path
-        if (getCurrentLevel() == 5 || getCurrentLevel() == 6) {
+        //On this level, the spider switches it's walking path
+        if (getCurrentLevel() == 5) {
             spiderController.changeWalkingMode();
         }
         

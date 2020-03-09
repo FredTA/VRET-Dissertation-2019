@@ -74,7 +74,13 @@ public class SpiderController : MonoBehaviour {
 
 
     public void changeWalkingMode() {
-        spiderPathType++;
+        if (spiderPathType < 2) {
+            spiderPathType++;
+        }
+    }
+
+    public void resetWalkingMode() {
+        spiderPathType = 0;
     }
 
     public int getPathType() {
