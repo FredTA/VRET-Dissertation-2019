@@ -7,9 +7,9 @@ public class SpiderPathController : MonoBehaviour {
     private SpiderController spiderController;
 
     //TODO fine tune these
-    private const float ROTATION_SPEED = 1.85f;
+    private const float ROTATION_SPEED = 2.5f;
     private const float BASE_SPEED = 0.5f;
-    private const float MAXIMUM_SPEED_VARIANCE_MULTIPLIER = 1.9f;
+    private const float MAXIMUM_SPEED_VARIANCE_MULTIPLIER = 3.3f;
     private const float RANDOM_WALK_SPEED_MULTIPLIER = 1.6f;
     private const float MINIM_WAIT_TIME = 0.3f;
     private const float MAXIMUM_WAIT_TIME = 1.2f;
@@ -19,7 +19,7 @@ public class SpiderPathController : MonoBehaviour {
     private float timeOfLastArrival = -1;
     private float waitTime;
 
-    private const float MINIMUM_DISTANCE_TO_TARGET = 0.005f;
+    private const float MINIMUM_DISTANCE_TO_TARGET = 0.03f;
 
     //float timer;
     private int currentNode;
@@ -42,15 +42,15 @@ public class SpiderPathController : MonoBehaviour {
         currentNode = 0;
     }
 
-    void OnEnable() {
-        Debug.Log("SPIDER ENABLED " + spiderController.getCurrentBehaviour());
-        if (spiderController.getCurrentBehaviour() == SpiderBehaviour.GroupWalk || spiderController.getCurrentBehaviour() == SpiderBehaviour.RandomWalk) {
-            setRandomTargetPosition();
-        }
-        else if (spiderController.getCurrentBehaviour() == SpiderBehaviour.SlowWalk) {
-            setTargetPositionToNode();
-        }
-    }
+    //void OnEnable() {
+    //    Debug.Log("SPIDER ENABLED " + spiderController.getCurrentBehaviour());
+    //    if (spiderController.getCurrentBehaviour() == SpiderBehaviour.GroupWalk || spiderController.getCurrentBehaviour() == SpiderBehaviour.RandomWalk) {
+    //        setRandomTargetPosition();
+    //    }
+    //    else if (spiderController.getCurrentBehaviour() == SpiderBehaviour.SlowWalk) {
+    //        setTargetPositionToNode();
+    //    }
+    //}
 
     // Update is called once per frame
     void Update() {
@@ -60,16 +60,19 @@ public class SpiderPathController : MonoBehaviour {
                 break;
             case SpiderBehaviour.SlowWalk:
                 if (Vector3.Distance(transform.position, targetPosition) > MINIMUM_DISTANCE_TO_TARGET) {
+                    Debug.Log("DIST: " + MINIMUM_DISTANCE_TO_TARGET + ": " + Vector3.Distance(transform.position, targetPosition));
                     walk(BASE_SPEED, ROTATION_SPEED);
                 }
                 else {
                     //If we're not at the last node
                     if (currentNode < 12 - 1) {
+                        Debug.Log("incrementing node");
                         currentNode++;
                         setTargetPositionToNode();
                     }
                     else {
                         currentNode = 0;
+                        Debug.Log("Setting node to zero");
                         setTargetPositionToNode();
                     }
                 }
@@ -127,7 +130,6 @@ public class SpiderPathController : MonoBehaviour {
 
     //Gets the next node's position and saves it
     public void setTargetPositionToNode() {
-        //timer = 0;
         Debug.Log("Current node " + currentNode);
         targetPosition = spiderController.getPathNodePosition(currentNode);
         //Debug.Log("TARGET POS " + targetPosition.x + "," + targetPosition.z);

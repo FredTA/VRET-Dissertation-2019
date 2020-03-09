@@ -69,7 +69,7 @@ public class SpiderController : MonoBehaviour {
         maximumSpiderScale = minimumSpiderScale * MAXUMUM_SPIDER_SCALE_MULTIPLIER;
 
         //Make sure we're set up for the correct behaviour
-        setBeviour(currentBehaviour);
+        //setBeviour(currentBehaviour);
     }
 
 
@@ -100,6 +100,7 @@ public class SpiderController : MonoBehaviour {
             pathControllers[0].toggleAnimator(behaviour != SpiderBehaviour.Stationary);
 
             if (behaviour == SpiderBehaviour.SlowWalk) {
+                Debug.Log("Setting slowwalk");
                 pathControllers[0].setTargetPositionToNode();
             }
             else if (behaviour == SpiderBehaviour.GroupWalk) {
