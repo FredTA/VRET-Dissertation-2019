@@ -28,6 +28,7 @@ public class LevelSelectionController : MonoBehaviour {
     void Start () {
         masterScript = GameObject.Find("ScenePersistentObject").GetComponent<Master>();
         unlockedLevels = masterScript.getUnlockedLevels();
+        int[,] highScores = masterScript.getAllHighScores();
 
         //Set the initial selection to the first spider level
         levelSelection = new Vector2Int(2, 0);
@@ -37,15 +38,13 @@ public class LevelSelectionController : MonoBehaviour {
         //Grey out the text for levels that aren't unlocked
         for (int x = 0; x < 5; x++) {
             for (int y = 0; y < 10; y++) {
-                //string debug = "LVL " + x + ", " + y + ": ";
                 if (y > unlockedLevels[x]) {
                     levelTexts[x].textArray[y].color = Color.grey;
-                    levelTexts[x].textArray[y].text = "Level " + y + " - Locked"; 
-                //    debug += "Locked";
-                } else {
-                //    debug += "Unlocked";
+                    levelTexts[x].textArray[y].text = "Level " + y + " - Locked";
                 }
-                //Debug.Log(debug);
+                else if (highScores[x, y] != -1) { //Can't have a score if we're unlocked
+                    levelTexts[x].textArray[y].text += ": " + highScores[x, y];
+                }
             }
         }
     }

@@ -74,6 +74,10 @@ public class Master : MonoBehaviour {
         return save.getHighScoreForLevel(currentMode, level);
     }
 
+    public int[,] getAllHighScores() {
+        return save.getAllHighScores();
+    } 
+
     private Save loadSave() {
         Debug.Log("Looking for save " + Application.persistentDataPath + "/" + SAVE_FILE_NAME);
         if (File.Exists(Application.persistentDataPath + "/" + SAVE_FILE_NAME)) {
