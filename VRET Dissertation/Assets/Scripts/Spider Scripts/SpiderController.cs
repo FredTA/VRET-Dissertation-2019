@@ -117,6 +117,10 @@ public class SpiderController : MonoBehaviour {
                 }
                 
             }
+        } else {
+            for (int i = 0; i < NUMBER_OF_SPIDERS; i++) {
+                spiders[i].SetActive(false); //Awake method on spiders is triggered
+            }
         }
     }
 
