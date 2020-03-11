@@ -92,8 +92,8 @@ public abstract class ModeController : MonoBehaviour {
     }
 
     public void submitSUDS(int sudsRating, bool goToNextLevel) {
-        if (goToNextLevel) {
-            masterScript.completeLevel(currentLevel, (int)Math.Round(score, 0), sudsRating);
+        masterScript.completeLevel(currentLevel, (int)Math.Round(score, 0), sudsRating);
+        if (goToNextLevel && currentLevel != 9) {
             currentLevel++;
             activateCurrentLevel();
         } else {
