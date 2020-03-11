@@ -48,6 +48,7 @@ public class SpiderModeController : ModeController {
                                       { 2, 2, 2 }}; //lvl 5
 
         lookMarkerRenderer = lookMarker.GetComponent<Renderer>();
+        maximumSpiderElevation = descendingSpider.transform.position.y;
         base.Awake();
     }
 
@@ -206,14 +207,14 @@ public class SpiderModeController : ModeController {
             case 5:
                 spiderController.resetWalkingMode();
                 break;
-            case 7: 
-                //TODO reset spider scale
+            case 7:
+                spiderController.resetSpiderScale();
                 break;
             case 8: 
                 timer = Time.time;
                 break;
-            case 9: 
-
+            case 9:
+                descendingSpider.transform.position = new Vector3(descendingSpider.transform.position.x, maximumSpiderElevation, descendingSpider.transform.position.z);
                 break;
         }
     }
