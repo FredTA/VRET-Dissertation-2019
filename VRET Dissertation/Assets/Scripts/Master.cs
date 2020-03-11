@@ -38,19 +38,21 @@ public class Master : MonoBehaviour {
 	void Update () {
         //For ease of debugging. TODO remove
         if (Input.GetKeyDown(KeyCode.KeypadEnter)) {
-            save.updateData(SystemMode.Spider, 5, 100, 5);
+            save.updateData(SystemMode.Spider, 9, 100, 5);
             saveState();
-            Debug.Log("Completed spider level 5");
+            Debug.Log("Completed spider levels");
         }
         else if (Input.GetKeyDown(KeyCode.KeypadPlus)) {
             Debug.Log("SUDS RATINGS - SPIDER");
             for (int level = 0; level < 10; level++) {
-                string sudsString = "L" + level + ": ";
+                string textString = "L" + level + ": SUDS ---";
                 List <SUDSRecord> sudsRecords = save.getSUDSRecordsForLevel(SystemMode.Spider, level);
                 for (int record = 0; record < sudsRecords.Count; record++) {
-                    sudsString += sudsRecords[record].date + " = " + sudsRecords[record].rating + ", ";
+                    textString +=  "- " + sudsRecords[record].date + " = " + sudsRecords[record].rating;
                 }
-                Debug.Log(sudsString);
+                int highScore = save.getHighScoreForLevel(SystemMode.Spider, level);
+                textString += " ---- High score = " + highScore;
+                Debug.Log(textString);
             }
         }
     }
