@@ -13,7 +13,6 @@ public class SoundController : MonoBehaviour {
 	}
 
     public void playVoiceover(int level) {
-        Debug.Log("Playing VO " + level);
         if (level != 0) {
             voiceovers[level - 1].Stop();
         }
