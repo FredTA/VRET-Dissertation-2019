@@ -140,6 +140,10 @@ public class SpiderController : MonoBehaviour {
         scalePercentage = 100 * ((spiders[0].transform.localScale.magnitude - minimumSpiderScale.magnitude) / (maximumSpiderScale.magnitude - minimumSpiderScale.magnitude));
     }
 
+    public void resetSpiderScale() {
+        spiders[0].transform.localScale = minimumSpiderScale;
+    }
+
     private void scaleSpider(bool scaleUp) {
         float scaleToAdd;
         if (scaleUp) {

@@ -114,8 +114,9 @@ public abstract class ModeController : MonoBehaviour {
     //Resets the level, much of this functionality is common across modes 
     //However, we also override this from the derived class (for some extra, mode specific bits), and call it via super
     public virtual void resetLevel() {
-        //TODO bug with lvl0
-        score = 0;
+        if (currentLevel != 0) {
+            score = 0;
+        }
 
         if (multiChoiceQuestionsActive) {
             questionNumber = 0;
