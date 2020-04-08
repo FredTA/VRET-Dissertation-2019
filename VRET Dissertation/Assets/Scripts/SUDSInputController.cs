@@ -72,9 +72,10 @@ public class SUDSInputController : MonoBehaviour {
             OVRInput.Get(OVRInput.Axis1D.PrimaryIndexTrigger, OVRInput.Controller.LTouch) > 0.5f) {
 
             if (menuSelection == 1) {
-                modeController.submitSUDS(sudsSelection, true); //submit scores and go to next level
+                //Must add 1 to the SUDS selection, as array starts at 0, but suds starts at 1
+                modeController.submitSUDS(sudsSelection + 1, true); //submit scores and go to next level
             } else if (menuSelection == 2) { 
-                modeController.submitSUDS(sudsSelection, false); //Submit scores and go back to menu
+                modeController.submitSUDS(sudsSelection + 1, false); //Submit scores and go back to menu
             }
         }
         else {
@@ -87,6 +88,7 @@ public class SUDSInputController : MonoBehaviour {
         inputNumbers[sudsSelection].color = Color.white;
         sudsSelection = newSelection;
         inputNumbers[sudsSelection].color = Color.yellow;
+        Debug.Log("SELECTION " + sudsSelection);
     }
 
     private void updateMenuSelection(int newSelection) {
