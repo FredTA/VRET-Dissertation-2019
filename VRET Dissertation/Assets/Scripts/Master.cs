@@ -57,7 +57,7 @@ public class Master : MonoBehaviour {
         }
     }
 
-    public void completeLevel(int levelCompleted, int score, int sudsValue) {
+    public void updateLevelData(int levelCompleted, int score, int sudsValue) {
         save.updateData(currentMode, levelCompleted, score, sudsValue);
         saveState();
         //currentLevel++;

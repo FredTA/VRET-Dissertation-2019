@@ -22,6 +22,11 @@ public class DescendingSpiderController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+        handleDescent();
+    }
+
+    private void handleDescent() {
+        //Move spider down
         if (Time.time > timer + ROTATION_TARGET_CHANGE_TIME) {
             timer = Time.time;
             rotationSpeedTarget = Random.Range(-MAX_ROTATIONAL_SPEED, MAX_ROTATIONAL_SPEED);
@@ -29,14 +34,15 @@ public class DescendingSpiderController : MonoBehaviour {
             rotationalSpeed = (rotationalSpeed + rotationSpeedTarget) / 2; //Helps us get back to zero a little faster
         }
 
-       if (rotationalSpeed > -rotationSpeedTarget && rotationalSpeed < rotationSpeedTarget) {
-           if (rotationalSpeed < rotationSpeedTarget) {
+        //Rotate spider a little, as if it's spinning with the wind
+        if (rotationalSpeed > -rotationSpeedTarget && rotationalSpeed < rotationSpeedTarget) {
+            if (rotationalSpeed < rotationSpeedTarget) {
                 rotationalSpeed += ROTATIONAL_ACCELERATION;
-            } else {
+            }
+            else {
                 rotationalSpeed -= ROTATIONAL_ACCELERATION;
             }
-       }
-
+        }
         transform.localRotation *= Quaternion.AngleAxis(rotationalSpeed * Time.deltaTime, Vector3.forward);
     }
 }

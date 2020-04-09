@@ -6,7 +6,6 @@ using UnityEngine.UI;
 
 public class SUDSInputController : MonoBehaviour {
 
-    private int sudsValue = -1;
     private Text[] inputNumbers = new Text[10];
     private Text nextLevelText;
     private Text backToMenuText;
@@ -70,18 +69,22 @@ public class SUDSInputController : MonoBehaviour {
         else if (OVRInput.GetDown(OVRInput.Button.One) || OVRInput.GetDown(OVRInput.RawButton.X) ||
             OVRInput.Get(OVRInput.Axis1D.PrimaryIndexTrigger, OVRInput.Controller.RTouch) > 0.5f ||
             OVRInput.Get(OVRInput.Axis1D.PrimaryIndexTrigger, OVRInput.Controller.LTouch) > 0.5f) {
-
-            if (menuSelection == 1) {
-                //Must add 1 to the SUDS selection, as array starts at 0, but suds starts at 1
-                modeController.submitSUDS(sudsSelection + 1, true); //submit scores and go to next level
-            } else if (menuSelection == 2) { 
-                modeController.submitSUDS(sudsSelection + 1, false); //Submit scores and go back to menu
-            }
+            submitSUDS();
         }
         else {
             //Debug.Log("nada");
         }
 
+    }
+
+    private void submitSUDS() {
+        if (menuSelection == 1) {
+            //Must add 1 to the SUDS selection, as array starts at 0, but suds starts at 1
+            modeController.completeLevel(sudsSelection + 1, true); //submit scores and go to next level
+        }
+        else if (menuSelection == 2) {
+            modeController.completeLevel(sudsSelection + 1, false); //Submit scores and go back to menu
+        }
     }
 
     private void updateSUDSSelection(int newSelection) {

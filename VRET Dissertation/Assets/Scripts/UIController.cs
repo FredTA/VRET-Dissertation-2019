@@ -11,7 +11,6 @@ public class UIController : MonoBehaviour {
     private float timeOfLastDelay;
 
     //Level and high score should be read in once per level
-    //method in this class called from... mode controller?
     private Text levelText;
     private Text currentScoreText;
     private Text highScoreText;
@@ -62,7 +61,6 @@ public class UIController : MonoBehaviour {
         timeOfLastDelay = Time.time;
     }
 
-    //TODO fix selection bugs - we're tied into the other scritps ok, but input still isn't right
     // Update is called once per frame
     void Update () {
         currentScoreText.text = "Current Score: " + modeController.getCurrentScore();
@@ -163,7 +161,7 @@ public class UIController : MonoBehaviour {
         }
     }
 
-    public void updateLevelAndHighScore() {
+    private void updateLevelAndHighScore() {
         int level = modeController.getCurrentLevel();
         int score = modeController.getHighScoreForCurrentLevel();
 

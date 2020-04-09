@@ -7,15 +7,15 @@ public class CameraController : MonoBehaviour {
     public float moveSpeed;
     public float turnSpeed; 
     private Vector3 originalTransform;
-
-	// Use this for initialization
-	void Start () {
-		
-	}
 	
 	// Update is called once per frame
 	void Update () {
-		if (Input.GetKey(KeyCode.Home)) {
+        updatePositon();
+	}
+
+    //Used for testing, in case the sensor's centre position doesn't sync with the environment
+    private void updatePositon() {
+        if (Input.GetKey(KeyCode.Home)) {
             Debug.Log("Debug key active");
             if (Input.GetKey(KeyCode.A)) {
                 //Move left
@@ -65,5 +65,5 @@ public class CameraController : MonoBehaviour {
             }
             **/
         }
-	}
+    }
 }

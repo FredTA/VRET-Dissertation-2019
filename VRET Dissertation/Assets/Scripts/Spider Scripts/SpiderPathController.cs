@@ -54,6 +54,10 @@ public class SpiderPathController : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
+        handleBehaviour();
+    }
+
+    private void handleBehaviour() {
         switch (spiderController.getCurrentBehaviour()) {
             case SpiderBehaviour.Stationary:
 
@@ -93,7 +97,7 @@ public class SpiderPathController : MonoBehaviour {
                 }
                 break;
             case SpiderBehaviour.GroupWalk:
-           
+
                 if (Vector3.Distance(transform.position, targetPosition) > MINIMUM_DISTANCE_TO_TARGET) {
                     walk(randomWalkSpeed, randomRotateSpeed);
                 }

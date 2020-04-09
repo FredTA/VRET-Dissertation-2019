@@ -53,8 +53,12 @@ public class SpiderModeController : ModeController {
     }
 
     //Update is called once per frame
-    //Handle scoring depending on what level we're on and what the user is doing
     void Update () {
+        handleCurrentLevel();
+    }
+
+    //Handle scoring depending on what level we're on and what the user is doing
+    private void handleCurrentLevel() {
         switch (getCurrentLevel()) {
             case 3: //Scored for getting close to box
                 handleCameraDistanceScoring(MIN_CAMERA_DISTANCE_TO_BOX);
@@ -64,7 +68,7 @@ public class SpiderModeController : ModeController {
                 break;
             case 6: //Scored for looking up at the marker
                 if (lookMarkerRenderer.isVisible && score < 100) {
-                    score += ((100 / LOOK_MARKER_TIME) * Time.deltaTime); 
+                    score += ((100 / LOOK_MARKER_TIME) * Time.deltaTime);
                 }
                 break;
             case 7: //Scored for making the spider larger
@@ -78,7 +82,8 @@ public class SpiderModeController : ModeController {
             case 8: //Scored for sitting for 2 mins
                 if (Time.time - timer > LEVEL_8_WAIT_TIME) {
                     score = 100;
-                } else {
+                }
+                else {
                     score = (100 * (Time.time - timer) / LEVEL_8_WAIT_TIME);
                 }
                 break;
@@ -89,7 +94,8 @@ public class SpiderModeController : ModeController {
 
                 if (Time.time - timer > LEVEL_9_WAIT_TIME) {
                     score = 100;
-                } else {
+                }
+                else {
                     score = (100 * (Time.time - timer) / LEVEL_9_WAIT_TIME);
                 }
                 break;
