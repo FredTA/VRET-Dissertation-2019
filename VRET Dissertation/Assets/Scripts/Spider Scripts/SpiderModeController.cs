@@ -43,7 +43,7 @@ public class SpiderModeController : ModeController {
 
     public override void Awake() {
         loadMultiChoiceQuestions(NUMBER_OF_QUESTION_ROUNDS);
-        correctAnswers = new int[,] { { 2, 2, 1 }, //lvl 1
+        correctAnswers = new int[,] { { 2, 2, 1 }, //lvl 1+
                                       { 1, 2, 0 }, //lvl 2
                                       { 2, 2, 2 }}; //lvl 5
 
@@ -52,7 +52,7 @@ public class SpiderModeController : ModeController {
         base.Awake();
     }
 
-    // Update is called once per frame
+    //Update is called once per frame
     //Handle scoring depending on what level we're on and what the user is doing
     void Update () {
         switch (getCurrentLevel()) {

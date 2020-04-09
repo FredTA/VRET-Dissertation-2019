@@ -555,6 +555,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1832352800}
   - component: {fileID: 1832352799}
+  - component: {fileID: 1832352801}
   m_Layer: 0
   m_Name: ScenePersistentObject
   m_TagString: Untagged
@@ -573,7 +574,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f43e6aa43f560c648a90fd8d96b423c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentLevel: 0
+  startingLevel: -1
 --- !u!4 &1832352800
 Transform:
   m_ObjectHideFlags: 0
@@ -587,6 +588,17 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1832352801
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1832352798}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64a45f702f51a014b8ef74b5cc497a2f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1849320495
 GameObject:
   m_ObjectHideFlags: 0
