@@ -5,7 +5,7 @@ using UnityEngine;
 public class DescendingSpiderController : MonoBehaviour {
 
     private Animator animator;
-    private const float ANIMATOR_SPEED = 0.2f;
+    private const float ANIMATOR_SPEED = 0.1f;
     private float rotationalSpeed;
     private const float MAX_ROTATIONAL_SPEED = 7.5f;
     private const float ROTATIONAL_ACCELERATION = 0.175f;
@@ -32,6 +32,9 @@ public class DescendingSpiderController : MonoBehaviour {
             rotationSpeedTarget = Random.Range(-MAX_ROTATIONAL_SPEED, MAX_ROTATIONAL_SPEED);
             Debug.Log("CUR: + " + rotationalSpeed + " ROTSPEEDTARGET " + rotationSpeedTarget);
             rotationalSpeed = (rotationalSpeed + rotationSpeedTarget) / 2; //Helps us get back to zero a little faster
+            animator.speed = ANIMATOR_SPEED;
+        } else {
+            animator.speed = 0;
         }
 
         //Rotate spider a little, as if it's spinning with the wind

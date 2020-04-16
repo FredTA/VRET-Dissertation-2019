@@ -9,17 +9,18 @@ public class SpiderPathController : MonoBehaviour {
     //TODO fine tune these
     private const float ROTATION_SPEED = 2.5f;
     private const float BASE_SPEED = 0.5f;
-    private const float MAXIMUM_SPEED_VARIANCE_MULTIPLIER = 3.3f;
+    private const float MAXIMUM_SPEED_VARIANCE_MULTIPLIER = 2.7f;
     private const float RANDOM_WALK_SPEED_MULTIPLIER = 1.6f;
     private const float MINIM_WAIT_TIME = 0.3f;
     private const float MAXIMUM_WAIT_TIME = 1.2f;
+    private const float ANIMATION_SPEED_REDUCTION = 0.3f;
 
     private float randomWalkSpeed = BASE_SPEED;
     private float randomRotateSpeed = ROTATION_SPEED;
     private float timeOfLastArrival = -1;
     private float waitTime;
 
-    private const float MINIMUM_DISTANCE_TO_TARGET = 0.03f;
+    private const float MINIMUM_DISTANCE_TO_TARGET = 0.05f;
 
     //float timer;
     private int currentNode;
@@ -40,6 +41,7 @@ public class SpiderPathController : MonoBehaviour {
         animator = gameObject.GetComponent<Animator>();
 
         currentNode = 0;
+        animator.speed = ANIMATION_SPEED_REDUCTION;
     }
 
     //void OnEnable() {
@@ -147,7 +149,7 @@ public class SpiderPathController : MonoBehaviour {
         randomRotateSpeed = ROTATION_SPEED * multiplier;
 
         animator.enabled = true;
-        animator.speed = multiplier;
+        animator.speed = multiplier * ANIMATION_SPEED_REDUCTION;
 
         Debug.Log("RANDOM POSITON " + targetPosition.x + ", " + targetPosition.z);
 
