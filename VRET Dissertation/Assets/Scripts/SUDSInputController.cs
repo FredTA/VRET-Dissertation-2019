@@ -15,7 +15,6 @@ public class SUDSInputController : MonoBehaviour {
 
     private ModeController modeController;
 
-
 	// Use this for initialization
 	void Awake () {
         modeController = GameObject.FindGameObjectWithTag("ModeController").GetComponent<ModeController>();
@@ -28,6 +27,7 @@ public class SUDSInputController : MonoBehaviour {
         GameObject[] sudsInputObjects = GameObject.FindGameObjectsWithTag("SUDSInputNumbers");
         Array.Sort(sudsInputObjects, modeController.compareObjNames); //So that 1 appears first and 10 last
 
+        //Assign these GameObjects to our array of TextObjects
         for (int i = 0; i < 10; i++) {
             inputNumbers[i] = sudsInputObjects[i].GetComponent<Text>();
         }

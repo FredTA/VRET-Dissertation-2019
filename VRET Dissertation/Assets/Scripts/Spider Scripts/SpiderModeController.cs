@@ -52,6 +52,15 @@ public class SpiderModeController : ModeController {
         base.Awake();
     }
 
+    public override void selectMultiChoiceAnswer(int selection) {
+        base.selectMultiChoiceAnswer(selection);
+
+        //On this level, the spider switches it's walking path
+        if (getCurrentLevel() == 5) {
+            spiderController.changeWalkingMode();
+        }
+    }
+
     //Update is called once per frame
     void Update () {
         handleCurrentLevel();
@@ -125,7 +134,7 @@ public class SpiderModeController : ModeController {
         Debug.Log("Activating level " + getCurrentLevel());
         score = 0;
         multiChoiceQuestionsActive = false;
-        questionNumber = 0;
+        questionNum = 0;
         base.activateCurrentLevel(); //Plays the voiceover
 
         //TODO ensure everything is activated in every case
@@ -223,16 +232,6 @@ public class SpiderModeController : ModeController {
                 descendingSpider.transform.position = new Vector3(descendingSpider.transform.position.x, maximumSpiderElevation, descendingSpider.transform.position.z);
                 break;
         }
-    }
-
-    public override void selectMultiChoiceAnswer(int selection) {
-        base.selectMultiChoiceAnswer(selection); 
-
-        //On this level, the spider switches it's walking path
-        if (getCurrentLevel() == 5) {
-            spiderController.changeWalkingMode();
-        }
-        
     }
 
     public override int getQuestionRoundForLevel(int level) {

@@ -4,11 +4,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public class QuestionRoundObject {
+public class QuestionRound {
     //3 as each level with questions always has 3 questions, and a summary
     public GameObject[] questions;
 
-    public QuestionRoundObject(int numberOfQuestions) {
+    public QuestionRound(int numberOfQuestions) {
         questions = new GameObject[numberOfQuestions];
     }
 
@@ -28,10 +28,9 @@ public abstract class ModeController : MonoBehaviour {
     protected float score = 0;
     private int currentLevel;
     protected bool multiChoiceQuestionsActive;
-    protected int questionNumber;
+    protected int questionNum;
 
-    protected const int NUMBER_OF_QUESTIONS_PER_ROUND = 3;
-    protected QuestionRoundObject[] multiChoiceQuestions;
+    protected const int NUM_OF_QUESTIONS_PER_ROUND = 3;
     protected int[,] correctAnswers;
 
     public virtual void Awake() {
@@ -51,28 +50,35 @@ public abstract class ModeController : MonoBehaviour {
         activateCurrentLevel(); //This needs to be before UI does its thing
     }
 
-    //Each mode has multichoice question objects to find, The  only difference is the number of rounds
-    protected void loadMultiChoiceQuestions(int numberOfQuestionRounds) {
-        multiChoiceQuestions = new QuestionRoundObject[numberOfQuestionRounds]; 
+    //Each QRO holds it's own array of GameObjects, one for each question     
+    protected QuestionRound[] questionRounds;
 
-        for (int questionRound = 0; questionRound < numberOfQuestionRounds; questionRound++) {
-            multiChoiceQuestions[questionRound] = new QuestionRoundObject(NUMBER_OF_QUESTIONS_PER_ROUND);
+    //Each mode has its own num of question objects, these need to be found/stored 
+    protected void loadMultiChoiceQuestions(int numOfQuestionRounds) {
+        questionRounds = new QuestionRound[numOfQuestionRounds];
 
-            //Find all the question round objects and sort the array
-            GameObject[] questionRounds = GameObject.FindGameObjectsWithTag("QuestionRound");
-            Array.Sort(questionRounds, compareObjNames); //So that 1 appears first and 10 last
+        //Find all the question round GameObjects in the scene, sort the array
+        GameObject[] questionRoundGOs = GameObject.FindGameObjectsWithTag("QuestionRound");
+        Array.Sort(questionRoundGOs, compareObjNames); //Sort in ascending order
 
-            for (int questionNumber = 0; questionNumber < NUMBER_OF_QUESTIONS_PER_ROUND; questionNumber++) {
+        //Create each question round, filling it with questions
+        for (int questionRndNum = 0; questionRndNum < numOfQuestionRounds; questionRndNum++) {
+            questionRounds[questionRndNum] = new QuestionRound(NUM_OF_QUESTIONS_PER_ROUND);
 
-                //We might not have finished building the scene yet, try block so we can test without having added all GameObjects
+            //Load each question round with its questions
+            for (int questionNum = 0; questionNum < NUM_OF_QUESTIONS_PER_ROUND; questionNum++) {
                 try {
-                    String questionObjectName = getGameObjectPath(questionRounds[questionRound]) + "/Question " + (questionNumber + 1);
+                    //Determine the name of the question GameObject
+                    String questionObjectName = getGameObjectPath(questionRoundGOs[questionRndNum]);
+                    questionObjectName += "/Question " + (questionNum + 1);
+
+                    //Now we have the name, find the GameObject and put it in the array
                     GameObject question = transform.Find(questionObjectName).gameObject;
-                    multiChoiceQuestions[questionRound].questions[questionNumber] = question;
+                    questionRounds[questionRndNum].questions[questionNum] = question;
                 } catch (Exception e) {
-                    Debug.Log("Couldn't find Question " + (questionRound + 1) + ":" + (questionNumber + 1) + " - " + e);
-                }
-                
+                    Debug.Log("Couldn't find Question " + (questionRndNum + 1) + ":" + 
+                        (questionNum + 1) + " - " + e);
+                } 
             }
         }
     }
@@ -119,15 +125,15 @@ public abstract class ModeController : MonoBehaviour {
         }
 
         if (multiChoiceQuestionsActive) {
-            questionNumber = 0;
+            questionNum = 0;
             int questionRound = getQuestionRoundForLevel(currentLevel);
 
             //Activate first question
-            multiChoiceQuestions[questionRound].questions[questionNumber].SetActive(true);
+            questionRounds[questionRound].questions[questionNum].SetActive(true);
 
             //Deactivate others
-            for (int i = 1; i < NUMBER_OF_QUESTIONS_PER_ROUND; i++) {
-                multiChoiceQuestions[questionRound].questions[i].SetActive(false);
+            for (int i = 1; i < NUM_OF_QUESTIONS_PER_ROUND; i++) {
+                questionRounds[questionRound].questions[i].SetActive(false);
             }
             uiController.deactivateQuestionSummary();
         }
@@ -136,32 +142,33 @@ public abstract class ModeController : MonoBehaviour {
     }
 
     public virtual void selectMultiChoiceAnswer(int selection) {
-        int questionRound = getQuestionRoundForLevel(currentLevel);
+        int questionRoundNum = getQuestionRoundForLevel(currentLevel);
 
-        Debug.Log("Answered Q " + questionRound + ":" + questionNumber + " with " + selection);
+        Debug.Log("Answered Q " + questionRoundNum + ":" + questionNum + " with " + selection);
 
-        if (selection == correctAnswers[questionRound, questionNumber]) {
-            score += 100f / (float)NUMBER_OF_QUESTIONS_PER_ROUND;
-        }
-        else {
-            //TODO maybe play a sound?
+        //If the answer was correct, increase the score
+        if (selection == correctAnswers[questionRoundNum, questionNum]) {
+            score += 100f / (float)NUM_OF_QUESTIONS_PER_ROUND;
         }
 
-        multiChoiceQuestions[questionRound].questions[questionNumber].SetActive(false);
+        //Deactivate the question just answered
+        questionRounds[questionRoundNum].questions[questionNum].SetActive(false);
 
         //If we're not at the last question
-        if (questionNumber < NUMBER_OF_QUESTIONS_PER_ROUND - 1) {
-            questionNumber++;
-            multiChoiceQuestions[questionRound].questions[questionNumber].SetActive(true);
+        if (questionNum < NUM_OF_QUESTIONS_PER_ROUND - 1) {
+            //Activate the next question
+            questionNum++;
+            questionRounds[questionRoundNum].questions[questionNum].SetActive(true);
         }
         else {
-            uiController.setQuestionSummary(score, NUMBER_OF_QUESTIONS_PER_ROUND);
+            //Activate the question summary
+            uiController.setQuestionSummary(score, NUM_OF_QUESTIONS_PER_ROUND);
         }
     }
 
     protected void activateQuestionForLevel(int level) {
         int questionRound = getQuestionRoundForLevel(level);
-        multiChoiceQuestions[questionRound].questions[0].SetActive(true);
+        questionRounds[questionRound].questions[0].SetActive(true);
         multiChoiceQuestionsActive = true;
     }
 
@@ -169,9 +176,9 @@ public abstract class ModeController : MonoBehaviour {
         int questionRound = getQuestionRoundForLevel(level);
 
         //Can't just deactivate the parent object because this prevents later activation of children
-        multiChoiceQuestions[questionRound].questions[0].SetActive(false);
-        multiChoiceQuestions[questionRound].questions[1].SetActive(false);
-        multiChoiceQuestions[questionRound].questions[2].SetActive(false);
+        questionRounds[questionRound].questions[0].SetActive(false);
+        questionRounds[questionRound].questions[1].SetActive(false);
+        questionRounds[questionRound].questions[2].SetActive(false);
         uiController.deactivateQuestionSummary();
     }
 
