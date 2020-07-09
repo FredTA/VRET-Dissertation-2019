@@ -112,7 +112,7 @@ public class SpiderController : MonoBehaviour {
             } else if (behaviour == SpiderBehaviour.GroupWalk) {
                 for (int i = 0; i < NUMBER_OF_SPIDERS; i++) {
                     spiders[i].SetActive(true); 
-                    spiders[i].GetComponent<SpiderPathController>().Awake(); //Ensure awake method on spiders is triggered, so we can keep these GOs active for ease of testing
+                    //spiders[i].GetComponent<SpiderPathController>().Awake(); //Ensure awake method on spiders is triggered, so we can keep these GOs active for ease of testing
                     pathControllers[i].toggleAnimator(true);
                     pathControllers[i].setRandomTargetPosition();
                 }

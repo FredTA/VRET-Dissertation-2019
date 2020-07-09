@@ -23159,11 +23159,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: 'Welcome - Use the thumbstick
-
-    to navigate the menu, and the
-
-    trigger to select an option'
+  m_Text: "Welcome\nListen to the voice over, and \nprogress when ready"
 --- !u!222 &1753306773
 CanvasRenderer:
   m_ObjectHideFlags: 0
